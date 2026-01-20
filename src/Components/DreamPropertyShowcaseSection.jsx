@@ -126,10 +126,10 @@ export default function DreamPropertyShowcaseSection({ properties }) {
                   </div>
 
                   <div className="relative p-5">
-                    <div className="text-sm font-extrabold text-slate-900">{p.price}</div>
+                    <div className="text-sm font-bold tracking-tight text-slate-900">{p.price}</div>
 
-                    <div className="mt-2 text-sm font-extrabold text-slate-900">{p.title}</div>
-                    <div className="mt-1 text-xs font-semibold text-slate-500">{p.address}</div>
+                    <div className="mt-2 text-[15px] font-semibold leading-snug tracking-tight text-slate-900">{p.title}</div>
+                    <div className="mt-1 text-xs font-medium text-slate-600">{p.address}</div>
 
                     <div className="mt-4 flex items-center gap-4 text-[11px] font-semibold text-slate-500">
                       <div>{p.beds}</div>

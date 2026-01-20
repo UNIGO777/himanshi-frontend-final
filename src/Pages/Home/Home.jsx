@@ -13,22 +13,21 @@ import TeamConnectSection from '../../Components/TeamConnectSection'
 import ContactSection from '../../Components/ContactSection'
 import FooterSection from '../../Components/FooterSection'
 import { useEffect, useState } from 'react'
-import { getProperties } from '../../api/properties'
+import { getFeaturedProperties, getProperties } from '../../api/properties'
 
 export default function Home() {
   const [properties, setProperties] = useState([])
+  const [featuredProperties, setFeaturedProperties] = useState([])
 
   useEffect(() => {
     let isMounted = true
-    getProperties()
-      .then((list) => {
-        if (!isMounted) return
-        setProperties(Array.isArray(list) ? list : [])
-      })
-      .catch(() => {
-        if (!isMounted) return
-        setProperties([])
-      })
+    Promise.allSettled([getProperties(), getFeaturedProperties({ limit: 6 })]).then(([allResult, featuredResult]) => {
+      if (!isMounted) return
+      setProperties(allResult.status === 'fulfilled' && Array.isArray(allResult.value) ? allResult.value : [])
+      setFeaturedProperties(
+        featuredResult.status === 'fulfilled' && Array.isArray(featuredResult.value) ? featuredResult.value : [],
+      )
+    })
     return () => {
       isMounted = false
     }
@@ -41,7 +40,7 @@ export default function Home() {
         <HeroSection />
         <TrySearchCitiesSection />
         <QuickSearchSection />
-        <FeaturedPropertiesSection properties={properties} />
+        <FeaturedPropertiesSection properties={featuredProperties} />
         <TrustedPartnerSection />
         <ServicesHighlightsSection />
         <ExpertiseSection />
@@ -55,4 +54,3 @@ export default function Home() {
     </div>
   )
 }
-

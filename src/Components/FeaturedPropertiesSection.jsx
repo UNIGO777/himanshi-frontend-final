@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { FiDroplet, FiHeart, FiHome, FiMap, FiMaximize2 } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useWishlist from '../hooks/useWishlist'
 
 function StatPill({ icon: Icon, value }) {
@@ -14,6 +14,7 @@ function StatPill({ icon: Icon, value }) {
 
 function PropertyCard({ property }) {
   const { hasItem, toggleItem } = useWishlist()
+  const navigate = useNavigate()
   const isPlot = property.beds === 0 && property.baths === 0
   const isSaved = hasItem(property.id)
   const hasImage = typeof property.image === 'string' && property.image.trim().length > 0
@@ -30,7 +31,8 @@ function PropertyCard({ property }) {
     <motion.article
       whileHover={{ y: -4 }}
       transition={{ duration: 0.18 }}
-      className="overflow-hidden rounded-3xl border border-slate-200 bg-white"
+      onClick={() => navigate(`/property/${property.id}`)}
+      className="cursor-pointer overflow-hidden rounded-3xl border border-slate-200 bg-white"
     >
       <div className="relative h-44 sm:h-48">
         {hasImage ? (
@@ -40,7 +42,10 @@ function PropertyCard({ property }) {
         )}
         <button
           type="button"
-          onClick={() => toggleItem(wishlistItem)}
+          onClick={(e) => {
+            e.stopPropagation()
+            toggleItem(wishlistItem)
+          }}
           aria-label={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
           className={`absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full border backdrop-blur transition-colors ${
             isSaved ? 'border-rose-200 bg-rose-50/90 text-rose-600 hover:bg-rose-50' : 'border-slate-200 bg-white/90 text-slate-700 hover:bg-white'
@@ -50,9 +55,9 @@ function PropertyCard({ property }) {
         </button>
       </div>
       <div className="p-4">
-        <div className="text-base font-extrabold text-slate-900">{property.title}</div>
-        <div className="mt-1 text-sm text-slate-500">{property.location}</div>
-        <div className="mt-3 text-lg font-extrabold text-slate-900">{property.price}</div>
+        <div className="text-[15px] font-semibold leading-snug tracking-tight text-slate-900">{property.title}</div>
+        <div className="mt-1 text-sm font-medium text-slate-600">{property.location}</div>
+        <div className="mt-2 text-lg font-bold tracking-tight text-slate-900">{property.price}</div>
 
         <div className="mt-3 flex flex-wrap gap-2">
           {!isPlot && (
@@ -67,6 +72,7 @@ function PropertyCard({ property }) {
 
         <Link
           to={`/property/${property.id}`}
+          onClick={(e) => e.stopPropagation()}
           className="mt-4 block w-full rounded-2xl bg-slate-900 px-4 py-3 text-center text-sm font-semibold text-white"
         >
           View Details

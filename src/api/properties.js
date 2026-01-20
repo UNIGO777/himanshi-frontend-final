@@ -41,6 +41,27 @@ function extractPropertyList(payload) {
   return []
 }
 
+function formatPriceWithCommas(value) {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(value)
+  }
+
+  if (typeof value !== 'string') return ''
+  const raw = value.trim()
+  if (!raw) return ''
+
+  const match = /^(?<prefix>(?:₹|rs\.?|inr)?\s*)?(?<amount>[\d,]+(?:\.\d+)?)\s*$/i.exec(raw)
+  if (!match) return raw
+
+  const amountRaw = String(match.groups?.amount || '').replace(/,/g, '')
+  const n = Number.parseFloat(amountRaw)
+  if (!Number.isFinite(n)) return raw
+
+  const prefix = String(match.groups?.prefix || '')
+  const formatted = new Intl.NumberFormat('en-IN', { maximumFractionDigits: amountRaw.includes('.') ? 2 : 0 }).format(n)
+  return `${prefix}${formatted}`
+}
+
 export function normalizePropertyPreview(p) {
   const id = normalizeId(p?.id ?? p?._id ?? p?.propertyId)
   const title = typeof p?.title === 'string' ? p.title : typeof p?.name === 'string' ? p.name : 'Property'
@@ -63,14 +84,8 @@ export function normalizePropertyPreview(p) {
             : ''
   const video = resolveMediaUrl(videoCandidate)
   const location = typeof p?.location === 'string' ? p.location : typeof p?.city === 'string' ? p.city : typeof p?.address === 'string' ? p.address : ''
-  const price =
-    typeof p?.price === 'string'
-      ? p.price
-      : typeof p?.price === 'number'
-        ? String(p.price)
-        : typeof p?.rent === 'number'
-          ? String(p.rent)
-          : ''
+  const priceSource = p?.price ?? p?.rent ?? ''
+  const price = formatPriceWithCommas(priceSource)
   const beds = typeof p?.beds === 'number' ? p.beds : typeof p?.bedrooms === 'number' ? p.bedrooms : 0
   const baths = typeof p?.baths === 'number' ? p.baths : typeof p?.bathrooms === 'number' ? p.bathrooms : 0
   const area = typeof p?.area === 'string' ? p.area : typeof p?.area === 'number' ? `${p.area}` : typeof p?.size === 'string' ? p.size : ''
@@ -98,6 +113,28 @@ export async function getPropertyById(propertyId) {
   const payload = await apiRequest(`/api/properties/${encodeURIComponent(id)}`, { method: 'GET' })
   const prop = payload?.data ?? payload?.property ?? payload?.value ?? payload
   return normalizePropertyPreview(prop)
+}
+
+export async function getFeaturedProperties({ limit } = {}) {
+  const normalizedLimit = limit === undefined ? undefined : Math.min(100, Math.max(1, Number.parseInt(limit, 10) || 6))
+  const payload = await apiRequest('/api/properties/featured', {
+    method: 'GET',
+    query: { limit: normalizedLimit },
+  })
+  const list = extractPropertyList(payload)
+  return list.map(normalizePropertyPreview).filter((x) => x.id)
+}
+
+export async function getRelatedProperties({ propertyId, limit = 6 } = {}) {
+  const id = normalizeId(propertyId)
+  if (!id) return []
+  const normalizedLimit = Math.min(100, Math.max(1, Number.parseInt(limit, 10) || 6))
+  const payload = await apiRequest(`/api/properties/${encodeURIComponent(id)}/related`, {
+    method: 'GET',
+    query: { limit: normalizedLimit },
+  })
+  const list = extractPropertyList(payload)
+  return list.map(normalizePropertyPreview).filter((x) => x.id && x.id !== id)
 }
 
 export async function searchProperties({

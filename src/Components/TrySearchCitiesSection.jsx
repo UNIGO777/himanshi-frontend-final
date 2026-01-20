@@ -62,12 +62,12 @@ const cities = [
   {
     name: 'Pune',
     image:
-      'https://images.unsplash.com/photo-1626776876720-0661f7d5fe4a?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1553064483-f10fe837615f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHB1bmV8ZW58MHx8MHx8fDA%3D',
   },
   {
-    name: 'Bengaluru',
+    name: 'Bangalore',
     image:
-      'https://images.unsplash.com/photo-1623062535500-78625b5b0620?auto=format&fit=crop&w=1200&q=80',
+      'https://media.istockphoto.com/id/1382384282/photo/bangalore-or-bengaluru.webp?a=1&b=1&s=612x612&w=0&k=20&c=j9jKtYxzHAHjodEQYuVPvQKPAlXvjCzx_TvqLh6BmKM=',
   },
   {
     name: 'Jaipur',

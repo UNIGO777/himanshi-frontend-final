@@ -6,7 +6,7 @@ import Navbar from '../../Components/Navbar'
 import FooterSection from '../../Components/FooterSection'
 import useWishlist from '../../hooks/useWishlist'
 import useAuth from '../../hooks/useAuth'
-import { createPropertyQuery, createPropertyRating, getProperties, getPropertyById, getPropertyQueries } from '../../api/properties'
+import { createPropertyQuery, createPropertyRating, getProperties, getPropertyById, getPropertyQueries, getRelatedProperties } from '../../api/properties'
 
 function StatPill({ icon: Icon, value }) {
   return (
@@ -33,36 +33,52 @@ function RatingRow({ label, value, total }) {
 export default function PropertyDetails() {
   const { propertyId } = useParams()
   const [apiProperty, setApiProperty] = useState(null)
-  const [apiList, setApiList] = useState([])
+  const [apiRelated, setApiRelated] = useState([])
+  const [apiFallbackList, setApiFallbackList] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
     let isMounted = true
-    Promise.resolve().then(() => {
-      if (!isMounted) return
-      setIsLoading(true)
-      setError('')
-    })
-    Promise.allSettled([getPropertyById(propertyId), getProperties()])
-      .then(([propResult, listResult]) => {
+    setIsLoading(true)
+    setError('')
+    setApiRelated([])
+    setApiFallbackList([])
+
+    ;(async () => {
+      try {
+        const [propResult, relatedResult] = await Promise.allSettled([
+          getPropertyById(propertyId),
+          getRelatedProperties({ propertyId, limit: 6 }),
+        ])
         if (!isMounted) return
+
         if (propResult.status === 'fulfilled') {
           setApiProperty(propResult.value)
         } else {
           setApiProperty(null)
           if (propResult.reason?.message) setError(propResult.reason.message)
         }
-        if (listResult.status === 'fulfilled') {
-          setApiList(listResult.value)
-        } else {
-          setApiList([])
+
+        const relatedList =
+          relatedResult.status === 'fulfilled' && Array.isArray(relatedResult.value) ? relatedResult.value : []
+        setApiRelated(relatedList)
+
+        if (relatedList.length === 0) {
+          try {
+            const list = await getProperties()
+            if (!isMounted) return
+            setApiFallbackList(Array.isArray(list) ? list : [])
+          } catch {
+            if (!isMounted) return
+            setApiFallbackList([])
+          }
         }
-      })
-      .finally(() => {
-        if (!isMounted) return
-        setIsLoading(false)
-      })
+      } finally {
+        if (isMounted) setIsLoading(false)
+      }
+    })()
+
     return () => {
       isMounted = false
     }
@@ -90,12 +106,13 @@ export default function PropertyDetails() {
   const propertyIdValue = property?.id || ''
   const recommendations = useMemo(() => {
     if (!propertyIdValue) return []
-    if (apiList.length === 0) return []
-    return apiList
+    const source = apiRelated.length > 0 ? apiRelated : apiFallbackList
+    if (source.length === 0) return []
+    return source
       .filter((p) => p.id !== propertyIdValue)
       .slice(0, 4)
       .map((p) => (p.raw ? { ...p.raw, id: p.id, title: p.title, image: p.image, location: p.location, price: p.price, beds: p.beds, baths: p.baths, area: p.area } : p))
-  }, [apiList, propertyIdValue])
+  }, [apiFallbackList, apiRelated, propertyIdValue])
 
   const locationText = property?.location || property?.address
   const priceText = property?.period ? `${property.price} ${property.period}` : property?.price
@@ -636,9 +653,9 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
                       />
                     </div>
                     <div className="p-4">
-                      <div className="text-sm font-extrabold text-slate-900">{p.title}</div>
-                      <div className="mt-1 line-clamp-2 text-xs font-semibold text-slate-500">{pLocation}</div>
-                      <div className="mt-3 text-sm font-extrabold text-slate-900">{pPrice}</div>
+                      <div className="text-sm font-semibold leading-snug tracking-tight text-slate-900">{p.title}</div>
+                      <div className="mt-1 line-clamp-2 text-xs font-medium text-slate-600">{pLocation}</div>
+                      <div className="mt-3 text-sm font-bold tracking-tight text-slate-900">{pPrice}</div>
                     </div>
                   </Link>
                 </motion.div>
