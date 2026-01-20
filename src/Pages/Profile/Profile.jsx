@@ -3,6 +3,7 @@ import { FiMail, FiMapPin, FiPhone, FiUser } from 'react-icons/fi'
 import { useState } from 'react'
 import Navbar from '../../Components/Navbar'
 import FooterSection from '../../Components/FooterSection'
+import Container from '../../Components/Container'
 import useWishlist from '../../hooks/useWishlist'
 import useAuth from '../../hooks/useAuth'
 
@@ -50,7 +51,8 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <main className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+      <main className="py-10">
+        <Container>
         <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -178,6 +180,7 @@ export default function Profile() {
             </motion.div>
           </div>
         </div>
+        </Container>
       </main>
       <FooterSection />
     </div>

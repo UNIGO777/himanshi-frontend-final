@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { FiBarChart2, FiHome, FiKey, FiMapPin } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import Container from './Container'
 
 const expertise = [
   { title: 'Local Insights', description: 'Know the best areas to invest and live.', icon: FiMapPin },
@@ -14,7 +15,7 @@ export default function ExpertiseSection() {
 
   return (
     <section className="bg-slate-950 py-12">
-      <div className="mx-auto max-w-[1400px] px-3 sm:px-6 lg:px-10">
+      <Container>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="text-xl font-extrabold tracking-tight text-white sm:text-2xl">Expertise</div>
@@ -52,7 +53,7 @@ export default function ExpertiseSection() {
             )
           })}
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

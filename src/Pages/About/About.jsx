@@ -1,5 +1,6 @@
 import Navbar from '../../Components/Navbar'
 import FooterSection from '../../Components/FooterSection'
+import Container from '../../Components/Container'
 import ExpertiseSection from '../../Components/ExpertiseSection'
 import TestimonialsSection from '../../Components/TestimonialsSection'
 import FAQSection from '../../Components/FAQSection'
@@ -11,7 +12,8 @@ export default function About() {
     <div className="min-h-screen bg-white">
       <Navbar />
       <main>
-        <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+        <section className="py-10">
+          <Container>
           <div className="grid gap-6 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:grid-cols-2 lg:items-center">
             <div>
               <div className="text-xs font-bold uppercase tracking-[0.22em] text-slate-500">About</div>
@@ -47,6 +49,7 @@ export default function About() {
               />
             </div>
           </div>
+          </Container>
         </section>
 
         <ExpertiseSection />
@@ -59,4 +62,3 @@ export default function About() {
     </div>
   )
 }
-

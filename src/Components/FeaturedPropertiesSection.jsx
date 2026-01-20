@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { FiDroplet, FiHeart, FiHome, FiMap, FiMaximize2 } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 import useWishlist from '../hooks/useWishlist'
+import Container from './Container'
 
 function StatPill({ icon: Icon, value }) {
   return (
@@ -85,7 +86,8 @@ function PropertyCard({ property }) {
 export default function FeaturedPropertiesSection({ properties }) {
   const list = Array.isArray(properties) && properties.length > 0 ? properties.slice(0, 6) : []
   return (
-    <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+    <section className="py-10">
+      <Container>
       <div className="flex items-end justify-between gap-6">
         <div>
           <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Recommended for you</div>
@@ -117,6 +119,7 @@ export default function FeaturedPropertiesSection({ properties }) {
           ))}
         </div>
       )}
+      </Container>
     </section>
   )
 }

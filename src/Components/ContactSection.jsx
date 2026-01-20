@@ -1,5 +1,6 @@
 import { FiMail, FiMapPin, FiPhone } from 'react-icons/fi'
 import { useState } from 'react'
+import Container from './Container'
 
 export default function ContactSection() {
   const [form, setForm] = useState({ name: '', phone: '', email: '', message: '' })
@@ -26,7 +27,8 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="mx-auto max-w-[1400px] px-3 py-12 sm:px-6 lg:px-10">
+    <section id="contact" className="py-12">
+      <Container>
       <div className="grid gap-6 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:grid-cols-2">
         <div>
           <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Get in touch with us</div>
@@ -111,6 +113,7 @@ export default function ContactSection() {
           </div>
         </div>
       </div>
+      </Container>
     </section>
   )
 }

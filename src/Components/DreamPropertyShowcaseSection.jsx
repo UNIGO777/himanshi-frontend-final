@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { FiArrowUpRight, FiHeart, FiPlus } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 import useWishlist from '../hooks/useWishlist'
+import Container from './Container'
 
 const tabs = [
   'All Type',
@@ -39,7 +40,8 @@ export default function DreamPropertyShowcaseSection({ properties }) {
   const navigate = useNavigate()
 
   return (
-    <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+    <section className="py-10">
+      <Container>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
@@ -149,6 +151,7 @@ export default function DreamPropertyShowcaseSection({ properties }) {
           })}
         </div>
       )}
+      </Container>
     </section>
   )
 }

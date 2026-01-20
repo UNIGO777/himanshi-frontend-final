@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../../Components/Navbar'
 import FooterSection from '../../Components/FooterSection'
+import Container from '../../Components/Container'
 import useAuth from '../../hooks/useAuth'
 
 export default function Login() {
@@ -90,8 +91,9 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <main className="mx-auto grid max-w-[1400px] items-center px-3 py-10 sm:px-6 lg:px-10">
-        <div className="mx-auto w-full max-w-[520px] rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
+      <main className="py-10">
+        <Container className="grid items-center">
+        <div className="mx-auto w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
           <div className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Welcome back</div>
           <div className="mt-2 text-sm font-semibold text-slate-600">Login to manage your wishlist and profile.</div>
 
@@ -210,6 +212,7 @@ export default function Login() {
             </Link>
           </div>
         </div>
+        </Container>
       </main>
       <FooterSection />
     </div>

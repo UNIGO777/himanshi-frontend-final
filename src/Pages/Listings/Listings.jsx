@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../../Components/Navbar'
 import FooterSection from '../../Components/FooterSection'
+import Container from '../../Components/Container'
 import useWishlist from '../../hooks/useWishlist'
 import { getProperties, searchProperties } from '../../api/properties'
 
@@ -453,7 +454,8 @@ export default function Listings() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <main className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+      <main className="py-10">
+        <Container>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{heading}</div>
@@ -880,6 +882,7 @@ export default function Listings() {
             )}
           </div>
         </div>
+        </Container>
       </main>
       <FooterSection />
     </div>

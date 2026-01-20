@@ -4,6 +4,7 @@ import { FiArrowLeft, FiDroplet, FiHeart, FiHome, FiMapPin, FiMaximize2, FiPlay 
 import { useEffect, useMemo, useState } from 'react'
 import Navbar from '../../Components/Navbar'
 import FooterSection from '../../Components/FooterSection'
+import Container from '../../Components/Container'
 import useWishlist from '../../hooks/useWishlist'
 import useAuth from '../../hooks/useAuth'
 import { createPropertyQuery, createPropertyRating, getProperties, getPropertyById, getPropertyQueries, getRelatedProperties } from '../../api/properties'
@@ -133,7 +134,8 @@ export default function PropertyDetails() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <main className="mx-auto max-w-[1400px] px-3 py-8 sm:px-6 lg:px-10">
+      <main className="py-8">
+        <Container>
         <div className="flex items-center justify-between gap-4">
           <Link
             to="/"
@@ -189,6 +191,7 @@ export default function PropertyDetails() {
             error={error}
           />
         )}
+        </Container>
       </main>
       <FooterSection />
     </div>

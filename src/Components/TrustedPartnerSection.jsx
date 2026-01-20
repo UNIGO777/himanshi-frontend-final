@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import Container from './Container'
 
 const stats = [
   { label: 'Cases Realised', value: '200k' },
@@ -11,7 +12,8 @@ export default function TrustedPartnerSection() {
   const navigate = useNavigate()
 
   return (
-    <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+    <section className="py-10">
+      <Container>
       <div className="rounded-3xl bg-[#f4f1ea] p-6 sm:p-8">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div>
@@ -78,6 +80,7 @@ export default function TrustedPartnerSection() {
           </div>
         </div>
       </div>
+      </Container>
     </section>
   )
 }

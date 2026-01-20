@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion'
 import { FiArrowUpRight, FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import Container from './Container'
 
 export default function ServicesHighlightsSection() {
   const navigate = useNavigate()
 
   return (
-    <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+    <section className="py-10">
+      <Container>
       <div className="text-center">
         <div className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
           All Your Content, In One Place
@@ -116,6 +118,7 @@ export default function ServicesHighlightsSection() {
           </motion.div>
         </div>
       </div>
+      </Container>
     </section>
   )
 }

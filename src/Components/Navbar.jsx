@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import useWishlist from '../hooks/useWishlist'
 import useAuth from '../hooks/useAuth'
+import Container from './Container'
 
 export default function Navbar() {
   const { items } = useWishlist()
@@ -118,7 +119,7 @@ export default function Navbar() {
         </div>
       )}
 
-      <div className="mx-auto grid max-w-[1400px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-3 py-4 sm:px-6 lg:px-10">
+      <Container className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 py-4">
         <div className="flex items-center gap-3 justify-self-start">
           <button
             type="button"
@@ -205,7 +206,7 @@ export default function Navbar() {
             <FiUser />
           </Link>
         </div>
-      </div>
+      </Container>
     </header>
   )
 }

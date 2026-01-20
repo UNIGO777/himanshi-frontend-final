@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import Container from './Container'
 
 const team = [
   {
@@ -31,7 +32,8 @@ export default function TeamConnectSection() {
   }
 
   return (
-    <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+    <section className="py-10">
+      <Container>
       <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
         <div>
           <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Connect with our team</div>
@@ -76,6 +78,7 @@ export default function TeamConnectSection() {
           ))}
         </div>
       </div>
+      </Container>
     </section>
   )
 }

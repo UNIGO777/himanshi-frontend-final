@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Container from './Container'
 
 export default function FooterSection() {
   const [email, setEmail] = useState('')
@@ -20,7 +21,7 @@ export default function FooterSection() {
 
   return (
     <footer className="bg-slate-950 text-white">
-      <div className="mx-auto max-w-[1400px] px-3 py-12 sm:px-6 lg:px-10">
+      <Container className="py-12">
         <div className="rounded-3xl bg-white/5 p-6 sm:p-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div>
@@ -110,7 +111,7 @@ export default function FooterSection() {
           <div>© {new Date().getFullYear()} Himanshi Properties. All rights reserved.</div>
           <div>Made with Vite + React</div>
         </div>
-      </div>
+      </Container>
     </footer>
   )
 }

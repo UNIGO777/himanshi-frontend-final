@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { FiArrowUpRight, FiMaximize2, FiMessageSquare, FiRefreshCw } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import Container from './Container'
 
 const testimonials = [
   {
@@ -71,7 +72,8 @@ export default function TestimonialsSection() {
   }, [])
 
   return (
-    <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+    <section className="py-10">
+      <Container>
       <div className="text-center">
         <div className="text-xs font-semibold tracking-wide text-slate-500">Testimonial</div>
         <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
@@ -153,6 +155,7 @@ export default function TestimonialsSection() {
           </button>
         </div>
       </div>
+      </Container>
     </section>
   )
 }

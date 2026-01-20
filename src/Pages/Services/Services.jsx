@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { FiCheck, FiCheckCircle, FiFileText, FiHome, FiKey, FiPieChart, FiSearch, FiShield, FiUsers } from 'react-icons/fi'
 import Navbar from '../../Components/Navbar'
 import FooterSection from '../../Components/FooterSection'
+import Container from '../../Components/Container'
 import ExpertiseSection from '../../Components/ExpertiseSection'
 import TestimonialsSection from '../../Components/TestimonialsSection'
 import FAQSection from '../../Components/FAQSection'
@@ -159,7 +160,8 @@ export default function Services() {
     <div className="min-h-screen bg-white">
       <Navbar />
       <main>
-        <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+        <section className="py-10">
+          <Container>
           <div className="overflow-hidden rounded-3xl bg-slate-900">
             <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-12 lg:items-center">
               <motion.div
@@ -200,9 +202,11 @@ export default function Services() {
               </motion.div>
             </div>
           </div>
+          </Container>
         </section>
 
-        <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+        <section className="py-10">
+          <Container>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">What we do</div>
@@ -224,9 +228,11 @@ export default function Services() {
               />
             ))}
           </div>
+          </Container>
         </section>
 
-        <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+        <section className="py-10">
+          <Container>
           <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
             <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">How it works</div>
             <div className="mt-1 text-sm font-semibold text-slate-600">
@@ -245,6 +251,7 @@ export default function Services() {
               ))}
             </div>
           </div>
+          </Container>
         </section>
 
         <ExpertiseSection />

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import Container from './Container'
 
 const svgToDataUri = (svg) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
 
@@ -62,7 +63,8 @@ export default function QuickSearchSection() {
   }
 
   return (
-    <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+    <section className="py-10">
+      <Container>
       <div className="flex items-end justify-between gap-6">
         <div>
           <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Try searching for</div>
@@ -140,6 +142,7 @@ export default function QuickSearchSection() {
           })}
         </div>
       </div>
+      </Container>
     </section>
   )
 }

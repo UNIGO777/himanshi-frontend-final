@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { FiChevronDown } from 'react-icons/fi'
+import Container from './Container'
 
 export default function FAQSection() {
   const faqs = useMemo(
@@ -27,7 +28,8 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState(0)
 
   return (
-    <section id="faq" className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+    <section id="faq" className="py-10">
+      <Container>
       <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
         <div className="space-y-6">
           <div>
@@ -87,6 +89,7 @@ export default function FAQSection() {
           </div>
         </div>
       </div>
+      </Container>
     </section>
   )
 }

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import Container from './Container'
 
 const svgToDataUri = (svg) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
 
@@ -112,7 +113,8 @@ export default function TrySearchCitiesSection() {
   }
 
   return (
-    <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+    <section className="py-10">
+      <Container>
       <div className="flex flex-col gap-10">
         <div>
           <div className="flex items-end justify-between gap-6">
@@ -247,6 +249,7 @@ export default function TrySearchCitiesSection() {
           </div>
         </div>
       </div>
+      </Container>
     </section>
   )
 }

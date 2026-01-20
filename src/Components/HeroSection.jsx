@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiMapPin, FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { getProperties } from '../api/properties'
+import Container from './Container'
 
 function slugifySegment(value) {
   const raw = typeof value === 'string' ? value.trim().toLowerCase() : ''
@@ -115,7 +116,7 @@ export default function HeroSection() {
         </span>
       </div>
 
-      <div className="relative mx-auto max-w-[1400px] px-3 pb-64 pt-14 sm:px-6 sm:pb-72 sm:pt-20 lg:px-10 lg:pb-80">
+      <Container className="relative pb-64 pt-14 sm:pb-72 sm:pt-20 lg:pb-80">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -210,7 +211,7 @@ export default function HeroSection() {
 
           </div>
         </div>
-      </div>
+      </Container>
 
       <div className="absolute inset-x-0 bottom-0 h-56 sm:h-72 lg:h-80">
         <img
