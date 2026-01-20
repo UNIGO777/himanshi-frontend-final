@@ -286,6 +286,7 @@ export default function Listings() {
   const [hasNextPage, setHasNextPage] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false)
 
   useEffect(() => {
     let isMounted = true
@@ -320,6 +321,7 @@ export default function Listings() {
     Promise.resolve().then(() => {
       if (!isMounted) return
       setFilters(nextFilters)
+      setIsFiltersOpen(hasMeaningfulFilter(nextFilters))
       setIsLoading(true)
       setError('')
     })
@@ -418,12 +420,14 @@ export default function Listings() {
 
   const onApply = () => {
     navigate(buildSearchUrl({ ...filters, page: DEFAULT_PAGE }))
+    setIsFiltersOpen(false)
   }
 
   const onClear = () => {
     const next = buildDefaultFilters()
     setFilters(next)
     navigate(buildSearchUrl(next))
+    setIsFiltersOpen(false)
   }
 
   const onChangeField = (key) => (e) => {
@@ -466,9 +470,28 @@ export default function Listings() {
           </div>
         )}
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-[360px_1fr] lg:items-start">
-          <div className="rounded-3xl border border-slate-200 bg-white p-5">
-            <div className="flex items-center justify-between gap-3">
+        <div className="mt-6 grid gap-6 lg:grid-cols-12 lg:items-start">
+          <div className="lg:col-span-4 xl:col-span-3">
+            <div className="flex items-center justify-between gap-3 rounded-3xl border border-slate-200 bg-white p-4 sm:p-5 lg:hidden">
+              <div className="text-sm font-extrabold text-slate-900">Filters</div>
+              <div className="flex items-center gap-3">
+                {hasActiveSearch && (
+                  <button type="button" onClick={onClear} className="text-xs font-semibold text-slate-700 underline">
+                    Clear
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setIsFiltersOpen((v) => !v)}
+                  className="rounded-full border border-slate-900/10 bg-white px-3 py-1 text-xs font-semibold text-slate-800"
+                >
+                  {isFiltersOpen ? 'Hide' : 'Show'}
+                </button>
+              </div>
+            </div>
+
+            <div className={`${isFiltersOpen ? 'mt-4 block' : 'hidden'} rounded-3xl border border-slate-200 bg-white p-4 sm:p-5 lg:mt-0 lg:block`}>
+              <div className="hidden items-center justify-between gap-3 lg:flex">
               <div className="text-sm font-extrabold text-slate-900">Filters</div>
               {hasActiveSearch && (
                 <button type="button" onClick={onClear} className="text-xs font-semibold text-slate-700 underline">
@@ -491,7 +514,7 @@ export default function Listings() {
                 />
               </label>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">City</div>
                   <select
@@ -532,7 +555,7 @@ export default function Listings() {
                 />
               </label>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Property Type</div>
                   <select
@@ -563,7 +586,7 @@ export default function Listings() {
                 </label>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Status</div>
                   <select
@@ -592,7 +615,7 @@ export default function Listings() {
                 </label>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Listed By</div>
                   <select
@@ -626,7 +649,7 @@ export default function Listings() {
                 </label>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Verified</div>
                   <select
@@ -653,7 +676,7 @@ export default function Listings() {
                 </label>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Min Price</div>
                   <input
@@ -676,7 +699,7 @@ export default function Listings() {
                 </label>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Min Area</div>
                   <input
@@ -699,7 +722,7 @@ export default function Listings() {
                 </label>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Min Bedrooms</div>
                   <input
@@ -732,7 +755,7 @@ export default function Listings() {
                 />
               </label>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Sort By</div>
                   <select
@@ -787,8 +810,9 @@ export default function Listings() {
               Apply filters
             </button>
           </div>
+          </div>
 
-          <div>
+          <div className="lg:col-span-8 xl:col-span-9">
             <div className="flex items-center justify-between gap-4">
               <div className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600">
                 <FiMapPin />

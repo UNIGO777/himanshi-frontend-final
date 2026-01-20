@@ -20,12 +20,12 @@ function StatPill({ icon: Icon, value }) {
 function RatingRow({ label, value, total }) {
   const pct = total === 0 ? 0 : Math.round((value / total) * 100)
   return (
-    <div className="grid grid-cols-[24px_1fr_40px] items-center gap-3 text-xs font-semibold text-slate-600">
-      <div>{label}</div>
-      <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+    <div className="flex items-center gap-3 text-xs font-semibold text-slate-600">
+      <div className="w-6 shrink-0">{label}</div>
+      <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100">
         <div className="h-full rounded-full bg-slate-900" style={{ width: `${pct}%` }} />
       </div>
-      <div className="text-right tabular-nums">{pct}%</div>
+      <div className="w-10 shrink-0 text-right tabular-nums">{pct}%</div>
     </div>
   )
 }
@@ -339,8 +339,8 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
           )}
         </div>
       )}
-      <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
-        <div className="space-y-6">
+      <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
+        <div className="space-y-6 lg:col-span-7">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -352,7 +352,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
                 <video
                   src={activeItem.src}
                   poster={activeItem.poster}
-                  className="h-[340px] w-full object-cover sm:h-[460px]"
+                  className="aspect-[16/10] w-full object-cover"
                   controls
                   playsInline
                 />
@@ -360,7 +360,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
                 <img
                   src={activeItem.src}
                   alt={property.title}
-                  className="h-[340px] w-full object-cover sm:h-[460px]"
+                  className="aspect-[16/10] w-full object-cover"
                   loading="lazy"
                   referrerPolicy="no-referrer"
                 />
@@ -386,7 +386,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
                         <img
                           src={item.poster}
                           alt=""
-                          className="h-16 w-20 object-cover sm:h-18 sm:w-24"
+                          className="h-16 w-20 object-cover sm:h-20 sm:w-24"
                           loading="lazy"
                           aria-hidden="true"
                           referrerPolicy="no-referrer"
@@ -399,7 +399,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
                       <img
                         src={item.src}
                         alt=""
-                        className="h-16 w-20 object-cover sm:h-18 sm:w-24"
+                        className="h-16 w-20 object-cover sm:h-20 sm:w-24"
                         loading="lazy"
                         aria-hidden="true"
                         referrerPolicy="no-referrer"
@@ -443,7 +443,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6 lg:col-span-5">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -533,12 +533,12 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
         </div>
       </div>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-[360px_1fr] lg:items-start">
+      <div className="mt-10 grid gap-6 lg:grid-cols-12 lg:items-start">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.06 }}
-          className="rounded-3xl border border-slate-200 bg-white p-6"
+          className="rounded-3xl border border-slate-200 bg-white p-6 lg:col-span-4 xl:col-span-3"
         >
           <div className="text-sm font-extrabold text-slate-900">Rating & Reviews</div>
           <div className="mt-5 flex items-end gap-4">
@@ -593,33 +593,37 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
           </form>
         </motion.div>
 
-        {reviews.length === 0 ? (
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 text-sm font-semibold text-slate-600">
-            No reviews yet. Be the first to leave a rating.
-          </div>
-        ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
-            {reviews.map((r, idx) => (
-              <motion.div
-                key={r.id}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.35, delay: idx * 0.03 }}
-                className="rounded-3xl border border-slate-200 bg-white p-6"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-extrabold text-slate-900">{r.name}</div>
-                    <div className="mt-1 text-xs font-semibold text-slate-500">{r.date}</div>
+        <div className="lg:col-span-8 xl:col-span-9">
+          {reviews.length === 0 ? (
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 text-sm font-semibold text-slate-600">
+              No reviews yet. Be the first to leave a rating.
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {reviews.map((r, idx) => (
+                <motion.div
+                  key={r.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.25 }}
+                  transition={{ duration: 0.35, delay: idx * 0.03 }}
+                  className="rounded-3xl border border-slate-200 bg-white p-6"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <div className="truncate text-sm font-extrabold text-slate-900">{r.name}</div>
+                      <div className="mt-1 text-xs font-semibold text-slate-500">{r.date}</div>
+                    </div>
+                    <div className="rounded-full bg-slate-900 px-3 py-1 text-xs font-extrabold text-white">
+                      {r.rating.toFixed(1)}
+                    </div>
                   </div>
-                  <div className="rounded-full bg-slate-900 px-3 py-1 text-xs font-extrabold text-white">{r.rating.toFixed(1)}</div>
-                </div>
-                <div className="mt-3 text-sm font-semibold leading-relaxed text-slate-600">{r.text}</div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+                  <div className="mt-3 text-sm font-semibold leading-relaxed text-slate-600">{r.text}</div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="mt-12">

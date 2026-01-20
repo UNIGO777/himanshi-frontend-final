@@ -22,6 +22,14 @@ const team = [
 ]
 
 export default function TeamConnectSection() {
+  const onBookCall = () => {
+    window.location.href = 'tel:+919000000000'
+  }
+
+  const onWhatsApp = () => {
+    window.open('https://wa.me/919000000000', '_blank', 'noopener,noreferrer')
+  }
+
   return (
     <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
       <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
@@ -36,10 +44,14 @@ export default function TeamConnectSection() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <button type="button" className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
+            <button type="button" onClick={onBookCall} className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
               Book a Call
             </button>
-            <button type="button" className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700">
+            <button
+              type="button"
+              onClick={onWhatsApp}
+              className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700"
+            >
               WhatsApp
             </button>
           </div>

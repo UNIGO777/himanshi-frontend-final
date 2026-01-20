@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { FiMail, FiMapPin, FiPhone, FiUser } from 'react-icons/fi'
+import { useState } from 'react'
 import Navbar from '../../Components/Navbar'
 import FooterSection from '../../Components/FooterSection'
 import useWishlist from '../../hooks/useWishlist'
@@ -7,7 +8,7 @@ import useAuth from '../../hooks/useAuth'
 
 export default function Profile() {
   const { items } = useWishlist()
-  const { user, isAuthenticated } = useAuth()
+  const { user, isAuthenticated, updateProfile } = useAuth()
 
   const email = typeof user?.email === 'string' ? user.email : ''
   const usernameBase = email.includes('@') ? email.split('@')[0] : ''
@@ -17,8 +18,8 @@ export default function Profile() {
         username: usernameBase ? `@${usernameBase}` : '',
         email,
         phone: typeof user.phone === 'string' ? user.phone : '',
-        city: '',
-        bio: '',
+        city: typeof user.city === 'string' ? user.city : '',
+        bio: typeof user.bio === 'string' ? user.bio : '',
       }
     : {
         name: 'Guest',
@@ -29,16 +30,33 @@ export default function Profile() {
         bio: 'Please log in to view your profile details.',
       }
 
+  const [form, setForm] = useState(() => ({
+    name: currentUser.name,
+    email: currentUser.email,
+    phone: currentUser.phone,
+    city: currentUser.city,
+  }))
+  const [saveStatus, setSaveStatus] = useState('')
+
+  const onSave = () => {
+    if (!isAuthenticated) {
+      setSaveStatus('Please log in to save changes.')
+      return
+    }
+    updateProfile({ name: form.name, phone: form.phone, city: form.city })
+    setSaveStatus('Changes saved.')
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
       <main className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
-        <div className="grid gap-6 lg:grid-cols-[360px_1fr] lg:items-start">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="rounded-3xl border border-slate-200 bg-white p-6"
+            className="rounded-3xl border border-slate-200 bg-white p-6 lg:col-span-4 xl:col-span-3"
           >
             <div className="flex items-center gap-4">
               <div className="grid h-16 w-16 place-items-center rounded-3xl bg-slate-900 text-white">
@@ -83,7 +101,7 @@ export default function Profile() {
             </div>
           </motion.div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 lg:col-span-8 xl:col-span-9">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -95,27 +113,45 @@ export default function Profile() {
                 <input
                   disabled={!isAuthenticated}
                   className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none disabled:bg-slate-50"
-                  defaultValue={currentUser.name}
+                  value={form.name}
+                  onChange={(e) => {
+                    setForm((cur) => ({ ...cur, name: e.target.value }))
+                    if (saveStatus) setSaveStatus('')
+                  }}
+                />
+                <input
+                  disabled
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none disabled:bg-slate-50"
+                  value={form.email}
+                  readOnly
                 />
                 <input
                   disabled={!isAuthenticated}
                   className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none disabled:bg-slate-50"
-                  defaultValue={currentUser.email}
+                  value={form.phone}
+                  onChange={(e) => {
+                    setForm((cur) => ({ ...cur, phone: e.target.value }))
+                    if (saveStatus) setSaveStatus('')
+                  }}
                 />
                 <input
                   disabled={!isAuthenticated}
                   className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none disabled:bg-slate-50"
-                  defaultValue={currentUser.phone}
-                />
-                <input
-                  disabled={!isAuthenticated}
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none disabled:bg-slate-50"
-                  defaultValue={currentUser.city}
+                  value={form.city}
+                  onChange={(e) => {
+                    setForm((cur) => ({ ...cur, city: e.target.value }))
+                    if (saveStatus) setSaveStatus('')
+                  }}
                 />
               </div>
-              <button type="button" className="mt-4 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
+              <button
+                type="button"
+                onClick={onSave}
+                className="mt-4 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white"
+              >
                 Save changes
               </button>
+              {!!saveStatus && <div className="mt-3 text-xs font-semibold text-slate-600">{saveStatus}</div>}
             </motion.div>
 
             <motion.div

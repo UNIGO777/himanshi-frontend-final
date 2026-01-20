@@ -161,11 +161,12 @@ export default function Services() {
       <main>
         <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
           <div className="overflow-hidden rounded-3xl bg-slate-900">
-            <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-12 lg:items-center">
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
+                className="lg:col-span-7"
               >
                 <div className="text-xs font-bold uppercase tracking-[0.22em] text-white/70">Services</div>
                 <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
@@ -186,7 +187,7 @@ export default function Services() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.05 }}
-                className="relative overflow-hidden rounded-3xl bg-white/10"
+                className="relative overflow-hidden rounded-3xl bg-white/10 lg:col-span-5"
               >
                 <img
                   className="h-64 w-full object-cover opacity-90 sm:h-72"

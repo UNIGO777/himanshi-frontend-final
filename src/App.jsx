@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import Home from './Pages/Home/Home'
 import Profile from './Pages/Profile/Profile'
 import PropertyDetails from './Pages/PropertyDetails/PropertyDetails'
@@ -17,6 +18,7 @@ function App() {
     <AuthProvider>
       <WishlistProvider>
         <BrowserRouter>
+          <ScrollToHash />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/listings" element={<Navigate to="/properties" replace />} />
@@ -36,6 +38,21 @@ function App() {
       </WishlistProvider>
     </AuthProvider>
   )
+}
+
+function ScrollToHash() {
+  const location = useLocation()
+
+  useEffect(() => {
+    const hash = location.hash
+    if (!hash || hash.length < 2) return
+    const id = hash.slice(1)
+    const el = document.getElementById(id)
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [location.hash, location.pathname])
+
+  return null
 }
 
 function FallbackRoute() {

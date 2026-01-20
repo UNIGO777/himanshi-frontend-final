@@ -1,4 +1,5 @@
-import { FiHeart, FiLogOut, FiMenu, FiUser } from 'react-icons/fi'
+import { FiHeart, FiLogOut, FiMenu, FiUser, FiX } from 'react-icons/fi'
+import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import useWishlist from '../hooks/useWishlist'
 import useAuth from '../hooks/useAuth'
@@ -9,6 +10,7 @@ export default function Navbar() {
   const { isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navItems = [
     { label: 'Home', to: '/' },
@@ -18,13 +20,112 @@ export default function Navbar() {
   ]
 
   return (
-    <header className="sticky top-0 z-50  bg-[#f4f1ea]/80 backdrop-blur">
+    <header className="sticky top-0 z-50 bg-[#f4f1ea] md:bg-[#f4f1ea]/80 md:backdrop-blur">
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/40 md:hidden"
+          onClick={() => setIsMenuOpen(false)}
+          role="button"
+          tabIndex={-1}
+          aria-label="Close menu"
+        >
+          <div
+            className="h-full w-[300px] max-w-[85vw] bg-[#f4f1ea] shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+            role="presentation"
+          >
+            <div className="flex items-center justify-between border-b border-slate-900/10 px-4 py-4">
+              <Link to="/" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
+                <div className="grid h-10 w-10 place-items-center rounded-full bg-slate-900 text-sm font-semibold text-white">HP</div>
+                <div className="leading-tight">
+                  <div className="text-sm font-semibold text-slate-900">Himanshi</div>
+                  <div className="text-xs text-slate-600">Properties</div>
+                </div>
+              </Link>
+              <button
+                type="button"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-900/10 bg-white text-slate-900"
+                aria-label="Close menu"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <FiX className="text-lg" />
+              </button>
+            </div>
+
+            <nav className="px-3 py-4">
+              <div className="grid gap-1">
+                {navItems.map((item) => {
+                  const isActive = location.pathname === item.to
+                  return (
+                    <Link
+                      key={item.to}
+                      to={item.to}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`rounded-2xl px-4 py-3 text-sm font-semibold ${
+                        isActive ? 'bg-white text-slate-900' : 'text-slate-800 hover:bg-white'
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  )
+                })}
+              </div>
+
+              <div className="mt-6 grid gap-2">
+                {!isAuthenticated ? (
+                  <>
+                    <Link
+                      to="/login"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="rounded-2xl border border-slate-900/10 bg-white px-4 py-3 text-sm font-semibold text-slate-900"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/signup"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white"
+                    >
+                      Sign up
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/profile"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="rounded-2xl border border-slate-900/10 bg-white px-4 py-3 text-sm font-semibold text-slate-900"
+                    >
+                      Account
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMenuOpen(false)
+                        logout()
+                        navigate('/')
+                      }}
+                      className="flex items-center gap-2 rounded-2xl border border-slate-900/10 bg-white px-4 py-3 text-sm font-semibold text-slate-900"
+                    >
+                      <FiLogOut />
+                      Logout
+                    </button>
+                  </>
+                )}
+              </div>
+            </nav>
+          </div>
+        </div>
+      )}
+
       <div className="mx-auto grid max-w-[1400px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-3 py-4 sm:px-6 lg:px-10">
         <div className="flex items-center gap-3 justify-self-start">
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-900/10 bg-white/70 text-slate-800 md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-900/10 bg-white text-slate-900 shadow-sm md:hidden"
             aria-label="Open menu"
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen(true)}
           >
             <FiMenu className="text-lg" />
           </button>

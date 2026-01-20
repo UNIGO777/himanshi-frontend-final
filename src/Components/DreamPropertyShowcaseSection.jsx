@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { FiArrowUpRight, FiHeart, FiPlus } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useWishlist from '../hooks/useWishlist'
 
 const tabs = [
@@ -36,6 +36,7 @@ export default function DreamPropertyShowcaseSection({ properties }) {
   const [activeTab, setActiveTab] = useState(tabs[0])
   const list = Array.isArray(properties) && properties.length > 0 ? properties.map(normalizeDreamProperty).filter(Boolean).slice(0, 6) : []
   const { hasItem, toggleItem } = useWishlist()
+  const navigate = useNavigate()
 
   return (
     <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
@@ -49,6 +50,7 @@ export default function DreamPropertyShowcaseSection({ properties }) {
         <button
           type="button"
           aria-label="More"
+          onClick={() => navigate('/properties/search')}
           className="hidden h-10 w-10 items-center justify-center rounded-full border border-slate-900/10 bg-white/70 text-slate-800 sm:inline-flex"
         >
           <FiPlus />

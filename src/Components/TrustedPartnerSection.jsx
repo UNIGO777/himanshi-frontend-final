@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 
 const stats = [
   { label: 'Cases Realised', value: '200k' },
@@ -7,6 +8,8 @@ const stats = [
 ]
 
 export default function TrustedPartnerSection() {
+  const navigate = useNavigate()
+
   return (
     <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
       <div className="rounded-3xl bg-[#f4f1ea] p-6 sm:p-8">
@@ -66,6 +69,7 @@ export default function TrustedPartnerSection() {
               </p>
               <button
                 type="button"
+                onClick={() => navigate('/properties/search')}
                 className="mt-5 inline-flex rounded-full bg-white px-5 py-2 text-sm font-semibold text-slate-900"
               >
                 Choose Your Property

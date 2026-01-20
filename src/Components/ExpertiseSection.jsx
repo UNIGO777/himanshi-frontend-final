@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { FiBarChart2, FiHome, FiKey, FiMapPin } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 
 const expertise = [
   { title: 'Local Insights', description: 'Know the best areas to invest and live.', icon: FiMapPin },
@@ -9,6 +10,8 @@ const expertise = [
 ]
 
 export default function ExpertiseSection() {
+  const navigate = useNavigate()
+
   return (
     <section className="bg-slate-950 py-12">
       <div className="mx-auto max-w-[1400px] px-3 sm:px-6 lg:px-10">
@@ -19,7 +22,11 @@ export default function ExpertiseSection() {
               Make confident property decisions
             </h2>
           </div>
-          <button type="button" className="w-fit rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900">
+          <button
+            type="button"
+            onClick={() => navigate('/services')}
+            className="w-fit rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-900"
+          >
             Explore expertise
           </button>
         </div>

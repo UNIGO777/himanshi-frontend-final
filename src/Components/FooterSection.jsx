@@ -1,4 +1,23 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+
 export default function FooterSection() {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState('')
+
+  const onSubscribe = () => {
+    const cleanEmail = typeof email === 'string' ? email.trim() : ''
+    if (!cleanEmail) {
+      setStatus('Please enter your email.')
+      return
+    }
+
+    const subject = encodeURIComponent('Newsletter subscription')
+    const body = encodeURIComponent(`Please subscribe this email to the newsletter: ${cleanEmail}`)
+    window.location.href = `mailto:hello@himanshiproperties.com?subject=${subject}&body=${body}`
+    setStatus('Opening email app…')
+  }
+
   return (
     <footer className="bg-slate-950 text-white">
       <div className="mx-auto max-w-[1400px] px-3 py-12 sm:px-6 lg:px-10">
@@ -13,14 +32,24 @@ export default function FooterSection() {
 
             <div className="flex w-full flex-col gap-3 sm:flex-row lg:max-w-xl">
               <input
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  if (status) setStatus('')
+                }}
                 className="w-full rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white outline-none placeholder:text-white/50"
                 placeholder="Enter your email"
               />
-              <button type="button" className="rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-slate-950">
+              <button
+                type="button"
+                onClick={onSubscribe}
+                className="rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-slate-950"
+              >
                 Subscribe
               </button>
             </div>
           </div>
+          {!!status && <div className="mt-3 text-xs font-semibold text-white/70">{status}</div>}
         </div>
 
         <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -40,13 +69,13 @@ export default function FooterSection() {
           <div>
             <div className="text-sm font-extrabold">Company</div>
             <div className="mt-4 space-y-3 text-sm font-semibold text-white/70">
-              <a className="block hover:text-white" href="#">
+              <Link className="block hover:text-white" to="/about">
                 About
-              </a>
-              <a className="block hover:text-white" href="#">
+              </Link>
+              <Link className="block hover:text-white" to="/services">
                 Services
-              </a>
-              <a className="block hover:text-white" href="#">
+              </Link>
+              <a className="block hover:text-white" href="mailto:hello@himanshiproperties.com?subject=Careers">
                 Careers
               </a>
             </div>
@@ -55,13 +84,13 @@ export default function FooterSection() {
           <div>
             <div className="text-sm font-extrabold">Support</div>
             <div className="mt-4 space-y-3 text-sm font-semibold text-white/70">
-              <a className="block hover:text-white" href="#">
+              <Link className="block hover:text-white" to="/#contact">
                 Contact
-              </a>
-              <a className="block hover:text-white" href="#">
+              </Link>
+              <Link className="block hover:text-white" to="/#faq">
                 FAQs
-              </a>
-              <a className="block hover:text-white" href="#">
+              </Link>
+              <a className="block hover:text-white" href="mailto:hello@himanshiproperties.com?subject=Privacy%20Policy">
                 Privacy Policy
               </a>
             </div>

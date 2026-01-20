@@ -289,6 +289,20 @@ export function AuthProvider({ children }) {
     setUser(null)
   }, [])
 
+  const updateProfile = useCallback(({ name, phone, city } = {}) => {
+    setUser((prev) => {
+      if (!prev) return prev
+      const next = { ...prev }
+
+      if (typeof name === 'string') next.name = name.trim()
+      if (typeof phone === 'string') next.phone = phone.trim()
+      if (typeof city === 'string') next.city = city.trim()
+
+      return next
+    })
+    return { ok: true }
+  }, [])
+
   const value = useMemo(
     () => ({
       user,
@@ -297,8 +311,9 @@ export function AuthProvider({ children }) {
       signup,
       verifyOtp,
       logout,
+      updateProfile,
     }),
-    [login, logout, signup, user, verifyOtp],
+    [login, logout, signup, updateProfile, user, verifyOtp],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

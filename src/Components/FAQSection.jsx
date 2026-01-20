@@ -27,7 +27,7 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState(0)
 
   return (
-    <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
+    <section id="faq" className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
         <div className="space-y-6">
           <div>

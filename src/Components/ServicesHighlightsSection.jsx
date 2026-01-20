@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion'
 import { FiArrowUpRight, FiSearch } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 
 export default function ServicesHighlightsSection() {
+  const navigate = useNavigate()
+
   return (
     <section className="mx-auto max-w-[1400px] px-3 py-10 sm:px-6 lg:px-10">
       <div className="text-center">
@@ -59,7 +62,11 @@ export default function ServicesHighlightsSection() {
               </p>
             </div>
             <div className="mt-6 flex items-end justify-between gap-6">
-              <button type="button" className="inline-flex items-center gap-2 text-lg font-extrabold text-slate-900">
+              <button
+                type="button"
+                onClick={() => navigate('/services')}
+                className="inline-flex items-center gap-2 text-lg font-extrabold text-slate-900"
+              >
                 <FiArrowUpRight className="text-xl" />
                 Visit site
               </button>
@@ -100,6 +107,7 @@ export default function ServicesHighlightsSection() {
               <button
                 type="button"
                 aria-label="Open"
+                onClick={() => navigate('/properties/search')}
                 className="grid h-12 w-12 place-items-center rounded-full bg-white/85 text-slate-900"
               >
                 <FiSearch className="text-lg" />

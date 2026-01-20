@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { FiArrowUpRight, FiMaximize2, FiMessageSquare, FiRefreshCw } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 
 const testimonials = [
   {
@@ -38,6 +39,7 @@ const testimonials = [
 export default function TestimonialsSection() {
   const trackRef = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const navigate = useNavigate()
 
   const scrollToIndex = (index) => {
     const el = trackRef.current
@@ -113,7 +115,11 @@ export default function TestimonialsSection() {
       </div>
 
       <div className="mt-6 flex items-center justify-between gap-4">
-        <button type="button" className="inline-flex items-center gap-2 text-sm font-extrabold text-slate-900">
+        <button
+          type="button"
+          onClick={() => navigate('/properties/search')}
+          className="inline-flex items-center gap-2 text-sm font-extrabold text-slate-900"
+        >
           <FiArrowUpRight className="text-base" />
           Visit site
         </button>
@@ -137,7 +143,12 @@ export default function TestimonialsSection() {
           <button type="button" aria-label="Reset" onClick={() => scrollToIndex(0)} className="text-xl">
             <FiRefreshCw />
           </button>
-          <button type="button" aria-label="Expand" className="text-xl">
+          <button
+            type="button"
+            aria-label="Expand"
+            onClick={() => trackRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+            className="text-xl"
+          >
             <FiMaximize2 />
           </button>
         </div>
