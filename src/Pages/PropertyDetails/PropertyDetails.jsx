@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { FiArrowLeft, FiDroplet, FiHeart, FiHome, FiMapPin, FiMaximize2, FiPlay } from 'react-icons/fi'
+import { Star } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import Navbar from '../../Components/Navbar'
 import FooterSection from '../../Components/FooterSection'
@@ -201,10 +202,13 @@ export default function PropertyDetails() {
 function PropertyDetailsContent({ property, locationText, priceText, bedsText, bathsText, isSaved, wishlistItem, toggleItem, recommendations, isLoading, error }) {
   const { isAuthenticated, user } = useAuth()
   const token = user?.token
+  const navigate = useNavigate()
+  const location = useLocation()
   const [activeMediaIndex, setActiveMediaIndex] = useState(0)
   const [inquiryMessage, setInquiryMessage] = useState('')
   const [queryStatus, setQueryStatus] = useState('')
   const [isSendingQuery, setIsSendingQuery] = useState(false)
+  const [isQuerySubmitted, setIsQuerySubmitted] = useState(false)
   const [queriesCount, setQueriesCount] = useState(null)
   const mediaItems = useMemo(() => {
     const images = Array.isArray(property.images)
@@ -269,7 +273,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
     const msg = inquiryMessage.trim()
     setQueryStatus('')
     if (!isAuthenticated) {
-      setQueryStatus('Please login to send a query.')
+      navigate('/login', { state: { from: `${location.pathname}${location.search}` } })
       return
     }
     if (!msg) {
@@ -280,7 +284,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
     try {
       await createPropertyQuery({ propertyId: property.id, message: msg, token })
       setInquiryMessage('')
-      setQueryStatus('Query sent successfully.')
+      setIsQuerySubmitted(true)
     } catch (err) {
       setQueryStatus(err?.message || 'Failed to send query.')
     } finally {
@@ -516,22 +520,31 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
                 to submit a query.
               </div>
             )}
-            <textarea
-              value={inquiryMessage}
-              onChange={(e) => setInquiryMessage(e.target.value)}
-              rows={4}
-              className="mt-5 w-full resize-none rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white outline-none placeholder:text-white/50"
-              placeholder="I am interested in this property. Please call me."
-            />
-            {!!queryStatus && <div className="mt-3 text-xs font-semibold text-white/80">{queryStatus}</div>}
-            <button
-              type="button"
-              onClick={onSubmitQuery}
-              disabled={isSendingQuery}
-              className="mt-4 w-full rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              Send query
-            </button>
+            {isQuerySubmitted ? (
+              <div className="mt-5 rounded-2xl border border-white/10 bg-white/10 px-4 py-4">
+                <div className="text-base font-extrabold text-white">Thank you!</div>
+                <div className="mt-1 text-sm font-semibold text-white/75">Your query has been submitted. We will contact you soon.</div>
+              </div>
+            ) : (
+              <>
+                <textarea
+                  value={inquiryMessage}
+                  onChange={(e) => setInquiryMessage(e.target.value)}
+                  rows={4}
+                  className="mt-5 w-full resize-none rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white outline-none placeholder:text-white/50"
+                  placeholder="I am interested in this property. Please call me."
+                />
+                {!!queryStatus && <div className="mt-3 text-xs font-semibold text-white/80">{queryStatus}</div>}
+                <button
+                  type="button"
+                  onClick={onSubmitQuery}
+                  disabled={isSendingQuery}
+                  className="mt-4 w-full rounded-2xl bg-white px-5 py-3 text-sm font-extrabold text-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  Send query
+                </button>
+              </>
+            )}
           </motion.div>
         </div>
       </div>
@@ -567,17 +580,31 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
                 to submit a rating.
               </div>
             )}
-            <select
-              value={ratingStars}
-              onChange={(e) => setRatingStars(Number(e.target.value))}
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none"
+            <div
+              role="radiogroup"
+              aria-label="Star rating"
+              className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-3 py-2"
             >
-              <option value={5}>5 stars</option>
-              <option value={4}>4 stars</option>
-              <option value={3}>3 stars</option>
-              <option value={2}>2 stars</option>
-              <option value={1}>1 star</option>
-            </select>
+              {Array.from({ length: 5 }, (_, idx) => {
+                const value = idx + 1
+                const isFilled = value <= ratingStars
+                return (
+                  <button
+                    key={value}
+                    type="button"
+                    role="radio"
+                    aria-checked={value === ratingStars}
+                    aria-label={`${value} star${value === 1 ? '' : 's'}`}
+                    onClick={() => setRatingStars(value)}
+                    className={`grid h-10 w-10 place-items-center rounded-full transition-colors ${
+                      isFilled ? 'text-amber-400 hover:bg-amber-50' : 'text-slate-300 hover:bg-slate-100'
+                    }`}
+                  >
+                    <Star className="h-5 w-5" fill={isFilled ? 'currentColor' : 'none'} />
+                  </button>
+                )
+              })}
+            </div>
             <textarea
               value={ratingComment}
               onChange={(e) => setRatingComment(e.target.value)}

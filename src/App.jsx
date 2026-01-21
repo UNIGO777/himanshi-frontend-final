@@ -45,12 +45,14 @@ function ScrollToHash() {
 
   useEffect(() => {
     const hash = location.hash
-    if (!hash || hash.length < 2) return
-    const id = hash.slice(1)
-    const el = document.getElementById(id)
-    if (!el) return
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, [location.hash, location.pathname])
+    if (hash && hash.length >= 2) {
+      const id = hash.slice(1)
+      const el = document.getElementById(id)
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      return
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [location.hash, location.pathname, location.search])
 
   return null
 }

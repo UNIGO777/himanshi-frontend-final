@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import Container from './Container'
 
 const team = [
@@ -23,10 +24,6 @@ const team = [
 ]
 
 export default function TeamConnectSection() {
-  const onBookCall = () => {
-    window.location.href = 'tel:+919000000000'
-  }
-
   const onWhatsApp = () => {
     window.open('https://wa.me/919000000000', '_blank', 'noopener,noreferrer')
   }
@@ -46,9 +43,9 @@ export default function TeamConnectSection() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <button type="button" onClick={onBookCall} className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
+            <Link to="/#contact" className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
               Book a Call
-            </button>
+            </Link>
             <button
               type="button"
               onClick={onWhatsApp}

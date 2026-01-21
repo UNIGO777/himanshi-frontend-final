@@ -121,16 +121,6 @@ export default function Navbar() {
 
       <Container className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 py-4">
         <div className="flex items-center gap-3 justify-self-start">
-          <button
-            type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-900/10 bg-white text-slate-900 shadow-sm md:hidden"
-            aria-label="Open menu"
-            aria-expanded={isMenuOpen}
-            onClick={() => setIsMenuOpen(true)}
-          >
-            <FiMenu className="text-lg" />
-          </button>
-
           <Link to="/" className="flex items-center gap-3">
             <div className="grid h-10 w-10 place-items-center rounded-full bg-slate-900 text-sm font-semibold text-white">
               HP
@@ -198,6 +188,15 @@ export default function Navbar() {
               </span>
             )}
           </Link>
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-900/10 bg-white/70 text-slate-800 md:hidden"
+            aria-label="Open menu"
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen(true)}
+          >
+            <FiMenu className="text-lg" />
+          </button>
           <Link
             to={isAuthenticated ? '/profile' : '/login'}
             className="hidden h-10 w-10 items-center justify-center rounded-full border border-slate-900/10 bg-white/70 text-slate-800 sm:inline-flex"

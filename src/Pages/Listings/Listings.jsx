@@ -63,25 +63,16 @@ function getCityFromProperty(p) {
 
 function buildDefaultFilters(overrides = {}) {
   return {
-    q: '',
     city: '',
     state: '',
-    pincode: '',
     propertyType: '',
     listingType: '',
     status: '',
-    furnishedStatus: '',
-    listedBy: '',
     facing: '',
     verified: '',
     isFeatured: '',
-    minPrice: '',
-    maxPrice: '',
+    priceRange: '',
     minArea: '',
-    maxArea: '',
-    minBedrooms: '',
-    minBathrooms: '',
-    amenities: '',
     page: DEFAULT_PAGE,
     limit: DEFAULT_LIMIT,
     sortBy: DEFAULT_SORT_BY,
@@ -92,33 +83,24 @@ function buildDefaultFilters(overrides = {}) {
 
 function getFiltersFromUrl({ citySlug, search }) {
   const params = new URLSearchParams(search)
-  const q = (params.get('q') || params.get('keyword') || '').trim()
   const cityFromQuery = (params.get('city') || '').trim()
   const cityFromSlug = deslugifySegment(citySlug)
   const city = cityFromQuery || cityFromSlug
-  const priceRange = (params.get('priceRange') || '').trim()
-  const rangeMinMax = parsePriceRangeToMinMax(priceRange)
+  const rawMinPrice = (params.get('minPrice') || '').trim()
+  const rawMaxPrice = (params.get('maxPrice') || '').trim()
+  const priceRange = (params.get('priceRange') || (rawMinPrice || rawMaxPrice ? `${rawMinPrice}-${rawMaxPrice}` : '')).trim()
 
   return buildDefaultFilters({
-    q,
     city,
     state: (params.get('state') || '').trim(),
-    pincode: (params.get('pincode') || '').trim(),
     propertyType: (params.get('propertyType') || '').trim(),
     listingType: (params.get('listingType') || '').trim(),
     status: (params.get('status') || '').trim(),
-    furnishedStatus: (params.get('furnishedStatus') || '').trim(),
-    listedBy: (params.get('listedBy') || '').trim(),
     facing: (params.get('facing') || '').trim(),
     verified: (params.get('verified') || '').trim(),
     isFeatured: (params.get('isFeatured') || '').trim(),
-    minPrice: (params.get('minPrice') || rangeMinMax.minPrice || '').trim(),
-    maxPrice: (params.get('maxPrice') || rangeMinMax.maxPrice || '').trim(),
+    priceRange,
     minArea: (params.get('minArea') || '').trim(),
-    maxArea: (params.get('maxArea') || '').trim(),
-    minBedrooms: (params.get('minBedrooms') || '').trim(),
-    minBathrooms: (params.get('minBathrooms') || '').trim(),
-    amenities: (params.get('amenities') || '').trim(),
     page: clampInt(params.get('page'), { min: 1, max: Number.POSITIVE_INFINITY, fallback: DEFAULT_PAGE }),
     limit: clampInt(params.get('limit'), { min: 1, max: MAX_LIMIT, fallback: DEFAULT_LIMIT }),
     sortBy: (params.get('sortBy') || DEFAULT_SORT_BY).trim(),
@@ -128,25 +110,16 @@ function getFiltersFromUrl({ citySlug, search }) {
 
 function hasMeaningfulFilter(filters) {
   const keys = [
-    'q',
     'city',
     'state',
-    'pincode',
     'propertyType',
     'listingType',
     'status',
-    'furnishedStatus',
-    'listedBy',
     'facing',
     'verified',
     'isFeatured',
-    'minPrice',
-    'maxPrice',
+    'priceRange',
     'minArea',
-    'maxArea',
-    'minBedrooms',
-    'minBathrooms',
-    'amenities',
   ]
   return keys.some((k) => String(filters?.[k] || '').trim().length > 0)
 }
@@ -164,25 +137,16 @@ function buildSearchUrl(filters) {
     params.set(key, String(v))
   }
 
-  setIf('q', next.q)
   setIf('city', cleanCity)
   setIf('state', next.state)
-  setIf('pincode', next.pincode)
   setIf('propertyType', next.propertyType)
   setIf('listingType', next.listingType)
   setIf('status', next.status)
-  setIf('furnishedStatus', next.furnishedStatus)
-  setIf('listedBy', next.listedBy)
   setIf('facing', next.facing)
   setIf('verified', next.verified)
   setIf('isFeatured', next.isFeatured)
-  setIf('minPrice', next.minPrice)
-  setIf('maxPrice', next.maxPrice)
+  setIf('priceRange', next.priceRange)
   setIf('minArea', next.minArea)
-  setIf('maxArea', next.maxArea)
-  setIf('minBedrooms', next.minBedrooms)
-  setIf('minBathrooms', next.minBathrooms)
-  setIf('amenities', next.amenities)
 
   if (next.page !== DEFAULT_PAGE) params.set('page', String(next.page))
   if (next.limit !== DEFAULT_LIMIT) params.set('limit', String(next.limit))
@@ -331,25 +295,16 @@ export default function Listings() {
     const hasAnyFilter = hasMeaningfulFilter(nextFilters)
     const loader = hasAnyFilter
       ? searchProperties({
-          q: nextFilters.q,
+          ...parsePriceRangeToMinMax(nextFilters.priceRange),
           city: nextFilters.city,
           state: nextFilters.state,
-          pincode: nextFilters.pincode,
           propertyType: nextFilters.propertyType,
           listingType: nextFilters.listingType,
           status: nextFilters.status,
-          furnishedStatus: nextFilters.furnishedStatus,
-          listedBy: nextFilters.listedBy,
           facing: nextFilters.facing,
           verified: nextFilters.verified,
           isFeatured: nextFilters.isFeatured,
-          minPrice: nextFilters.minPrice,
-          maxPrice: nextFilters.maxPrice,
           minArea: nextFilters.minArea,
-          maxArea: nextFilters.maxArea,
-          minBedrooms: nextFilters.minBedrooms,
-          minBathrooms: nextFilters.minBathrooms,
-          amenities: nextFilters.amenities,
           page,
           limit,
           sortBy: nextFilters.sortBy,
@@ -416,8 +371,8 @@ export default function Listings() {
   useEffect(() => {
     const cleanCity = filters.city.trim()
     const heading = cleanCity ? `Properties in ${cleanCity}` : 'Property Search'
-    document.title = filters.q.trim() ? `${filters.q.trim()} • ${heading}` : heading
-  }, [filters.city, filters.q])
+    document.title = heading
+  }, [filters.city])
 
   const onApply = () => {
     navigate(buildSearchUrl({ ...filters, page: DEFAULT_PAGE }))
@@ -504,36 +459,31 @@ export default function Listings() {
 
             <div className="mt-4 grid gap-3">
               <label className="grid gap-1">
-                <div className="text-[11px] font-semibold text-slate-500">Search</div>
-                <input
-                  value={filters.q}
-                  onChange={onChangeField('q')}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') onApply()
-                  }}
-                  placeholder="Title, description, address, owner..."
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
-                />
+                <div className="text-[11px] font-semibold text-slate-500">Price</div>
+                <select
+                  value={filters.priceRange}
+                  onChange={onChangeField('priceRange')}
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
+                >
+                  <option value="">Any</option>
+                  <option value="0-5000000">Up to 50 Lakhs</option>
+                  <option value="5000000-10000000">50 Lakhs - 1 Crore</option>
+                  <option value="10000000-20000000">1 Crore - 2 Crore</option>
+                  <option value="20000000-50000000">2 Crore - 5 Crore</option>
+                  <option value="50000000-">5 Crore+</option>
+                </select>
               </label>
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">City</div>
-                  <select
+                  <input
                     value={filters.city}
                     onChange={onChangeField('city')}
+                    list="city-options"
+                    placeholder="Delhi"
                     className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                  >
-                    <option value="">All cities</option>
-                    {!!filters.city && !cityOptions.some((c) => c.toLowerCase() === filters.city.trim().toLowerCase()) && (
-                      <option value={filters.city}>{filters.city}</option>
-                    )}
-                    {cityOptions.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </label>
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">State</div>
@@ -546,16 +496,24 @@ export default function Listings() {
                 </label>
               </div>
 
-              <label className="grid gap-1">
-                <div className="text-[11px] font-semibold text-slate-500">Pincode</div>
-                <input
-                  value={filters.pincode}
-                  onChange={onChangeField('pincode')}
-                  inputMode="numeric"
-                  placeholder="560001"
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
-                />
-              </label>
+              <datalist id="city-options">
+                {cityOptions.map((c) => (
+                  <option key={c} value={c} />
+                ))}
+              </datalist>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <label className="grid gap-1">
+                  <div className="text-[11px] font-semibold text-slate-500">Area (sqft)</div>
+                  <input
+                    value={filters.minArea}
+                    onChange={onChangeNumberField('minArea')}
+                    inputMode="numeric"
+                    placeholder="500"
+                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
+                  />
+                </label>
+              </div>
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
@@ -569,6 +527,7 @@ export default function Listings() {
                     <option value="Apartment">Apartment</option>
                     <option value="Villa">Villa</option>
                     <option value="Plot">Plot</option>
+                    <option value="Land">Land</option>
                     <option value="Commercial">Commercial</option>
                     <option value="Office">Office</option>
                   </select>
@@ -598,37 +557,9 @@ export default function Listings() {
                   >
                     <option value="">Any</option>
                     <option value="Available">Available</option>
+                    <option value="Booked">Booked</option>
                     <option value="Sold">Sold</option>
                     <option value="Under Construction">Under Construction</option>
-                  </select>
-                </label>
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Furnished</div>
-                  <select
-                    value={filters.furnishedStatus}
-                    onChange={onChangeField('furnishedStatus')}
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                  >
-                    <option value="">Any</option>
-                    <option value="Furnished">Furnished</option>
-                    <option value="Semi-furnished">Semi-furnished</option>
-                    <option value="Unfurnished">Unfurnished</option>
-                  </select>
-                </label>
-              </div>
-
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Listed By</div>
-                  <select
-                    value={filters.listedBy}
-                    onChange={onChangeField('listedBy')}
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                  >
-                    <option value="">Any</option>
-                    <option value="Owner">Owner</option>
-                    <option value="Agent">Agent</option>
-                    <option value="Builder">Builder</option>
                   </select>
                 </label>
                 <label className="grid gap-1">
@@ -651,155 +582,26 @@ export default function Listings() {
                 </label>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Verified</div>
-                  <select
-                    value={filters.verified}
-                    onChange={onChangeField('verified')}
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                  >
-                    <option value="">Any</option>
-                    <option value="true">Verified</option>
-                    <option value="false">Not verified</option>
-                  </select>
+              <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <label className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700">
+                  <input
+                    type="checkbox"
+                    checked={filters.verified === 'true'}
+                    onChange={(e) => setFilters((cur) => ({ ...cur, verified: e.target.checked ? 'true' : '' }))}
+                    className="h-4 w-4 rounded border-slate-300"
+                  />
+                  Verified
                 </label>
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Featured</div>
-                  <select
-                    value={filters.isFeatured}
-                    onChange={onChangeField('isFeatured')}
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                  >
-                    <option value="">Any</option>
-                    <option value="true">Featured</option>
-                    <option value="false">Not featured</option>
-                  </select>
+                <label className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700">
+                  <input
+                    type="checkbox"
+                    checked={filters.isFeatured === 'true'}
+                    onChange={(e) => setFilters((cur) => ({ ...cur, isFeatured: e.target.checked ? 'true' : '' }))}
+                    className="h-4 w-4 rounded border-slate-300"
+                  />
+                  Featured
                 </label>
               </div>
-
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Min Price</div>
-                  <input
-                    value={filters.minPrice}
-                    onChange={onChangeNumberField('minPrice')}
-                    inputMode="numeric"
-                    placeholder="5000000"
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
-                  />
-                </label>
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Max Price</div>
-                  <input
-                    value={filters.maxPrice}
-                    onChange={onChangeNumberField('maxPrice')}
-                    inputMode="numeric"
-                    placeholder="20000000"
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
-                  />
-                </label>
-              </div>
-
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Min Area</div>
-                  <input
-                    value={filters.minArea}
-                    onChange={onChangeNumberField('minArea')}
-                    inputMode="numeric"
-                    placeholder="900"
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
-                  />
-                </label>
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Max Area</div>
-                  <input
-                    value={filters.maxArea}
-                    onChange={onChangeNumberField('maxArea')}
-                    inputMode="numeric"
-                    placeholder="2000"
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
-                  />
-                </label>
-              </div>
-
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Min Bedrooms</div>
-                  <input
-                    value={filters.minBedrooms}
-                    onChange={onChangeNumberField('minBedrooms')}
-                    inputMode="numeric"
-                    placeholder="2"
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
-                  />
-                </label>
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Min Bathrooms</div>
-                  <input
-                    value={filters.minBathrooms}
-                    onChange={onChangeNumberField('minBathrooms')}
-                    inputMode="numeric"
-                    placeholder="2"
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
-                  />
-                </label>
-              </div>
-
-              <label className="grid gap-1">
-                <div className="text-[11px] font-semibold text-slate-500">Amenities</div>
-                <input
-                  value={filters.amenities}
-                  onChange={onChangeField('amenities')}
-                  placeholder="Parking,Lift,Gym"
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
-                />
-              </label>
-
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Sort By</div>
-                  <select
-                    value={filters.sortBy}
-                    onChange={onChangeField('sortBy')}
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                  >
-                    <option value="createdAt">Newest</option>
-                    <option value="price">Price</option>
-                    <option value="area">Area</option>
-                    <option value="views">Views</option>
-                  </select>
-                </label>
-                <label className="grid gap-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Order</div>
-                  <select
-                    value={filters.sortOrder}
-                    onChange={onChangeField('sortOrder')}
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                  >
-                    <option value="desc">Desc</option>
-                    <option value="asc">Asc</option>
-                  </select>
-                </label>
-              </div>
-
-              <label className="grid gap-1">
-                <div className="text-[11px] font-semibold text-slate-500">Results per page</div>
-                <select
-                  value={filters.limit}
-                  onChange={(e) => {
-                    const nextLimit = clampInt(e.target.value, { min: 1, max: MAX_LIMIT, fallback: DEFAULT_LIMIT })
-                    setFilters((cur) => ({ ...cur, limit: nextLimit }))
-                  }}
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                >
-                  <option value={20}>20</option>
-                  <option value={40}>40</option>
-                  <option value={60}>60</option>
-                  <option value={100}>100</option>
-                </select>
-              </label>
             </div>
 
             <button

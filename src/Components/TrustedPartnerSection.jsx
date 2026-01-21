@@ -65,9 +65,8 @@ export default function TrustedPartnerSection() {
                 Showcasing Premium Properties to Discriminating Buyers Globally
               </div>
               <p className="mt-3 text-sm leading-relaxed text-white/75">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                scrambled it to make a type specimen book.
+                Browse verified listings with clear photos, location details, and pricing. From shortlisting to site visits
+                and documentation support, we help you close with confidence.
               </p>
               <button
                 type="button"
