@@ -6,20 +6,20 @@ export default function FAQSection() {
   const faqs = useMemo(
     () => [
       {
-        q: 'How do I shortlist properties?',
-        a: 'Tell us your budget, location, and must-haves. We share verified options and schedule site visits.',
+        q: 'What to consider when looking for a property?',
+        a: "Consider your budget, the purchase's purpose, the property's requirements, the location, and a renowned agent/broker.",
       },
       {
-        q: 'Do you help with documentation?',
-        a: 'Yes. We support you with agreements, verification, and the complete closing process.',
+        q: 'Do agents only help with sightseeing or documentation, too?',
+        a: 'As experienced agents, we offer end-to-end solutions, helping you from finding the property to signing the property registry.',
       },
       {
-        q: 'Can I get rental assistance?',
-        a: 'Absolutely. We help with viewing, negotiation, agreement, and tenant onboarding.',
+        q: 'Can you help in finding agricultural land?',
+        a: 'Yes, we have years of experience in dealing with agricultural land acquisition.',
       },
       {
-        q: 'Is there any brokerage transparency?',
-        a: 'We keep pricing transparent with clear service scope and no hidden charges.',
+        q: 'How much do agents charge?',
+        a: "The agent's commission depends on various factors involved in the deal. Connect with us, and we will guide you through our transparent and fair pricing policy.",
       },
     ],
     [],
@@ -33,9 +33,9 @@ export default function FAQSection() {
       <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
         <div className="space-y-6">
           <div>
-            <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Your common questions answered</div>
+            <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">We can address all your doubts and queries precisely.</div>
             <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-              Frequently asked questions
+              FAQS:
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-600">
               Here are quick answers to the most common questions about buying, renting, and selling.

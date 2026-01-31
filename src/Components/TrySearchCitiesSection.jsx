@@ -21,6 +21,8 @@ const ICONS_DARK = {
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="16" height="18" rx="2"/><path d="M9 10h10M9 14h10M9 18h10M13 7v14M17 7v14"/></svg>',
   villa:
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11l8-6 8 6"/><rect x="8" y="11" width="12" height="10" rx="2"/><path d="M14 15v6"/></svg>',
+  farmhouse:
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13l8-6 8 6"/><path d="M8 12v10h12V12"/><path d="M13 22v-6h2v6"/><path d="M22 22c-3 0-4-1.2-4-3s1-3 4-3"/><path d="M18 18h3"/></svg>',
   studio:
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="8" width="14" height="12" rx="2"/><path d="M14 12a3 3 0 013 3v5M14 12a3 3 0 00-3 3v5"/></svg>',
   office:
@@ -29,24 +31,29 @@ const ICONS_DARK = {
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12l4-3 4 3M14 12l4-3 4 3"/><rect x="5" y="12" width="8" height="8" rx="1.5"/><rect x="15" y="12" width="8" height="8" rx="1.5"/><path d="M9 16v4M19 16v4"/></svg>',
   commercial:
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="10" width="16" height="8" rx="2"/><path d="M6 10h16M9 18v4M19 18v4"/></svg>',
+  agriculture:
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 23V13"/><path d="M14 13c-5 0-7-4-7-8 4 0 8 2 8 7"/><path d="M14 13c5 0 7-4 7-8-4 0-8 2-8 7"/><path d="M9 23h10"/></svg>',
 }
 
 const ICONS_LIGHT = {
   apartment: ICONS_DARK.apartment.replaceAll('#0f172a', '#ffffff'),
   villa: ICONS_DARK.villa.replaceAll('#0f172a', '#ffffff'),
+  farmhouse: ICONS_DARK.farmhouse.replaceAll('#0f172a', '#ffffff'),
   studio: ICONS_DARK.studio.replaceAll('#0f172a', '#ffffff'),
   office: ICONS_DARK.office.replaceAll('#0f172a', '#ffffff'),
   townhouse: ICONS_DARK.townhouse.replaceAll('#0f172a', '#ffffff'),
   commercial: ICONS_DARK.commercial.replaceAll('#0f172a', '#ffffff'),
+  agriculture: ICONS_DARK.agriculture.replaceAll('#0f172a', '#ffffff'),
 }
 
 const quick = [
   { label: 'Buy', kind: 'apartment', meta: 'Browse' },
+  { label: 'Agriculture', kind: 'agriculture', meta: 'Browse' },
+  { label: 'Commercial', kind: 'commercial', meta: 'Browse' },
   { label: 'Rent', kind: 'villa', meta: 'Browse' },
   { label: 'Resale', kind: 'studio', meta: 'Browse' },
-  { label: 'Commercial', kind: 'commercial', meta: 'Browse' },
   { label: 'Near Me', kind: 'townhouse', meta: 'Browse' },
-  { label: 'Explore', kind: 'office', meta: 'Browse' },
+  { label: 'Farmhouse', kind: 'farmhouse', meta: 'Browse' },
 ]
 
 const cities = [
@@ -159,9 +166,17 @@ export default function TrySearchCitiesSection() {
                       setActiveQuickIndex(idx)
                       const params = new URLSearchParams()
                       if (item.label === 'Buy') params.set('listingType', 'Sale')
+                      else if (item.label === 'Agriculture') {
+                        params.set('listingType', 'Sale')
+                        params.set('propertyType', 'Land')
+                      } else if (item.label === 'Commercial') params.set('propertyType', 'Commercial')
                       else if (item.label === 'Rent') params.set('listingType', 'Rent')
-                      else if (item.label === 'Commercial') params.set('propertyType', 'Commercial')
-                      else params.set('q', item.label)
+                      else if (item.label === 'Resale') {
+                        params.set('listingType', 'Sale')
+                        params.set('status', 'Available')
+                      } else if (item.label === 'Near Me') {
+                        params.set('city', 'Bhopal')
+                      } else if (item.label === 'Farmhouse') params.set('propertyType', 'Farmhouse')
                       navigate({ pathname: '/properties/search', search: `?${params.toString()}` })
                     }}
                     data-quick-card="true"

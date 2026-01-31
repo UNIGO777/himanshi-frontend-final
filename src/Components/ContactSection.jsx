@@ -32,9 +32,9 @@ export default function ContactSection() {
       <div className="grid gap-6 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:grid-cols-2">
         <div>
           <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Get in touch with us</div>
-          <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Contact</h2>
+          <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Enquire now!</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Share your requirements and we’ll reach out quickly with the best matching options.
+            Tell us what you are looking for, and we will find the best possible real estate solution for you.
           </p>
 
           <form onSubmit={onSubmit} className="mt-6 space-y-3">

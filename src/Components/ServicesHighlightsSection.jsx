@@ -11,10 +11,10 @@ export default function ServicesHighlightsSection() {
       <Container>
       <div className="text-center">
         <div className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-          All Your Content, In One Place
+          Everything you need for a smooth deal closure
         </div>
         <p className="mt-2 text-sm font-semibold text-slate-500">
-          Making it an ideal choice for renting a home.
+          Bhopal Land Experts: Seamless Land Deals With No Hassles
         </p>
       </div>
 
@@ -41,7 +41,7 @@ export default function ServicesHighlightsSection() {
                 Property Insurance
               </div>
               <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                Your home is often the largest investment. We ensure you&#39;re covered for the unexpected.
+                We provide coverage for your property to protect your significant investment.
               </p>
             </div>
           </div>
@@ -57,10 +57,10 @@ export default function ServicesHighlightsSection() {
           >
             <div className="text-left">
               <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
-                Lowest Commission
+               Legal support
               </div>
               <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                We offer competitive fees to provide our clients with a premium selling experience.
+               Our team handles all the legalities involved in the documentation of properties
               </p>
             </div>
             <div className="mt-6 flex items-end justify-between gap-6">
@@ -91,9 +91,9 @@ export default function ServicesHighlightsSection() {
             className="relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-3xl bg-gray-900 p-5 text-white sm:p-6"
           >
             <div className="text-left">
-              <div className="text-xl font-extrabold tracking-tight sm:text-2xl">Tax Advantage</div>
+              <div className="text-xl font-extrabold tracking-tight sm:text-2xl">Transparent pricing</div>
               <p className="mt-3 text-sm leading-relaxed text-white/85">
-                We stand by the buyer, so we advise you and your home buying costs so we can give you the solution.
+               From brokerage to commission, we believe in communicating everything clearly.
               </p>
             </div>
 

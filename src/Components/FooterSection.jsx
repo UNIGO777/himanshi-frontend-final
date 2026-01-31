@@ -15,7 +15,7 @@ export default function FooterSection() {
               </div>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-white/70">
-              Verified listings, expert advice, and transparent service to help you buy, sell, or rent with confidence.
+             Buy, sell, or rent, as we offer you transformative experiences through a strong local network of real estate experts.
             </p>
           </div>
 

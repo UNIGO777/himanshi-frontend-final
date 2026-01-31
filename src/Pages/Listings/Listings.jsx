@@ -252,6 +252,7 @@ export default function Listings() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [isFiltersOpen, setIsFiltersOpen] = useState(false)
+  const [isRentNoticeOpen, setIsRentNoticeOpen] = useState(false)
 
   useEffect(() => {
     let isMounted = true
@@ -289,6 +290,13 @@ export default function Listings() {
       setIsFiltersOpen(hasMeaningfulFilter(nextFilters))
       setIsLoading(true)
       setError('')
+      if (nextFilters.listingType === 'Rent') {
+        const key = 'hp_rent_notice_shown'
+        if (!sessionStorage.getItem(key)) {
+          sessionStorage.setItem(key, '1')
+          setIsRentNoticeOpen(true)
+        }
+      }
     })
 
     const { page, limit } = nextFilters
@@ -409,6 +417,37 @@ export default function Listings() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
+      {isRentNoticeOpen && (
+        <div className="fixed inset-0 z-50 bg-black/40 px-4 py-8">
+          <div className="mx-auto w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-xl">
+            <div className="p-6">
+              <div className="text-lg font-extrabold tracking-tight text-slate-900">Rent listings notice</div>
+              <div className="mt-2 text-sm font-semibold text-slate-600">
+                Rent listings are currently available only for Bhopal.
+              </div>
+              <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-end">
+                <button
+                  type="button"
+                  onClick={() => setIsRentNoticeOpen(false)}
+                  className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-extrabold text-slate-800"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsRentNoticeOpen(false)
+                    navigate(buildSearchUrl({ ...filters, city: 'Bhopal', listingType: 'Rent', page: DEFAULT_PAGE }))
+                  }}
+                  className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-extrabold text-white"
+                >
+                  View Bhopal rentals
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <main className="py-10">
         <Container>
         <div className="flex flex-wrap items-end justify-between gap-4">
@@ -526,6 +565,7 @@ export default function Listings() {
                     <option value="">Any</option>
                     <option value="Apartment">Apartment</option>
                     <option value="Villa">Villa</option>
+                    <option value="Farmhouse">Farmhouse</option>
                     <option value="Plot">Plot</option>
                     <option value="Land">Land</option>
                     <option value="Commercial">Commercial</option>

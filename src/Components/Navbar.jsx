@@ -119,13 +119,13 @@ export default function Navbar() {
         </div>
       )}
 
-      <Container className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 py-4">
+      <Container className="flex items-center justify-between gap-3 py-4 px-4 sm:px-6 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
         <div className="flex items-center gap-3 justify-self-start">
           <Link to="/" className="flex items-center gap-3">
             <div className="grid h-10 w-10 place-items-center rounded-full bg-slate-900 text-sm font-semibold text-white">
               HP
             </div>
-            <div className="leading-tight">
+            <div className="hidden leading-tight sm:block">
               <div className="text-sm font-semibold text-slate-900">Himanshi</div>
               <div className="text-xs text-slate-600">Properties</div>
             </div>

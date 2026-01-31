@@ -33,13 +33,12 @@ export default function TeamConnectSection() {
       <Container>
       <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
         <div>
-          <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Connect with our team</div>
+          <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Meet our team</div>
           <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-            Talk to an expert today
+            Let your property discussions begin!
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Get tailored recommendations, schedule visits, and make confident decisions with support from our
-            experts.
+           Talk with our experts, get honest advice and schedule your property visits to lock your dream property.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">

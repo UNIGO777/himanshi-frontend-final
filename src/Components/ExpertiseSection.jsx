@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import Container from './Container'
 
 const expertise = [
-  { title: 'Local Insights', description: 'Know the best areas to invest and live.', icon: FiMapPin },
-  { title: 'Verified Listings', description: 'Quality checks for clear decision making.', icon: FiHome },
-  { title: 'Rental Support', description: 'From viewing to agreement, end-to-end help.', icon: FiKey },
-  { title: 'Market Trends', description: 'Smart pricing guidance backed by data.', icon: FiBarChart2 },
+  { title: 'Local expertise', description: 'Decades of experience in Bhopal help us guide you to the right property.', icon: FiMapPin },
+  { title: 'Verified results', description: 'All properties are carefully vetted before being listed.', icon: FiHome },
+  { title: 'End-to-end support', description: 'From viewing to closing deals, we are by your side.', icon: FiKey },
+  { title: 'Market Trends', description: 'Our agents closely track market trends to help you invest wisely.', icon: FiBarChart2 },
 ]
 
 export default function ExpertiseSection() {
@@ -20,7 +20,7 @@ export default function ExpertiseSection() {
           <div>
             <div className="text-xl font-extrabold tracking-tight text-white sm:text-2xl">Expertise</div>
             <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
-              Make confident property decisions
+              Making property decisions easier
             </h2>
           </div>
           <button

@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FiMapPin, FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { getProperties } from '../api/properties'
+import sunrise from '../assets/photo-1707497009301-78bed8b1a51d.avif'
 import Container from './Container'
 
 function slugifySegment(value) {
@@ -41,15 +42,6 @@ function getCityFromProperty(p) {
 }
 
 export default function HeroSection() {
-  const sources = useMemo(
-    () => [
-      'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2400&q=80',
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=80',
-      'https://picsum.photos/2400/1400?random=12',
-    ],
-    [],
-  )
-  const [srcIndex, setSrcIndex] = useState(0)
   const [city, setCity] = useState('')
   const [cities, setCities] = useState([])
   const [keyword, setKeyword] = useState('')
@@ -128,11 +120,10 @@ export default function HeroSection() {
             Top-notch real estate platform
           </div>
           <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
-            Find Your Dream Property with Himanshi Properties.
+            Turning Real Estate Dreams into Realities!
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-700 sm:text-base">
-            Explore curated homes, plots, and commercial spaces. Compare, shortlist, and connect with experts
-            in one place.
+            Look and book the perfect agricultural and residential properties across Bhopal with Himanshi Properties.
           </p>
         </motion.div>
 
@@ -216,11 +207,9 @@ export default function HeroSection() {
       <div className="absolute inset-x-0 bottom-0 h-56 sm:h-72 lg:h-80">
         <img
           className="h-full w-full object-cover"
-          src={sources[srcIndex]}
-          alt="Landscape"
+          src={sunrise}
+          alt="Sunrise"
           loading="lazy"
-          referrerPolicy="no-referrer"
-          onError={() => setSrcIndex((i) => (i + 1 < sources.length ? i + 1 : i))}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-[#f4f1ea]" />
       </div>

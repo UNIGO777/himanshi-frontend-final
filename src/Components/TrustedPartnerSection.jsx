@@ -18,11 +18,11 @@ export default function TrustedPartnerSection() {
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div>
             <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-              Your Trusted
+              Built on trust,
               <br />
-              Partner in Elite
+              transparency
               <br />
-              Property Brokerage
+              and experience
             </h2>
 
             <motion.div
@@ -62,11 +62,10 @@ export default function TrustedPartnerSection() {
               className="rounded-3xl bg-slate-900 p-6 text-white sm:p-7"
             >
               <div className="text-lg font-extrabold sm:text-xl">
-                Showcasing Premium Properties to Discriminating Buyers Globally
+                Hot-Selling Real Estate Plots And Projects Handpicked For You
               </div>
               <p className="mt-3 text-sm leading-relaxed text-white/75">
-                Browse verified listings with clear photos, location details, and pricing. From shortlisting to site visits
-                and documentation support, we help you close with confidence.
+                From helping you explore different properties to registering the land, Himanshi Properties does it all with you to make the experience smooth. With 23 years of experience, our primary focus is YOU and YOUR VISION.
               </p>
               <button
                 type="button"

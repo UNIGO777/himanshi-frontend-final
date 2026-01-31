@@ -6,34 +6,34 @@ import Container from './Container'
 
 const testimonials = [
   {
-    name: 'Priya Sharma',
+    name: 'Sanjay Tyagi',
     role: 'Home Buyer',
-    text: 'Smooth experience from shortlisting to final paperwork. The team shared verified options and helped negotiate the best deal.',
-    handle: '@priya_sharma',
+    text: 'Super easy team to work with. Got me the best deal for my dream home at a fair price, and that too at a good location.',
+    handle: 'Rajgarh',
   },
   {
-    name: 'Rahul Verma',
-    role: 'Investor',
-    text: 'Great market insights and honest advice. The process was transparent and quick, and the property checks saved a lot of time.',
-    handle: '@rahulverma',
+    name: 'Happy Client',
+    role: 'Client',
+    text: 'Gave me honest advice about the market from the beginning. Truly, the customer is their priority, not profit. Had a fantastic time with the team.',
+    handle: '',
   },
   {
-    name: 'Neha Singh',
-    role: 'Tenant',
-    text: 'Fast rental support and excellent coordination for site visits. Everything was handled professionally and on time.',
-    handle: '@nehasingh',
+    name: 'Suransh Mehra',
+    role: 'Buyer',
+    text: 'Provided comprehensive site visits every time. Their team understands that property buying can be frustrating, so they are very patient.',
+    handle: 'Raisen',
   },
   {
-    name: 'Aman Gupta',
-    role: 'Home Seller',
-    text: 'Strong marketing and quick follow-ups. The team helped shortlist genuine buyers and handled the documentation smoothly.',
-    handle: '@amangupta',
+    name: 'Mrs Sulekha Jain',
+    role: 'Buyer',
+    text: 'Honest and reliable team! Can count on them for any property in Bhopal now after my last experience with them.',
+    handle: 'Kolar',
   },
   {
-    name: 'Sneha Iyer',
-    role: 'First-time Buyer',
-    text: 'Clear guidance at every step. From loan support to final registration, everything was explained in simple terms.',
-    handle: '@snehaiyer',
+    name: 'Adesh Raina',
+    role: 'Agri Business',
+    text: 'They made the stressful journey of buying property for my agri business very smooth. Hands down the perfect team of agents!',
+    handle: 'Berasia',
   },
 ]
 
