@@ -12,6 +12,7 @@ import Services from './Pages/Services/Services'
 import Listings from './Pages/Listings/Listings'
 import { AuthProvider } from './context/AuthProvider'
 import useAuth from './hooks/useAuth'
+import WhatsAppFloatingButton from './Components/WhatsAppFloatingButton'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/property/:propertyId" element={<PropertyDetails />} />
             <Route path="*" element={<FallbackRoute />} />
           </Routes>
+          <WhatsAppFloatingButton />
         </BrowserRouter>
       </WishlistProvider>
     </AuthProvider>

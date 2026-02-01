@@ -22,7 +22,7 @@ export default function Navbar() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 bg-brand-50 md:bg-brand-50/80 md:backdrop-blur">
+    <header className="sticky top-0 z-50 md:backdrop-blur">
       {isMenuOpen && (
         <div
           className="fixed inset-0 z-50 bg-black/40 md:hidden"
@@ -32,19 +32,19 @@ export default function Navbar() {
           aria-label="Close menu"
         >
           <div
-            className="h-full w-[300px] max-w-[85vw] bg-brand-50 shadow-xl"
+            className="h-full w-[300px] max-w-[85vw]  bg-brand-50 shadow-xl"
             onClick={(e) => e.stopPropagation()}
             role="presentation"
           >
             <div className="flex items-center justify-between">
               <Link to="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
-                <div className="flex h-16 w-64 shrink-0 items-center justify-start overflow-hidden">
+                <div className="flex h-14 w-56 shrink-0 items-center justify-start overflow-hidden">
                   <img src={logo} alt="Himanshi Properties" className="h-full w-auto object-contain" loading="lazy" />
                 </div>
               </Link>
               <button
                 type="button"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-900/10 bg-white text-slate-900"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-2xl border border-slate-900/10 bg-white text-slate-900"
                 aria-label="Close menu"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -52,7 +52,7 @@ export default function Navbar() {
               </button>
             </div>
 
-            <nav className="px-3 py-4">
+            <nav className="px-3 py-3">
               <div className="grid gap-1">
                 {navItems.map((item) => {
                   const isActive = location.pathname === item.to
@@ -61,7 +61,7 @@ export default function Navbar() {
                       key={item.to}
                       to={item.to}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`rounded-2xl px-4 py-3 text-sm font-semibold ${
+                      className={`rounded-2xl px-3 py-2.5 text-sm font-semibold ${
                         isActive ? 'bg-white text-slate-900' : 'text-slate-800 hover:bg-white'
                       }`}
                     >
@@ -77,14 +77,14 @@ export default function Navbar() {
                     <Link
                       to="/login"
                       onClick={() => setIsMenuOpen(false)}
-                      className="rounded-2xl border border-slate-900/10 bg-white px-4 py-3 text-sm font-semibold text-slate-900"
+                      className="rounded-2xl border border-slate-900/10 bg-white px-3 py-2.5 text-sm font-semibold text-slate-900"
                     >
                       Login
                     </Link>
                     <Link
                       to="/signup"
                       onClick={() => setIsMenuOpen(false)}
-                      className="rounded-2xl bg-brand-900 px-4 py-3 text-sm font-semibold text-white"
+                      className="rounded-2xl bg-brand-900 px-3 py-2.5 text-sm font-semibold text-white"
                     >
                       Sign up
                     </Link>
@@ -94,7 +94,7 @@ export default function Navbar() {
                     <Link
                       to="/profile"
                       onClick={() => setIsMenuOpen(false)}
-                      className="rounded-2xl border border-slate-900/10 bg-white px-4 py-3 text-sm font-semibold text-slate-900"
+                      className="rounded-2xl border border-slate-900/10 bg-white px-3 py-2.5 text-sm font-semibold text-slate-900"
                     >
                       Account
                     </Link>
@@ -105,7 +105,7 @@ export default function Navbar() {
                         logout()
                         navigate('/')
                       }}
-                      className="flex items-center gap-2 rounded-2xl border border-slate-900/10 bg-white px-4 py-3 text-sm font-semibold text-slate-900"
+                      className="flex items-center gap-2 rounded-2xl border border-slate-900/10 bg-white px-3 py-2.5 text-sm font-semibold text-slate-900"
                     >
                       <FiLogOut />
                       Logout
@@ -118,23 +118,23 @@ export default function Navbar() {
         </div>
       )}
 
-      <Container className="flex items-center justify-start gap-3 py-4 px-4 pr-4 sm:px-6 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
-        <div className="flex items-center gap-3 justify-self-start">
+      <Container className="flex items-center justify-start gap-2 px-3 py-3 pr-3 sm:px-4 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
+        <div className="flex items-center gap-2 justify-self-start">
           <Link to="/" className="flex items-center">
-            <div className="flex h-16 w-52 shrink-0 items-center justify-start overflow-hidden sm:h-20 sm:w-[340px]">
+            <div className="flex h-12 w-44 shrink-0 items-center justify-start overflow-hidden sm:h-16 sm:w-64">
               <img src={logo} alt="Himanshi Properties" className="h-full w-auto object-contain" loading="lazy" />
             </div>
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-1 justify-self-center rounded-full border border-slate-900/10 bg-white/70 p-1 text-sm font-semibold text-slate-700 md:flex">
+        <nav className="hidden items-center gap-1 justify-self-center rounded-full border border-slate-900/10 bg-white/70 p-0.5 text-sm font-semibold text-slate-700 md:flex">
           {navItems.map((item) => {
             const isActive = location.pathname === item.to
             return (
               <Link
                 key={item.to}
                 to={item.to}
-                className={`rounded-full px-4 py-2 ${isActive ? 'text-slate-900' : 'hover:bg-white/70'}`}
+                className={`rounded-full px-3 py-1.5  ${isActive ? ' bg-brand-900 text-white' : 'hover:bg-brand-900 text-black hover:text-white'} `}
               >
                 {item.label}
               </Link>
@@ -147,13 +147,13 @@ export default function Navbar() {
             <>
               <Link
                 to="/login"
-                className="hidden rounded-full border border-slate-900/10 bg-white/70 px-4 py-2 text-sm font-semibold text-slate-800 sm:inline-flex"
+                className="hidden rounded-full border border-slate-900/10 bg-white/70 px-3 py-1.5 text-sm font-semibold text-slate-800 sm:inline-flex"
               >
                 Login
               </Link>
               <Link
                 to="/signup"
-                className="hidden rounded-full bg-brand-900 px-4 py-2 text-sm font-semibold text-white sm:inline-flex"
+                className="hidden rounded-full bg-brand-900 px-3 py-1.5 text-sm font-semibold text-white sm:inline-flex"
               >
                 Sign up
               </Link>
@@ -165,7 +165,7 @@ export default function Navbar() {
                 logout()
                 navigate('/')
               }}
-              className="hidden items-center gap-2 rounded-full border border-slate-900/10 bg-white/70 px-4 py-2 text-sm font-semibold text-slate-800 sm:inline-flex"
+              className="hidden items-center gap-2 rounded-full border border-slate-900/10 bg-white/70 px-3 py-1.5 text-sm font-semibold text-slate-800 sm:inline-flex"
             >
               <FiLogOut />
               Logout

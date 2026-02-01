@@ -5,17 +5,14 @@ import Container from './Container'
 export default function FooterSection() {
   return (
     <footer className="bg-white text-slate-900">
-      <Container className="py-12">
+      <Container className="py-6 md:py-12">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-3">
-              <div className="grid h-16 w-16 place-items-center overflow-hidden rounded-2xl bg-white p-1">
+              <div className="grid h-20 w-56 place-items-center overflow-hidden rounded-2xl bg-white p-1">
                 <img src={logo} alt="Himanshi Properties" className="h-full w-full object-contain" loading="lazy" />
               </div>
-              <div>
-                <div className="text-sm font-extrabold">Himanshi Properties</div>
-                <div className="text-xs font-semibold text-slate-600">Find your dream property</div>
-              </div>
+              
             </div>
             <p className="mt-4 text-sm leading-relaxed text-slate-600">
              Buy, sell, or rent, as we offer you transformative experiences through a strong local network of real estate experts.

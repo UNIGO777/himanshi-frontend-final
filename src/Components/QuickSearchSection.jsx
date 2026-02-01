@@ -67,11 +67,11 @@ export default function QuickSearchSection() {
   }
 
   return (
-    <section className="py-10">
+    <section className="py-6 md:py-12">
       <Container>
       <div className="flex items-end justify-between gap-6">
         <div>
-          <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Try searching for</div>
+          
           <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
             Popular Categories
           </h2>

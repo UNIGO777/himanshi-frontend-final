@@ -5,6 +5,9 @@ import FooterSection from '../../Components/FooterSection'
 import Container from '../../Components/Container'
 import useAuth from '../../hooks/useAuth'
 
+const AUTH_BG =
+  "https://images.unsplash.com/photo-1728856493580-43ad68cd850b?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+
 export default function Login() {
   const { login, verifyOtp } = useAuth()
   const navigate = useNavigate()
@@ -90,22 +93,34 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-brand-50">
+    <div className="flex min-h-screen flex-col bg-brand-50">
       <Navbar />
-      <main className="py-10">
-        <Container className="grid items-center">
-        <div className="mx-auto w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
-          <div className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Welcome back</div>
-          <div className="mt-2 text-sm font-semibold text-slate-600">Login to manage your wishlist and profile.</div>
+      <main className="relative flex flex-1 items-center justify-center py-10">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url("${AUTH_BG}")` }}
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-50/70 via-slate-950/60 to-brand-50/70" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          <span className="absolute left-[6%] top-[22%] text-2xl font-light text-white/35">+</span>
+          <span className="absolute right-[10%] top-[16%] text-2xl font-light text-white/35">+</span>
+          <span className="absolute left-[16%] top-[54%] text-2xl font-light text-white/30">+</span>
+          <span className="absolute right-[22%] top-[52%] text-2xl font-light text-white/30">+</span>
+        </div>
+        <Container className="relative w-full">
+          <div className="mx-auto w-full max-w-lg rounded-3xl border border-white/25 bg-white/75 p-6 shadow-2xl backdrop-blur sm:p-8">
+            <div className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Welcome back</div>
+            <div className="mt-2 text-sm font-semibold text-slate-600">Login to manage your wishlist and profile.</div>
 
           {!!error && (
-            <div className="mt-5 rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm font-semibold text-orange-800">
+            <div className="mt-5 rounded-2xl border border-orange-200/60 bg-orange-50/80 px-4 py-3 text-sm font-semibold text-orange-900 backdrop-blur">
               {error}
             </div>
           )}
 
           {!!info && (
-            <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700">
+            <div className="mt-5 rounded-2xl border border-slate-200/60 bg-white/60 px-4 py-3 text-sm font-semibold text-slate-800 backdrop-blur">
               {info}
             </div>
           )}
@@ -119,7 +134,7 @@ export default function Login() {
                 type="email"
                 autoComplete="email"
                 disabled={step === 'otp'}
-                className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
+                className="mt-2 w-full rounded-2xl border border-white/20 bg-brand-900/10 px-4 py-3 text-sm font-semibold text-slate-900 outline-none backdrop-blur placeholder:text-slate-600 focus:border-brand-900 focus:ring-2 focus:ring-brand-900/20"
                 placeholder="you@example.com"
                 required
               />
@@ -134,7 +149,7 @@ export default function Login() {
                   type="tel"
                   autoComplete="tel"
                   inputMode="tel"
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
+                  className="mt-2 w-full rounded-2xl border border-white/20 bg-brand-900/10 px-4 py-3 text-sm font-semibold text-slate-900 outline-none backdrop-blur placeholder:text-slate-600 focus:border-brand-900 focus:ring-2 focus:ring-brand-900/20"
                   placeholder="Enter phone number"
                 />
               </div>
@@ -149,14 +164,14 @@ export default function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                     type={showPassword ? 'text' : 'password'}
                     autoComplete="current-password"
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pr-20 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
+                    className="w-full rounded-2xl border border-white/20 bg-brand-900/10 px-4 py-3 pr-20 text-sm font-semibold text-slate-900 outline-none backdrop-blur placeholder:text-slate-600 focus:border-brand-900 focus:ring-2 focus:ring-brand-900/20"
                     placeholder="••••••••"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-slate-100 px-3 py-1 text-xs font-extrabold text-slate-700 hover:bg-slate-200"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-white/70 px-3 py-1 text-xs font-extrabold text-slate-800 backdrop-blur hover:bg-white"
                   >
                     {showPassword ? 'Hide' : 'Show'}
                   </button>
@@ -171,7 +186,7 @@ export default function Login() {
                   type="text"
                   inputMode="numeric"
                   autoComplete="one-time-code"
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
+                  className="mt-2 w-full rounded-2xl border border-white/20 bg-brand-900/10 px-4 py-3 text-sm font-semibold text-slate-900 outline-none backdrop-blur placeholder:text-slate-600 focus:border-brand-900 focus:ring-2 focus:ring-brand-900/20"
                   placeholder="Enter OTP"
                   required
                 />
@@ -191,7 +206,7 @@ export default function Login() {
                 type="button"
                 disabled={isSubmitting || isResending || resendCooldown > 0}
                 onClick={onResendOtp}
-                className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-extrabold text-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-2xl border border-white/25 bg-white/70 px-5 py-3 text-sm font-extrabold text-slate-900 backdrop-blur disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {resendCooldown > 0 ? `Resend OTP (${resendCooldown}s)` : 'Resend OTP'}
               </button>
@@ -208,20 +223,20 @@ export default function Login() {
                   setInfo('')
                   setResendCooldown(0)
                 }}
-                className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-extrabold text-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-2xl border border-white/25 bg-white/70 px-5 py-3 text-sm font-extrabold text-slate-900 backdrop-blur disabled:cursor-not-allowed disabled:opacity-60"
               >
                 Back
               </button>
             )}
           </form>
 
-          <div className="mt-6 text-center text-sm font-semibold text-slate-600">
-            Don&apos;t have an account?{' '}
-            <Link to="/signup" className="font-extrabold text-brand-900">
-              Sign up
-            </Link>
+            <div className="mt-6 text-center text-sm font-semibold text-slate-600">
+              Don&apos;t have an account?{' '}
+              <Link to="/signup" className="font-extrabold text-brand-900">
+                Sign up
+              </Link>
+            </div>
           </div>
-        </div>
         </Container>
       </main>
       <FooterSection />

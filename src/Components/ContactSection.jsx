@@ -27,7 +27,7 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-12">
+    <section id="contact" className="py-6 md:py-12">
       <Container>
       <div className="grid gap-6 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:grid-cols-2">
         <div>
@@ -80,7 +80,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <div className="text-xs text-slate-500">Phone</div>
-                <div className="font-semibold">+91 90000 00000</div>
+                <div className="break-words font-semibold">+91 90000 00000</div>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -89,7 +89,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <div className="text-xs text-slate-500">Email</div>
-                <div className="font-semibold">hello@himanshiproperties.com</div>
+                <div className="break-words font-semibold">hello@himanshiproperties.com</div>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -98,7 +98,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <div className="text-xs text-slate-500">Office</div>
-                <div className="font-semibold">Your City, India</div>
+                <div className="break-words font-semibold">Your City, India</div>
               </div>
             </div>
           </div>

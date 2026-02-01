@@ -14,7 +14,7 @@ export default function ExpertiseSection() {
   const navigate = useNavigate()
 
   return (
-    <section className="bg-brand-950 py-12">
+    <section className="bg-brand-900 py-12">
       <Container>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>

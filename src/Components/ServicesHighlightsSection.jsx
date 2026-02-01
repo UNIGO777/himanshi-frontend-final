@@ -63,7 +63,7 @@ export default function ServicesHighlightsSection() {
                Our team handles all the legalities involved in the documentation of properties
               </p>
             </div>
-            <div className="mt-6 flex items-end justify-between gap-6">
+            <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <button
                 type="button"
                 onClick={() => navigate('/services')}
@@ -97,7 +97,7 @@ export default function ServicesHighlightsSection() {
               </p>
             </div>
 
-            <div className="mt-6 flex items-end justify-between gap-6">
+            <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <img
                 className="h-24 w-40 object-cover opacity-95 sm:h-28 sm:w-48"
                 src="https://images.unsplash.com/photo-1706543441691-431be00ed3da?auto=format&fit=crop&w=1200&q=80"

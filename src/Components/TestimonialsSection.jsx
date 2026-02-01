@@ -80,7 +80,7 @@ export default function TestimonialsSection() {
     <section className="py-10">
       <Container>
       <div className="text-center">
-        <div className="text-xs font-semibold tracking-wide text-slate-500">Testimonial</div>
+        
         <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
           Transformative Client Experiences
         </h2>
@@ -99,7 +99,7 @@ export default function TestimonialsSection() {
               viewport={{ once: true, amount: 0.25 }}
               transition={{ duration: 0.35, delay: idx * 0.04 }}
               data-testimonial-card="true"
-              className="shrink-0 snap-start rounded-3xl border border-slate-200 bg-white p-6 w-[78%] sm:w-[46%] lg:w-[32%]"
+              className="shrink-0 snap-start w-full rounded-3xl border border-slate-200 bg-white p-6 sm:w-[46%] lg:w-[32%]"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="grid h-12 w-12 place-items-center rounded-2xl bg-slate-100 text-slate-400">
@@ -120,8 +120,10 @@ export default function TestimonialsSection() {
                       referrerPolicy="no-referrer"
                     />
                   </div>
-                  <div className="text-sm font-extrabold text-slate-900">{t.name}</div>
-                  <div className="text-xs font-semibold text-slate-500">{t.handle}</div>
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-extrabold text-slate-900">{t.name}</div>
+                    {t.handle ? <div className="truncate text-xs font-semibold text-slate-500">{t.handle}</div> : null}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -129,7 +131,7 @@ export default function TestimonialsSection() {
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-between gap-4">
+      <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="button"
           onClick={() => navigate('/properties/search')}
@@ -154,7 +156,7 @@ export default function TestimonialsSection() {
           })}
         </div>
 
-        <div className="flex items-center gap-3 text-slate-900">
+        <div className="flex items-center justify-end gap-3 text-slate-900">
           <button type="button" aria-label="Reset" onClick={() => scrollToIndex(0)} className="text-xl">
             <FiRefreshCw />
           </button>

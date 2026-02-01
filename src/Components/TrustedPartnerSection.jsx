@@ -14,19 +14,19 @@ export default function TrustedPartnerSection() {
   return (
     <section className="py-10">
       <Container>
-      <div className="rounded-3xl bg-brand-100 p-6 sm:p-8">
+      <div className="rounded-3xl bg-brand-100 py-6 sm:py-8">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
           <div className="lg:pr-2">
             <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
               Built on trust,
-              <br />
+              
               transparency
               <br />
               and experience
             </h2>
           </div>
 
-          <div className="grid grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-3 sm:gap-6">
             {stats.map((s) => (
               <div key={s.label} className="text-center">
                 <div className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">

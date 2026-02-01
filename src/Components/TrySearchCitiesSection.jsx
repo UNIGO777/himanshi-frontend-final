@@ -120,13 +120,13 @@ export default function TrySearchCitiesSection() {
   }
 
   return (
-    <section className="py-10">
+    <section className="py-6">
       <Container>
       <div className="flex flex-col gap-10">
         <div>
           <div className="flex items-end justify-between gap-6">
             <div>
-              <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Try searching for</div>
+              
               <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
                 Quick filters
               </h2>
@@ -183,7 +183,7 @@ export default function TrySearchCitiesSection() {
                     className={`snap-start rounded-3xl border px-6 py-6 text-center transition-colors hover:border-slate-200 hover:shadow-sm ${
                       isActive
                         ? 'border-brand-900 bg-brand-900 text-white'
-                        : 'border-slate-900/10 bg-white text-slate-900 hover:bg-slate-100'
+                        : 'border-slate-900/10 bg-white text-slate-900 hover:bg-white/40'
                     } shrink-0 w-[210px] sm:w-[240px] lg:w-[19.3%] lg:min-w-0`}
                   >
                     <div className={`mx-auto grid h-14 w-14 place-items-center rounded-3xl ${isActive ? 'bg-white/10' : 'bg-brand-900/5'}`}>
@@ -205,7 +205,7 @@ export default function TrySearchCitiesSection() {
         <div>
           <div className="flex items-end justify-between gap-6">
             <div>
-              <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Cities</div>
+              
               <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
                 Explore top locations
               </h2>
@@ -244,12 +244,12 @@ export default function TrySearchCitiesSection() {
                     params.set('city', c.name)
                     navigate({ pathname: `/properties-in-${slugifySegment(c.name)}`, search: `?${params.toString()}` })
                   }}
-                  className="snap-start relative shrink-0 w-[240px] overflow-hidden rounded-3xl border border-slate-900/10 bg-white/70 transition-shadow hover:shadow-sm sm:w-[300px] lg:w-[19.3%] lg:min-w-0"
+                  className="snap-start relative shrink-0 w-full overflow-hidden rounded-3xl border border-slate-900/10 bg-white/70 transition-shadow hover:shadow-sm sm:w-[300px] lg:w-[19.3%] lg:min-w-0"
                 >
                   <img
                     src={c.image}
                     alt={c.name}
-                    className="h-40 w-full object-cover sm:h-44"
+                    className="h-52 w-full object-cover sm:h-44"
                     loading="lazy"
                     referrerPolicy="no-referrer"
                   />

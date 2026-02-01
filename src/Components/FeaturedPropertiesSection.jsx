@@ -86,16 +86,19 @@ function PropertyCard({ property }) {
 export default function FeaturedPropertiesSection({ properties }) {
   const list = Array.isArray(properties) && properties.length > 0 ? properties.slice(0, 6) : []
   return (
-    <section className="py-10">
+    <section className="">
       <Container>
-      <div className="flex items-end justify-between gap-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Recommended for you</div>
+          
           <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
             Find Your Dream Property
           </h2>
         </div>
-        <Link to="/properties/search" className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+        <Link
+          to="/properties/search"
+          className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-center text-sm font-semibold text-slate-700 sm:w-auto hidden md:block"
+        >
           See more
         </Link>
       </div>
@@ -119,6 +122,8 @@ export default function FeaturedPropertiesSection({ properties }) {
           ))}
         </div>
       )}
+
+     
       </Container>
     </section>
   )
