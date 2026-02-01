@@ -233,6 +233,35 @@ export async function createPropertyQuery({ propertyId, message, token }) {
   })
 }
 
+export async function createSellPropertyRequest({
+  ownerName,
+  ownerPhone,
+  ownerEmail,
+  title,
+  description,
+  expectedPrice,
+  city,
+  state,
+  images,
+  videoUrl,
+} = {}) {
+  return apiRequest('/api/sell-requests', {
+    method: 'POST',
+    body: {
+      ownerName,
+      ownerPhone,
+      ownerEmail,
+      title,
+      description,
+      expectedPrice,
+      city,
+      state,
+      images,
+      videoUrl,
+    },
+  })
+}
+
 export async function getPropertyQueries({ propertyId, token }) {
   const id = normalizeId(propertyId)
   return apiRequest(`/api/properties/${encodeURIComponent(id)}/queries`, { method: 'GET', token })

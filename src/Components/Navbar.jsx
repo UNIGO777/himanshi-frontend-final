@@ -5,6 +5,7 @@ import useWishlist from '../hooks/useWishlist'
 import useAuth from '../hooks/useAuth'
 import logo from '../assets/logo_himashi_properties-removebg-preview (1).png'
 import Container from './Container'
+import { SellPropertyModalTrigger } from './SellPropertyModal'
 
 export default function Navbar() {
   const { items } = useWishlist()
@@ -54,6 +55,20 @@ export default function Navbar() {
 
             <nav className="px-3 py-3">
               <div className="grid gap-1">
+                <SellPropertyModalTrigger>
+                  {({ open }) => (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMenuOpen(false)
+                        open()
+                      }}
+                      className="rounded-2xl bg-brand-900 px-3 py-2.5 text-left text-sm font-semibold text-white"
+                    >
+                      Sell my property
+                    </button>
+                  )}
+                </SellPropertyModalTrigger>
                 {navItems.map((item) => {
                   const isActive = location.pathname === item.to
                   return (
@@ -143,6 +158,17 @@ export default function Navbar() {
         </nav>
 
         <div className="ml-auto flex items-center justify-self-end gap-2">
+          <SellPropertyModalTrigger>
+            {({ open }) => (
+              <button
+                type="button"
+                onClick={open}
+                className="hidden rounded-full bg-brand-900 px-3 py-1.5 text-sm font-semibold text-white sm:inline-flex"
+              >
+                Sell my property
+              </button>
+            )}
+          </SellPropertyModalTrigger>
           {!isAuthenticated ? (
             <>
               <Link

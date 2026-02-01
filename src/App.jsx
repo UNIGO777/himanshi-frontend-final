@@ -13,29 +13,39 @@ import Listings from './Pages/Listings/Listings'
 import { AuthProvider } from './context/AuthProvider'
 import useAuth from './hooks/useAuth'
 import WhatsAppFloatingButton from './Components/WhatsAppFloatingButton'
+import { SellPropertyModalProvider } from './Components/SellPropertyModal'
 
 function App() {
   return (
     <AuthProvider>
       <WishlistProvider>
         <BrowserRouter>
-          <ScrollToHash />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/listings" element={<Navigate to="/properties" replace />} />
-            <Route path="/properties" element={<Listings />} />
-            <Route path="/properties/search" element={<Listings />} />
-            <Route path="/properties-in/:citySlug" element={<Listings />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/property/:propertyId" element={<PropertyDetails />} />
-            <Route path="*" element={<FallbackRoute />} />
-          </Routes>
-          <WhatsAppFloatingButton />
+          <SellPropertyModalProvider>
+            <ScrollToHash />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/listings" element={<Navigate to="/properties" replace />} />
+              <Route path="/properties" element={<Listings />} />
+              <Route path="/properties/search" element={<Listings />} />
+              <Route path="/properties-in/:citySlug" element={<Listings />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route
+                path="/profile"
+                element={
+                  <RequireAuth>
+                    <Profile />
+                  </RequireAuth>
+                }
+              />
+              <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/property/:propertyId" element={<PropertyDetails />} />
+              <Route path="*" element={<FallbackRoute />} />
+            </Routes>
+            <WhatsAppFloatingButton />
+          </SellPropertyModalProvider>
         </BrowserRouter>
       </WishlistProvider>
     </AuthProvider>
