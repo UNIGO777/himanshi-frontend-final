@@ -61,7 +61,7 @@ export default function Profile() {
             className="rounded-3xl border border-slate-200 bg-white p-6 lg:col-span-4 xl:col-span-3"
           >
             <div className="flex items-center gap-4">
-              <div className="grid h-16 w-16 place-items-center rounded-3xl bg-slate-900 text-white">
+              <div className="grid h-16 w-16 place-items-center rounded-3xl bg-brand-900 text-white">
                 <FiUser className="text-2xl" />
               </div>
               <div className="min-w-0">
@@ -149,7 +149,7 @@ export default function Profile() {
               <button
                 type="button"
                 onClick={onSave}
-                className="mt-4 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white"
+                className="mt-4 rounded-2xl bg-brand-900 px-5 py-3 text-sm font-semibold text-white"
               >
                 Save changes
               </button>
@@ -160,7 +160,7 @@ export default function Profile() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className="rounded-3xl bg-slate-950 p-6 text-white"
+              className="rounded-3xl bg-brand-950 p-6 text-white"
             >
               <div className="text-lg font-extrabold">Your activity</div>
               <div className="mt-3 grid gap-3 sm:grid-cols-3">

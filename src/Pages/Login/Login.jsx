@@ -90,7 +90,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-brand-50">
       <Navbar />
       <main className="py-10">
         <Container className="grid items-center">
@@ -99,7 +99,7 @@ export default function Login() {
           <div className="mt-2 text-sm font-semibold text-slate-600">Login to manage your wishlist and profile.</div>
 
           {!!error && (
-            <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
+            <div className="mt-5 rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm font-semibold text-orange-800">
               {error}
             </div>
           )}
@@ -119,7 +119,7 @@ export default function Login() {
                 type="email"
                 autoComplete="email"
                 disabled={step === 'otp'}
-                className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-slate-900"
+                className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
                 placeholder="you@example.com"
                 required
               />
@@ -134,7 +134,7 @@ export default function Login() {
                   type="tel"
                   autoComplete="tel"
                   inputMode="tel"
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-slate-900"
+                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
                   placeholder="Enter phone number"
                 />
               </div>
@@ -149,7 +149,7 @@ export default function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                     type={showPassword ? 'text' : 'password'}
                     autoComplete="current-password"
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pr-20 text-sm font-semibold text-slate-900 outline-none focus:border-slate-900"
+                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pr-20 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
                     placeholder="••••••••"
                     required
                   />
@@ -171,7 +171,7 @@ export default function Login() {
                   type="text"
                   inputMode="numeric"
                   autoComplete="one-time-code"
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-slate-900"
+                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
                   placeholder="Enter OTP"
                   required
                 />
@@ -181,7 +181,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full rounded-2xl bg-slate-900 px-5 py-3 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-2xl bg-brand-900 px-5 py-3 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-60"
             >
               {step === 'otp' ? 'Verify OTP' : 'Login'}
             </button>
@@ -217,7 +217,7 @@ export default function Login() {
 
           <div className="mt-6 text-center text-sm font-semibold text-slate-600">
             Don&apos;t have an account?{' '}
-            <Link to="/signup" className="font-extrabold text-slate-900">
+            <Link to="/signup" className="font-extrabold text-brand-900">
               Sign up
             </Link>
           </div>

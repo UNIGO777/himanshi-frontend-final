@@ -92,7 +92,7 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-[#f4f1ea]">
+    <section className="relative overflow-hidden bg-brand-50">
       <div className="pointer-events-none absolute inset-0">
         <span className="absolute left-[6%] top-[22%] text-2xl font-light text-slate-900/25">
           +
@@ -116,7 +116,7 @@ export default function HeroSection() {
           className="mx-auto max-w-3xl text-center"
         >
           <div className="inline-flex items-center gap-2 rounded-full border border-slate-900/10 bg-white/70 px-4 py-2 text-xs font-semibold text-slate-800 backdrop-blur">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            <span className="h-2 w-2 rounded-full bg-brand-500" />
             Top-notch real estate platform
           </div>
           <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
@@ -134,7 +134,7 @@ export default function HeroSection() {
                 <FiMapPin className="text-lg" />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-[11px] font-semibold text-slate-500">Location</div>
+                <div className="text-[11px] font-semibold text-black">Location</div>
                 <select
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
@@ -150,14 +150,14 @@ export default function HeroSection() {
               </div>
             </div>
 
-            <div className="hidden w-px bg-slate-900/10 sm:block" />
+            <div className="hidden w-px bg-brand-900/10 sm:block" />
 
             <div className="flex min-w-0 items-center gap-3 rounded-2xl bg-white px-4 py-3 sm:flex-1 sm:rounded-[22px]">
               <div className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-100 text-slate-900">
                 <FiSearch className="text-lg" />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-[11px] font-semibold text-slate-500">Keyword</div>
+                <div className="text-[11px] font-semibold text-black">Keyword</div>
                 <input
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
@@ -165,16 +165,16 @@ export default function HeroSection() {
                     if (e.key === 'Enter') onSearch()
                   }}
                   placeholder="Search by keyword"
-                  className="mt-0.5 w-full bg-transparent text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400"
+                  className="mt-0.5 w-full bg-transparent text-sm font-semibold text-slate-900 outline-none placeholder:text-black"
                 />
               </div>
             </div>
 
-            <div className="hidden w-px bg-slate-900/10 sm:block" />
+            <div className="hidden w-px bg-brand-900/10 sm:block" />
 
             <div className="flex min-w-0 items-center gap-3 rounded-2xl bg-white px-4 py-3 sm:flex-1 sm:rounded-[22px]">
               <div className="min-w-0 flex-1">
-                <div className="text-[11px] font-semibold text-slate-500">Price Range</div>
+                <div className="text-[11px] font-semibold text-black">Price Range</div>
                 <select
                   value={priceRange}
                   onChange={(e) => setPriceRange(e.target.value)}
@@ -194,7 +194,7 @@ export default function HeroSection() {
                 type="button"
                 aria-label="Search"
                 onClick={onSearch}
-                className="grid h-12 w-full place-items-center rounded-2xl bg-slate-900 text-white sm:w-12 sm:rounded-full"
+                className="grid h-12 w-full place-items-center rounded-2xl bg-brand-900 text-white sm:w-12 sm:rounded-full"
               >
                 <FiSearch className="text-lg" />
               </button>
@@ -211,7 +211,7 @@ export default function HeroSection() {
           alt="Sunrise"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-[#f4f1ea]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-brand-50" />
       </div>
     </section>
   )

@@ -27,11 +27,11 @@ export default function ServicesHighlightsSection() {
           className="overflow-hidden rounded-3xl border border-slate-900/10 bg-white/80"
         >
           <div className="grid items-center gap-6 p-5 sm:p-6 md:grid-cols-2">
-            <div className="overflow-hidden rounded-3xl bg-slate-900/5">
+            <div className="overflow-hidden rounded-3xl bg-brand-900/5">
               <img
                 className="h-48 w-full object-cover sm:h-56"
-                src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1400&q=80"
-                alt="Property insurance"
+                src="https://images.unsplash.com/photo-1758210784345-96fc36926234?auto=format&fit=crop&w=1400&q=80"
+                alt="Modern residential building in Gurugram, India"
                 loading="lazy"
                 referrerPolicy="no-referrer"
               />
@@ -74,8 +74,8 @@ export default function ServicesHighlightsSection() {
               </button>
               <img
                 className="h-24 w-28 object-contain opacity-90 sm:h-28 sm:w-32"
-                src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=900&q=80"
-                alt=""
+                src="https://images.unsplash.com/photo-1735547876935-7be80eae1c88?auto=format&fit=crop&w=900&q=80"
+                alt="House keys"
                 aria-hidden="true"
                 loading="lazy"
                 referrerPolicy="no-referrer"
@@ -88,7 +88,7 @@ export default function ServicesHighlightsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-3xl bg-gray-900 p-5 text-white sm:p-6"
+            className="relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-3xl bg-brand-900 p-5 text-white sm:p-6"
           >
             <div className="text-left">
               <div className="text-xl font-extrabold tracking-tight sm:text-2xl">Transparent pricing</div>
@@ -100,8 +100,8 @@ export default function ServicesHighlightsSection() {
             <div className="mt-6 flex items-end justify-between gap-6">
               <img
                 className="h-24 w-40 object-cover opacity-95 sm:h-28 sm:w-48"
-                src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80"
-                alt=""
+                src="https://images.unsplash.com/photo-1706543441691-431be00ed3da?auto=format&fit=crop&w=1200&q=80"
+                alt="Residential township skyline in Mumbai, India"
                 aria-hidden="true"
                 loading="lazy"
                 referrerPolicy="no-referrer"

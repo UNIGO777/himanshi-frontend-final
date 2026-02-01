@@ -70,12 +70,12 @@ const cities = [
   {
     name: 'Pune',
     image:
-      'https://images.unsplash.com/photo-1553064483-f10fe837615f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHB1bmV8ZW58MHx8MHx8fDA%3D',
+      'https://images.unsplash.com/photo-1591898194689-9fad783aa6b6?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=dhruv-maniyar-JoiL5k0xtGQ-unsplash.jpg',
   },
   {
     name: 'Bangalore',
     image:
-      'https://media.istockphoto.com/id/1382384282/photo/bangalore-or-bengaluru.webp?a=1&b=1&s=612x612&w=0&k=20&c=j9jKtYxzHAHjodEQYuVPvQKPAlXvjCzx_TvqLh6BmKM=',
+      'https://images.unsplash.com/photo-1585659726474-c8ad9ebc9f98?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=akshat-agrawal-tQ2XUxG9268-unsplash.jpg',
   },
   {
     name: 'Jaipur',
@@ -85,7 +85,7 @@ const cities = [
   {
     name: 'Noida',
     image:
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1648455288365-ee27a61c95bd?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=shivansh-singh-kR7hIRO0vVc-unsplash.jpg',
   },
 ]
 
@@ -182,11 +182,11 @@ export default function TrySearchCitiesSection() {
                     data-quick-card="true"
                     className={`snap-start rounded-3xl border px-6 py-6 text-center transition-colors hover:border-slate-200 hover:shadow-sm ${
                       isActive
-                        ? 'border-slate-900 bg-slate-900 text-white'
+                        ? 'border-brand-900 bg-brand-900 text-white'
                         : 'border-slate-900/10 bg-white text-slate-900 hover:bg-slate-100'
                     } shrink-0 w-[210px] sm:w-[240px] lg:w-[19.3%] lg:min-w-0`}
                   >
-                    <div className={`mx-auto grid h-14 w-14 place-items-center rounded-3xl ${isActive ? 'bg-white/10' : 'bg-slate-900/5'}`}>
+                    <div className={`mx-auto grid h-14 w-14 place-items-center rounded-3xl ${isActive ? 'bg-white/10' : 'bg-brand-900/5'}`}>
                       <img alt="" className="h-8 w-8" src={svgToDataUri(iconSvg)} aria-hidden="true" />
                     </div>
                     <div className={`mt-4 text-sm font-extrabold ${isActive ? 'text-white' : 'text-slate-900'}`}>

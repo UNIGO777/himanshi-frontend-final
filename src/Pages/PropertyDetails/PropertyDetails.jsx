@@ -10,6 +10,71 @@ import useWishlist from '../../hooks/useWishlist'
 import useAuth from '../../hooks/useAuth'
 import { createPropertyQuery, createPropertyRating, getProperties, getPropertyById, getPropertyQueries, getRelatedProperties } from '../../api/properties'
 
+function upsertMeta({ name, property }, content) {
+  if (typeof document === 'undefined') return
+  const key = name ? `meta[name="${name}"]` : `meta[property="${property}"]`
+  let el = document.querySelector(key)
+  if (!el) {
+    el = document.createElement('meta')
+    if (name) el.setAttribute('name', name)
+    if (property) el.setAttribute('property', property)
+    document.head.appendChild(el)
+  }
+  el.setAttribute('content', content)
+}
+
+function upsertCanonical(href) {
+  if (typeof document === 'undefined') return
+  let el = document.querySelector('link[rel="canonical"]')
+  if (!el) {
+    el = document.createElement('link')
+    el.setAttribute('rel', 'canonical')
+    document.head.appendChild(el)
+  }
+  el.setAttribute('href', href)
+}
+
+function upsertJsonLd({ id, json }) {
+  if (typeof document === 'undefined') return () => {}
+  let el = document.getElementById(id)
+  if (!el) {
+    el = document.createElement('script')
+    el.setAttribute('type', 'application/ld+json')
+    el.setAttribute('id', id)
+    document.head.appendChild(el)
+  }
+  el.text = JSON.stringify(json)
+  return () => {
+    const current = document.getElementById(id)
+    if (current) current.remove()
+  }
+}
+
+function buildPropertyJsonLd({ property, url, title, description, locationText }) {
+  const images = Array.isArray(property?.images) ? property.images : []
+  const fallbackImages = [property?.image].filter((src) => typeof src === 'string' && src.trim().length > 0)
+  const image = [...images, ...fallbackImages].filter((src) => typeof src === 'string' && src.trim().length > 0).slice(0, 8)
+
+  const loc = typeof locationText === 'string' ? locationText.trim() : ''
+  const locality = loc ? (loc.split(',')[0] || loc).trim() : undefined
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    url,
+    name: title,
+    description,
+    image: image.length > 0 ? image : undefined,
+    address: locality
+      ? {
+          '@type': 'PostalAddress',
+          addressLocality: locality,
+          addressCountry: 'IN',
+        }
+      : undefined,
+  }
+}
+
 function StatPill({ icon: Icon, value }) {
   return (
     <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
@@ -25,7 +90,7 @@ function RatingRow({ label, value, total }) {
     <div className="flex items-center gap-3 text-xs font-semibold text-slate-600">
       <div className="w-6 shrink-0">{label}</div>
       <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100">
-        <div className="h-full rounded-full bg-slate-900" style={{ width: `${pct}%` }} />
+        <div className="h-full rounded-full bg-brand-900" style={{ width: `${pct}%` }} />
       </div>
       <div className="w-10 shrink-0 text-right tabular-nums">{pct}%</div>
     </div>
@@ -132,6 +197,54 @@ export default function PropertyDetails() {
       }
     : null
 
+  useEffect(() => {
+    const canonical = `${window.location.origin}${window.location.pathname}`
+
+    if (!property) {
+      const title = 'Property Details | Himanshi Properties'
+      const description = 'View property details, photos, pricing, and location. Connect with Himanshi Properties for verified listings and expert guidance.'
+      document.title = title
+      upsertCanonical(canonical)
+      upsertMeta({ name: 'description' }, description)
+      upsertMeta({ property: 'og:title' }, title)
+      upsertMeta({ property: 'og:description' }, description)
+      upsertMeta({ property: 'og:url' }, canonical)
+      upsertMeta({ name: 'twitter:title' }, title)
+      upsertMeta({ name: 'twitter:description' }, description)
+      return () => {}
+    }
+
+    const cleanTitle = typeof property.title === 'string' ? property.title.trim() : ''
+    const pageTitle = cleanTitle ? `${cleanTitle}${locationText ? ` - ${locationText}` : ''} | Himanshi Properties` : 'Property Details | Himanshi Properties'
+    const rawDesc = typeof property.description === 'string' ? property.description.trim() : ''
+    const descBase = rawDesc || `${priceText || ''}${priceText && locationText ? ' in ' : ''}${locationText || ''}`.trim()
+    const description =
+      descBase.length > 0
+        ? descBase.slice(0, 260)
+        : 'View property details, photos, pricing, and location. Connect with Himanshi Properties for verified listings and expert guidance.'
+
+    document.title = pageTitle
+    upsertCanonical(canonical)
+    upsertMeta({ name: 'description' }, description)
+    upsertMeta({ property: 'og:title' }, pageTitle)
+    upsertMeta({ property: 'og:description' }, description)
+    upsertMeta({ property: 'og:url' }, canonical)
+    upsertMeta({ name: 'twitter:title' }, pageTitle)
+    upsertMeta({ name: 'twitter:description' }, description)
+
+    const image = typeof property.image === 'string' && property.image.trim().length > 0 ? property.image.trim() : ''
+    if (image) {
+      upsertMeta({ property: 'og:image' }, image)
+      upsertMeta({ name: 'twitter:image' }, image)
+    }
+
+    const cleanupLd = upsertJsonLd({
+      id: 'ld_property_details',
+      json: buildPropertyJsonLd({ property, url: canonical, title: pageTitle, description, locationText }),
+    })
+    return cleanupLd
+  }, [locationText, priceText, property])
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -150,7 +263,7 @@ export default function PropertyDetails() {
               type="button"
               onClick={() => toggleItem(wishlistItem)}
               className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
-                isSaved ? 'border-rose-200 bg-rose-50 text-rose-700' : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                isSaved ? 'border-orange-200 bg-orange-50 text-orange-700' : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
               }`}
               aria-label={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
             >
@@ -172,7 +285,7 @@ export default function PropertyDetails() {
               <div className="mt-2 text-sm font-semibold text-slate-600">
                 {error ? error : 'The property you are looking for is not available.'}
               </div>
-              <Link to="/" className="mt-6 inline-flex rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
+              <Link to="/" className="mt-6 inline-flex rounded-2xl bg-brand-900 px-5 py-3 text-sm font-semibold text-white">
                 Go to home
               </Link>
             </div>
@@ -340,7 +453,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
             </div>
           )}
           {!!error && (
-            <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
+            <div className="rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm font-semibold text-orange-800">
               {error}
             </div>
           )}
@@ -398,7 +511,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
                           aria-hidden="true"
                           referrerPolicy="no-referrer"
                         />
-                        <div className="absolute inset-0 grid place-items-center bg-slate-900/20 text-white">
+                        <div className="absolute inset-0 grid place-items-center bg-brand-900/20 text-white">
                           <FiPlay />
                         </div>
                       </div>
@@ -472,7 +585,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
                   onClick={() => toggleItem(wishlistItem)}
                   aria-label={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
                   className={`grid h-12 w-12 place-items-center rounded-2xl border transition-colors ${
-                    isSaved ? 'border-rose-200 bg-rose-50 text-rose-700' : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                    isSaved ? 'border-orange-200 bg-orange-50 text-orange-700' : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
                   }`}
                 >
                   <FiHeart />
@@ -505,7 +618,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: 0.06 }}
-            className="rounded-3xl bg-slate-900 p-6 text-white"
+              className="rounded-3xl bg-brand-900 p-6 text-white"
           >
             <div className="text-lg font-extrabold">Interested in this property?</div>
             <div className="mt-2 text-sm font-semibold text-white/75">Send a message and we will contact you.</div>
@@ -597,7 +710,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
                     aria-label={`${value} star${value === 1 ? '' : 's'}`}
                     onClick={() => setRatingStars(value)}
                     className={`grid h-10 w-10 place-items-center rounded-full transition-colors ${
-                      isFilled ? 'text-amber-400 hover:bg-amber-50' : 'text-slate-300 hover:bg-slate-100'
+                      isFilled ? 'text-yellow-500 hover:bg-yellow-50' : 'text-slate-300 hover:bg-slate-100'
                     }`}
                   >
                     <Star className="h-5 w-5" fill={isFilled ? 'currentColor' : 'none'} />
@@ -616,7 +729,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
             <button
               type="submit"
               disabled={isSendingRating}
-              className="w-full rounded-2xl bg-slate-900 px-5 py-3 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-2xl bg-brand-900 px-5 py-3 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-60"
             >
               Submit rating
             </button>
@@ -644,7 +757,7 @@ function PropertyDetailsContent({ property, locationText, priceText, bedsText, b
                       <div className="truncate text-sm font-extrabold text-slate-900">{r.name}</div>
                       <div className="mt-1 text-xs font-semibold text-slate-500">{r.date}</div>
                     </div>
-                    <div className="rounded-full bg-slate-900 px-3 py-1 text-xs font-extrabold text-white">
+                  <div className="rounded-full bg-brand-900 px-3 py-1 text-xs font-extrabold text-white">
                       {r.rating.toFixed(1)}
                     </div>
                   </div>

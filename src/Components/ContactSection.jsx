@@ -64,7 +64,7 @@ export default function ContactSection() {
               className="min-h-28 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none"
               placeholder="Tell us what you are looking for..."
             />
-            <button type="submit" className="w-full rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white sm:w-auto">
+            <button type="submit" className="w-full rounded-2xl bg-brand-900 px-5 py-3 text-sm font-semibold text-white sm:w-auto">
               Send message
             </button>
           </form>
@@ -105,8 +105,8 @@ export default function ContactSection() {
 
           <div className="mt-6 overflow-hidden rounded-3xl">
             <img
-              src="https://images.unsplash.com/photo-1502920514313-52581002a659?auto=format&fit=crop&w=1600&q=80"
-              alt="City skyline"
+              src="https://images.unsplash.com/photo-1726390731971-463ce97cc5b0?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=zoshua-colah-wUmTjqhTtyo-unsplash.jpg"
+              alt="Indian city skyline"
               className="h-52 w-full object-cover"
               loading="lazy"
             />

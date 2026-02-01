@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { FiDroplet, FiHeart, FiHome, FiMap, FiMapPin, FiMaximize2, FiSearch } from 'react-icons/fi'
+import { FiChevronDown, FiDroplet, FiHeart, FiHome, FiMap, FiMapPin, FiMaximize2, FiSearch } from 'react-icons/fi'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../../Components/Navbar'
@@ -7,6 +7,30 @@ import FooterSection from '../../Components/FooterSection'
 import Container from '../../Components/Container'
 import useWishlist from '../../hooks/useWishlist'
 import { getProperties, searchProperties } from '../../api/properties'
+
+function upsertMeta({ name, property }, content) {
+  if (typeof document === 'undefined') return
+  const key = name ? `meta[name="${name}"]` : `meta[property="${property}"]`
+  let el = document.querySelector(key)
+  if (!el) {
+    el = document.createElement('meta')
+    if (name) el.setAttribute('name', name)
+    if (property) el.setAttribute('property', property)
+    document.head.appendChild(el)
+  }
+  el.setAttribute('content', content)
+}
+
+function upsertCanonical(href) {
+  if (typeof document === 'undefined') return
+  let el = document.querySelector('link[rel="canonical"]')
+  if (!el) {
+    el = document.createElement('link')
+    el.setAttribute('rel', 'canonical')
+    document.head.appendChild(el)
+  }
+  el.setAttribute('href', href)
+}
 
 const DEFAULT_PAGE = 1
 const DEFAULT_LIMIT = 20
@@ -201,7 +225,7 @@ function ListingCard({ property }) {
           }}
           aria-label={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
           className={`absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full border backdrop-blur transition-colors ${
-            isSaved ? 'border-rose-200 bg-rose-50/90 text-rose-600 hover:bg-rose-50' : 'border-slate-200 bg-white/90 text-slate-700 hover:bg-white'
+            isSaved ? 'border-orange-200 bg-orange-50/90 text-orange-700 hover:bg-orange-50' : 'border-slate-200 bg-white/90 text-slate-700 hover:bg-white'
           }`}
         >
           <FiHeart />
@@ -226,7 +250,7 @@ function ListingCard({ property }) {
         <Link
           to={`/property/${property.id}`}
           onClick={(e) => e.stopPropagation()}
-          className="mt-4 block w-full rounded-2xl bg-slate-900 px-4 py-3 text-center text-sm font-semibold text-white"
+          className="mt-4 block w-full rounded-2xl bg-brand-900 px-4 py-3 text-center text-sm font-semibold text-white"
         >
           View Details
         </Link>
@@ -378,9 +402,21 @@ export default function Listings() {
 
   useEffect(() => {
     const cleanCity = filters.city.trim()
-    const heading = cleanCity ? `Properties in ${cleanCity}` : 'Property Search'
+    const heading = cleanCity ? `Properties in ${cleanCity} | Himanshi Properties` : 'Property Search | Himanshi Properties'
+    const description = cleanCity
+      ? `Browse verified properties in ${cleanCity}. Filter by budget, property type, and area, and contact Himanshi Properties for site visits and documentation support.`
+      : 'Search and filter verified properties across India by city, budget, property type, and area. Explore listings and connect with Himanshi Properties.'
+
+    const canonical = `${window.location.origin}${location.pathname}${location.search}`
     document.title = heading
-  }, [filters.city])
+    upsertCanonical(canonical)
+    upsertMeta({ name: 'description' }, description)
+    upsertMeta({ property: 'og:title' }, heading)
+    upsertMeta({ property: 'og:description' }, description)
+    upsertMeta({ property: 'og:url' }, canonical)
+    upsertMeta({ name: 'twitter:title' }, heading)
+    upsertMeta({ name: 'twitter:description' }, description)
+  }, [filters.city, location.pathname, location.search])
 
   const onApply = () => {
     navigate(buildSearchUrl({ ...filters, page: DEFAULT_PAGE }))
@@ -415,7 +451,7 @@ export default function Listings() {
   const heading = headingCity ? `Properties in ${headingCity}` : 'Property Search'
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-brand-50">
       <Navbar />
       {isRentNoticeOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 px-4 py-8">
@@ -439,7 +475,7 @@ export default function Listings() {
                     setIsRentNoticeOpen(false)
                     navigate(buildSearchUrl({ ...filters, city: 'Bhopal', listingType: 'Rent', page: DEFAULT_PAGE }))
                   }}
-                  className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-extrabold text-white"
+                  className="rounded-2xl bg-brand-900 px-5 py-3 text-sm font-extrabold text-white"
                 >
                   View Bhopal rentals
                 </button>
@@ -461,7 +497,7 @@ export default function Listings() {
         </div>
 
         {!!error && (
-          <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
+          <div className="mt-5 rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm font-semibold text-orange-800">
             {error}
           </div>
         )}
@@ -499,18 +535,21 @@ export default function Listings() {
             <div className="mt-4 grid gap-3">
               <label className="grid gap-1">
                 <div className="text-[11px] font-semibold text-slate-500">Price</div>
-                <select
-                  value={filters.priceRange}
-                  onChange={onChangeField('priceRange')}
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                >
-                  <option value="">Any</option>
-                  <option value="0-5000000">Up to 50 Lakhs</option>
-                  <option value="5000000-10000000">50 Lakhs - 1 Crore</option>
-                  <option value="10000000-20000000">1 Crore - 2 Crore</option>
-                  <option value="20000000-50000000">2 Crore - 5 Crore</option>
-                  <option value="50000000-">5 Crore+</option>
-                </select>
+                <div className="relative">
+                  <select
+                    value={filters.priceRange}
+                    onChange={onChangeField('priceRange')}
+                    className="w-full appearance-none rounded-2xl border border-slate-200 bg-white px-4 py-2 pr-11 text-sm font-semibold text-slate-900 outline-none"
+                  >
+                    <option value="">Any</option>
+                    <option value="0-5000000">Up to 50 Lakhs</option>
+                    <option value="5000000-10000000">50 Lakhs - 1 Crore</option>
+                    <option value="10000000-20000000">1 Crore - 2 Crore</option>
+                    <option value="20000000-50000000">2 Crore - 5 Crore</option>
+                    <option value="50000000-">5 Crore+</option>
+                  </select>
+                  <FiChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-slate-600" />
+                </div>
               </label>
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -557,68 +596,80 @@ export default function Listings() {
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Property Type</div>
-                  <select
-                    value={filters.propertyType}
-                    onChange={onChangeField('propertyType')}
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                  >
-                    <option value="">Any</option>
-                    <option value="Apartment">Apartment</option>
-                    <option value="Villa">Villa</option>
-                    <option value="Farmhouse">Farmhouse</option>
-                    <option value="Plot">Plot</option>
-                    <option value="Land">Land</option>
-                    <option value="Commercial">Commercial</option>
-                    <option value="Office">Office</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={filters.propertyType}
+                      onChange={onChangeField('propertyType')}
+                      className="w-full appearance-none rounded-2xl border border-slate-200 bg-white px-4 py-2 pr-11 text-sm font-semibold text-slate-900 outline-none"
+                    >
+                      <option value="">Any</option>
+                      <option value="Apartment">Apartment</option>
+                      <option value="Villa">Villa</option>
+                      <option value="Farmhouse">Farmhouse</option>
+                      <option value="Plot">Plot</option>
+                      <option value="Land">Land</option>
+                      <option value="Commercial">Commercial</option>
+                      <option value="Office">Office</option>
+                    </select>
+                    <FiChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-slate-600" />
+                  </div>
                 </label>
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Listing Type</div>
-                  <select
-                    value={filters.listingType}
-                    onChange={onChangeField('listingType')}
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                  >
-                    <option value="">Any</option>
-                    <option value="Sale">Sale</option>
-                    <option value="Rent">Rent</option>
-                    <option value="Lease">Lease</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={filters.listingType}
+                      onChange={onChangeField('listingType')}
+                      className="w-full appearance-none rounded-2xl border border-slate-200 bg-white px-4 py-2 pr-11 text-sm font-semibold text-slate-900 outline-none"
+                    >
+                      <option value="">Any</option>
+                      <option value="Sale">Sale</option>
+                      <option value="Rent">Rent</option>
+                      <option value="Lease">Lease</option>
+                    </select>
+                    <FiChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-slate-600" />
+                  </div>
                 </label>
               </div>
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Status</div>
-                  <select
-                    value={filters.status}
-                    onChange={onChangeField('status')}
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                  >
-                    <option value="">Any</option>
-                    <option value="Available">Available</option>
-                    <option value="Booked">Booked</option>
-                    <option value="Sold">Sold</option>
-                    <option value="Under Construction">Under Construction</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={filters.status}
+                      onChange={onChangeField('status')}
+                      className="w-full appearance-none rounded-2xl border border-slate-200 bg-white px-4 py-2 pr-11 text-sm font-semibold text-slate-900 outline-none"
+                    >
+                      <option value="">Any</option>
+                      <option value="Available">Available</option>
+                      <option value="Booked">Booked</option>
+                      <option value="Sold">Sold</option>
+                      <option value="Under Construction">Under Construction</option>
+                    </select>
+                    <FiChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-slate-600" />
+                  </div>
                 </label>
                 <label className="grid gap-1">
                   <div className="text-[11px] font-semibold text-slate-500">Facing</div>
-                  <select
-                    value={filters.facing}
-                    onChange={onChangeField('facing')}
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none"
-                  >
-                    <option value="">Any</option>
-                    <option value="North">North</option>
-                    <option value="South">South</option>
-                    <option value="East">East</option>
-                    <option value="West">West</option>
-                    <option value="North-East">North-East</option>
-                    <option value="North-West">North-West</option>
-                    <option value="South-East">South-East</option>
-                    <option value="South-West">South-West</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={filters.facing}
+                      onChange={onChangeField('facing')}
+                      className="w-full appearance-none rounded-2xl border border-slate-200 bg-white px-4 py-2 pr-11 text-sm font-semibold text-slate-900 outline-none"
+                    >
+                      <option value="">Any</option>
+                      <option value="North">North</option>
+                      <option value="South">South</option>
+                      <option value="East">East</option>
+                      <option value="West">West</option>
+                      <option value="North-East">North-East</option>
+                      <option value="North-West">North-West</option>
+                      <option value="South-East">South-East</option>
+                      <option value="South-West">South-West</option>
+                    </select>
+                    <FiChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-base text-slate-600" />
+                  </div>
                 </label>
               </div>
 
@@ -648,7 +699,7 @@ export default function Listings() {
               type="button"
               onClick={onApply}
               disabled={isLoading}
-              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-900 px-5 py-3 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-60"
             >
               <FiSearch className="text-lg" />
               Apply filters
@@ -693,7 +744,7 @@ export default function Listings() {
                   <button
                     type="button"
                     onClick={onClear}
-                    className="mt-4 inline-flex rounded-2xl bg-slate-900 px-5 py-3 text-sm font-extrabold text-white"
+                    className="mt-4 inline-flex rounded-2xl bg-brand-900 px-5 py-3 text-sm font-extrabold text-white"
                   >
                     Clear filters
                   </button>

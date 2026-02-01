@@ -49,7 +49,7 @@ export default function FAQSection() {
                 <div
                   key={item.q}
                   className={`overflow-hidden rounded-3xl border ${
-                    isOpen ? 'border-slate-900 bg-slate-900' : 'border-slate-200 bg-white'
+                    isOpen ? 'border-brand-900 bg-brand-900' : 'border-slate-200 bg-white'
                   }`}
                 >
                   <button
@@ -73,11 +73,11 @@ export default function FAQSection() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-3xl border border-slate-900/10 bg-slate-900/5">
+        <div className="relative overflow-hidden rounded-3xl border border-slate-900/10 bg-brand-900/5">
           <img
             className="h-[360px] w-full object-cover sm:h-[420px]"
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80"
-            alt="Luxury home exterior"
+            src="https://images.unsplash.com/photo-1606707761551-e36dc1a23f57?auto=format&fit=crop&w=1600&q=80"
+            alt="Indian farmland"
             loading="lazy"
             referrerPolicy="no-referrer"
           />

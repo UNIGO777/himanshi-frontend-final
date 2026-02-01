@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FiCheck, FiCheckCircle, FiFileText, FiHome, FiKey, FiPieChart, FiSearch, FiShield, FiTrendingUp, FiUsers } from 'react-icons/fi'
 import Navbar from '../../Components/Navbar'
 import FooterSection from '../../Components/FooterSection'
@@ -10,70 +10,94 @@ import FAQSection from '../../Components/FAQSection'
 import TeamConnectSection from '../../Components/TeamConnectSection'
 import ContactSection from '../../Components/ContactSection'
 
+function upsertMeta({ name, property }, content) {
+  if (typeof document === 'undefined') return
+  const key = name ? `meta[name="${name}"]` : `meta[property="${property}"]`
+  let el = document.querySelector(key)
+  if (!el) {
+    el = document.createElement('meta')
+    if (name) el.setAttribute('name', name)
+    if (property) el.setAttribute('property', property)
+    document.head.appendChild(el)
+  }
+  el.setAttribute('content', content)
+}
+
+function upsertCanonical(href) {
+  if (typeof document === 'undefined') return
+  let el = document.querySelector('link[rel="canonical"]')
+  if (!el) {
+    el = document.createElement('link')
+    el.setAttribute('rel', 'canonical')
+    document.head.appendChild(el)
+  }
+  el.setAttribute('href', href)
+}
+
 const SERVICES = [
   {
     title: 'Verified Shortlisting',
-    description: 'We filter options based on budget, location, and priorities.',
+    description: 'We narrow down options depending on your requirements.',
     icon: FiSearch,
-    points: ['Verified listings', 'Clear pricing guidance', 'Fast matching options'],
+    points: ['Relevant property match', 'Quick shortlisting', 'Clear communication about pricing'],
   },
   {
-    title: 'Site Visits & Scheduling',
-    description: 'Hassle-free visit planning with location and time coordination.',
+    title: 'Site Visits',
+    description: 'Our team sets up coordinated site visits for all properties.',
     icon: FiHome,
-    points: ['Shortlist-based visits', 'Neighborhood insights', 'On-spot comparisons'],
+    points: ['Accompanied by agents', 'Neighbourhood tour included', 'Flexible timings for visits'],
   },
   {
-    title: 'Negotiation Support',
-    description: 'We help you negotiate confidently with market context.',
+    title: 'Negotiations',
+    description: 'We do in-depth market price evaluation for strategic negotiation.',
     icon: FiPieChart,
-    points: ['Market rate checks', 'Offer strategy', 'Terms & inclusions'],
+    points: ['Clear cost breakdown', 'Complete support', 'Expert market assessment'],
   },
   {
-    title: 'Investment Advisory',
-    description: 'Guidance to choose the right property for long-term value.',
+    title: 'Third Party Property Listing',
+    description: 'We help you list and promote your property through trusted third-party channels.',
     icon: FiTrendingUp,
-    points: ['ROI & rental yield', 'Location potential', 'Market trend insights'],
+    points: ['Wider visibility', 'Qualified buyer leads', 'Support with listing details'],
   },
   {
     title: 'Documentation Help',
-    description: 'Assistance with paperwork, verification, and next steps.',
+    description: 'End to end support for all paperwork and legalities.',
     icon: FiFileText,
-    points: ['Agreement support', 'Document checklist', 'Process guidance'],
+    points: ['Compliance with legal systems', 'Smooth process explanations', 'Defined timelines'],
   },
   {
     title: 'Safe & Transparent Process',
-    description: 'A simple flow with clarity at every stage of the journey.',
+    description: 'Guidance with a structured process for faster closures.',
     icon: FiShield,
-    points: ['No hidden surprises', 'Clear timelines', 'Verified partners'],
+    points: ['Transparency on top', 'Timely process updates', 'Verified stakeholders involved'],
   },
   {
     title: 'Move-in / Handover',
-    description: 'Support for keys, handover, and final checks.',
+    description: 'Move-in support to seal the deal smoothly.',
     icon: FiKey,
-    points: ['Handover checklist', 'Final walkthrough', 'Utility guidance'],
+    points: ['Quick access transfers', 'Communication about societal conditions', 'Post-deal support'],
   },
 ]
 
 const STEPS = [
   {
-    title: 'Tell us your needs',
-    description: 'Share budget, preferred areas, and must-have features.',
+    title: 'Communicate your preferences',
+    description: 'Tell us about your budget, preferred location and any other requirements for the property.',
     icon: FiUsers,
   },
   {
-    title: 'Shortlist & visit',
-    description: 'We shortlist options and schedule site visits quickly.',
+    title: 'Shortlisting and sightseeing',
+    description: 'We do a quick property match and schedule property tours.',
     icon: FiHome,
   },
   {
-    title: 'Negotiate & finalize',
-    description: 'We help you negotiate and confirm terms confidently.',
+    title: 'Negotiations to close the deal',
+    description: 'Our team confidently negotiates to get a fair price.',
     icon: FiCheckCircle,
   },
   {
-    title: 'Documentation & move-in',
-    description: 'We support paperwork and smooth handover.',
+    title: 'Document and moving in',
+    description: 'We will handle all legalities while you prepare yourself for moving in.',
     icon: FiFileText,
   },
 ]
@@ -97,8 +121,8 @@ function ServiceCard({ title, description, icon: Icon, points, index }) {
       className="group relative min-h-[270px] overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-xl"
     >
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-        <div className="absolute -right-14 -top-14 h-48 w-48 rounded-full bg-slate-900/10 blur-3xl" />
-        <div className="absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-slate-900/10 blur-3xl" />
+        <div className="absolute -right-14 -top-14 h-48 w-48 rounded-full bg-brand-900/10 blur-3xl" />
+        <div className="absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-brand-900/10 blur-3xl" />
       </div>
 
       <div className="relative">
@@ -118,7 +142,7 @@ function ServiceCard({ title, description, icon: Icon, points, index }) {
               key={p}
               className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-extrabold text-slate-700"
             >
-              <div className="grid h-5 w-5 place-items-center rounded-full bg-slate-900 text-white">
+              <div className="grid h-5 w-5 place-items-center rounded-full bg-brand-900 text-white">
                 <FiCheck className="text-sm" />
               </div>
               <div className="font-extrabold text-slate-700">{p}</div>
@@ -140,12 +164,12 @@ function StepCard({ title, description, icon: Icon, index }) {
       className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg"
     >
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-        <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-slate-900/10 blur-3xl" />
+        <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand-900/10 blur-3xl" />
       </div>
 
       <div className="relative">
         <div className="flex items-start gap-4">
-          <div className="grid h-12 w-12 place-items-center rounded-3xl bg-slate-900/5 text-slate-900">
+          <div className="grid h-12 w-12 place-items-center rounded-3xl bg-brand-900/5 text-slate-900">
             <Icon className="text-xl" />
           </div>
           <div className="min-w-0">
@@ -293,7 +317,7 @@ function SellPropertySection() {
             {!!status && <div className="text-xs font-semibold text-slate-600">{status}</div>}
           </div>
 
-          <div className="rounded-3xl bg-slate-50 p-6">
+          <div className="rounded-3xl bg-brand-50 p-6">
             <div className="text-sm font-extrabold text-slate-900">Send your query</div>
             <div className="mt-2 text-sm font-semibold text-slate-600">
               Choose WhatsApp for a quick response, or email for detailed documents.
@@ -302,7 +326,7 @@ function SellPropertySection() {
               <button
                 type="button"
                 onClick={onWhatsApp}
-                className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-extrabold text-white"
+                className="rounded-2xl bg-brand-900 px-5 py-3 text-sm font-extrabold text-white"
               >
                 Send on WhatsApp
               </button>
@@ -323,13 +347,28 @@ function SellPropertySection() {
 }
 
 export default function Services() {
+  useEffect(() => {
+    const url = `${window.location.origin}/services`
+    const title = 'Real Estate Services | Himanshi Properties'
+    const description =
+      'From verified shortlisting and site visits to negotiations and documentation, explore the services offered by Himanshi Properties for buyers and sellers.'
+    document.title = title
+    upsertCanonical(url)
+    upsertMeta({ name: 'description' }, description)
+    upsertMeta({ property: 'og:title' }, title)
+    upsertMeta({ property: 'og:description' }, description)
+    upsertMeta({ property: 'og:url' }, url)
+    upsertMeta({ name: 'twitter:title' }, title)
+    upsertMeta({ name: 'twitter:description' }, description)
+  }, [])
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-brand-50">
       <Navbar />
       <main>
         <section className="py-10">
           <Container>
-          <div className="overflow-hidden rounded-3xl bg-slate-900">
+          <div className="overflow-hidden rounded-3xl bg-brand-900">
             <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-12 lg:items-center">
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
@@ -339,16 +378,17 @@ export default function Services() {
               >
                 <div className="text-xs font-bold uppercase tracking-[0.22em] text-white/70">Services</div>
                 <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                  End-to-end property support, made simple
+Property investments that deserve comprehensive support. 
                 </h1>
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70">
-                  Shortlisting, visits, negotiation, and documentation — we help you move faster with a transparent, guided process.
+                  The journey from the first visit to the final registration is all made easy and stress-free!
                 </p>
 
                 <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                  <StatPill value="Verified" label="Quality options only" />
-                  <StatPill value="Fast" label="Quick shortlists" />
-                  <StatPill value="Clear" label="Transparent support" />
+                  <StatPill value="Premium locations" label="High-growth property locations
+" />
+                  <StatPill value="Guided" label="Step-by-step assistance" />
+                  <StatPill value="Transparent" label=" Crystal clear communications" />
                 </div>
               </motion.div>
 
@@ -360,8 +400,8 @@ export default function Services() {
               >
                 <img
                   className="h-64 w-full object-cover opacity-90 sm:h-72"
-                  src="https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1400&q=80"
-                  alt="Services"
+                  src="https://images.unsplash.com/photo-1706543441691-431be00ed3da?auto=format&fit=crop&w=1400&q=80"
+                  alt="Residential township in Mumbai, India"
                   loading="lazy"
                   referrerPolicy="no-referrer"
                 />
@@ -376,9 +416,9 @@ export default function Services() {
           <Container>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">What we do</div>
+              <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">What our services include</div>
               <div className="mt-1 text-sm font-semibold text-slate-600">
-                Services designed for buying, renting, and selling — with support at each step.
+                Buy, sell and rent with our guidance.
               </div>
             </div>
           </div>
@@ -400,10 +440,10 @@ export default function Services() {
 
         <section className="py-10">
           <Container>
-          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
-            <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">How it works</div>
+          <div className="rounded-3xl border border-slate-200 bg-brand-50 p-6 sm:p-8">
+            <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">How do we get it done?</div>
             <div className="mt-1 text-sm font-semibold text-slate-600">
-              A simple, step-by-step flow to help you make the right decision.
+              We follow an organised workflow for your property dreams.
             </div>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -49,7 +49,7 @@ function PropertyCard({ property }) {
           }}
           aria-label={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
           className={`absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full border backdrop-blur transition-colors ${
-            isSaved ? 'border-rose-200 bg-rose-50/90 text-rose-600 hover:bg-rose-50' : 'border-slate-200 bg-white/90 text-slate-700 hover:bg-white'
+            isSaved ? 'border-orange-200 bg-orange-50/90 text-orange-700 hover:bg-orange-50' : 'border-slate-200 bg-white/90 text-slate-700 hover:bg-white'
           }`}
         >
           <FiHeart />
@@ -74,7 +74,7 @@ function PropertyCard({ property }) {
         <Link
           to={`/property/${property.id}`}
           onClick={(e) => e.stopPropagation()}
-          className="mt-4 block w-full rounded-2xl bg-slate-900 px-4 py-3 text-center text-sm font-semibold text-white"
+          className="mt-4 block w-full rounded-2xl bg-brand-900 px-4 py-3 text-center text-sm font-semibold text-white"
         >
           View Details
         </Link>

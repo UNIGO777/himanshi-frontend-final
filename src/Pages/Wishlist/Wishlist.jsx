@@ -35,7 +35,7 @@ export default function Wishlist() {
         {items.length === 0 ? (
           <div className="mt-8 rounded-3xl border border-slate-200 bg-white p-8">
             <div className="flex items-center gap-3">
-              <div className="grid h-12 w-12 place-items-center rounded-3xl bg-slate-900 text-white">
+              <div className="grid h-12 w-12 place-items-center rounded-3xl bg-brand-900 text-white">
                 <FiHeart />
               </div>
               <div>
@@ -45,7 +45,7 @@ export default function Wishlist() {
                 </div>
               </div>
             </div>
-            <Link to="/" className="mt-6 inline-flex rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
+            <Link to="/" className="mt-6 inline-flex rounded-2xl bg-brand-900 px-5 py-3 text-sm font-semibold text-white">
               Browse properties
             </Link>
           </div>
@@ -84,7 +84,7 @@ export default function Wishlist() {
                   {!!p.location && <div className="mt-1 text-sm font-semibold text-slate-500">{p.location}</div>}
                   {!!p.price && <div className="mt-3 text-lg font-extrabold text-slate-900">{p.price}</div>}
 
-                  <div className="mt-4 block w-full rounded-2xl bg-slate-900 px-4 py-3 text-center text-sm font-semibold text-white">
+                  <div className="mt-4 block w-full rounded-2xl bg-brand-900 px-4 py-3 text-center text-sm font-semibold text-white">
                     View Details
                   </div>
                 </div>

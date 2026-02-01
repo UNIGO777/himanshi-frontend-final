@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import useWishlist from '../hooks/useWishlist'
 import useAuth from '../hooks/useAuth'
+import logo from '../assets/logo_himashi_properties-removebg-preview (1).png'
 import Container from './Container'
 
 export default function Navbar() {
@@ -21,7 +22,7 @@ export default function Navbar() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 bg-[#f4f1ea] md:bg-[#f4f1ea]/80 md:backdrop-blur">
+    <header className="sticky top-0 z-50 bg-brand-50 md:bg-brand-50/80 md:backdrop-blur">
       {isMenuOpen && (
         <div
           className="fixed inset-0 z-50 bg-black/40 md:hidden"
@@ -31,16 +32,14 @@ export default function Navbar() {
           aria-label="Close menu"
         >
           <div
-            className="h-full w-[300px] max-w-[85vw] bg-[#f4f1ea] shadow-xl"
+            className="h-full w-[300px] max-w-[85vw] bg-brand-50 shadow-xl"
             onClick={(e) => e.stopPropagation()}
             role="presentation"
           >
-            <div className="flex items-center justify-between border-b border-slate-900/10 px-4 py-4">
-              <Link to="/" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
-                <div className="grid h-10 w-10 place-items-center rounded-full bg-slate-900 text-sm font-semibold text-white">HP</div>
-                <div className="leading-tight">
-                  <div className="text-sm font-semibold text-slate-900">Himanshi</div>
-                  <div className="text-xs text-slate-600">Properties</div>
+            <div className="flex items-center justify-between">
+              <Link to="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
+                <div className="flex h-16 w-64 shrink-0 items-center justify-start overflow-hidden">
+                  <img src={logo} alt="Himanshi Properties" className="h-full w-auto object-contain" loading="lazy" />
                 </div>
               </Link>
               <button
@@ -85,7 +84,7 @@ export default function Navbar() {
                     <Link
                       to="/signup"
                       onClick={() => setIsMenuOpen(false)}
-                      className="rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white"
+                      className="rounded-2xl bg-brand-900 px-4 py-3 text-sm font-semibold text-white"
                     >
                       Sign up
                     </Link>
@@ -119,15 +118,11 @@ export default function Navbar() {
         </div>
       )}
 
-      <Container className="flex items-center justify-between gap-3 py-4 px-4 sm:px-6 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
+      <Container className="flex items-center justify-start gap-3 py-4 px-4 pr-4 sm:px-6 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
         <div className="flex items-center gap-3 justify-self-start">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-full bg-slate-900 text-sm font-semibold text-white">
-              HP
-            </div>
-            <div className="hidden leading-tight sm:block">
-              <div className="text-sm font-semibold text-slate-900">Himanshi</div>
-              <div className="text-xs text-slate-600">Properties</div>
+          <Link to="/" className="flex items-center">
+            <div className="flex h-16 w-52 shrink-0 items-center justify-start overflow-hidden sm:h-20 sm:w-[340px]">
+              <img src={logo} alt="Himanshi Properties" className="h-full w-auto object-contain" loading="lazy" />
             </div>
           </Link>
         </div>
@@ -147,7 +142,7 @@ export default function Navbar() {
           })}
         </nav>
 
-        <div className="flex items-center justify-self-end gap-2">
+        <div className="ml-auto flex items-center justify-self-end gap-2">
           {!isAuthenticated ? (
             <>
               <Link
@@ -158,7 +153,7 @@ export default function Navbar() {
               </Link>
               <Link
                 to="/signup"
-                className="hidden rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white sm:inline-flex"
+                className="hidden rounded-full bg-brand-900 px-4 py-2 text-sm font-semibold text-white sm:inline-flex"
               >
                 Sign up
               </Link>
@@ -183,7 +178,7 @@ export default function Navbar() {
           >
             <FiHeart />
             {wishlistCount > 0 && (
-              <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-slate-900 px-1 text-[10px] font-extrabold text-white">
+              <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-brand-900 px-1 text-[10px] font-extrabold text-white">
                 {wishlistCount > 99 ? '99+' : wishlistCount}
               </span>
             )}

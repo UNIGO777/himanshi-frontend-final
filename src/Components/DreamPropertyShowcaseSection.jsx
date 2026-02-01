@@ -68,7 +68,7 @@ export default function DreamPropertyShowcaseSection({ properties }) {
               type="button"
               onClick={() => setActiveTab(t)}
               className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold ${
-                isActive ? 'bg-slate-900 text-white' : 'border border-slate-900/10 bg-white/70 text-slate-700'
+                isActive ? 'bg-brand-900 text-white' : 'border border-slate-900/10 bg-white/70 text-slate-700'
               }`}
             >
               {t}
@@ -109,7 +109,7 @@ export default function DreamPropertyShowcaseSection({ properties }) {
                   onClick={() => toggleItem(wishlistItem)}
                   aria-label={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
                   className={`absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full border backdrop-blur transition-colors ${
-                    isSaved ? 'border-rose-200 bg-rose-50/90 text-rose-600 hover:bg-rose-50' : 'border-slate-200 bg-white/90 text-slate-700 hover:bg-white'
+                    isSaved ? 'border-orange-200 bg-orange-50/90 text-orange-700 hover:bg-orange-50' : 'border-slate-200 bg-white/90 text-slate-700 hover:bg-white'
                   }`}
                 >
                   <FiHeart />
@@ -141,7 +141,7 @@ export default function DreamPropertyShowcaseSection({ properties }) {
                       <div>{p.area}</div>
                     </div>
 
-                    <div className="absolute bottom-4 right-4 grid h-10 w-10 place-items-center rounded-full bg-slate-900 text-white">
+                    <div className="absolute bottom-4 right-4 grid h-10 w-10 place-items-center rounded-full bg-brand-900 text-white">
                       <FiArrowUpRight />
                     </div>
                   </div>

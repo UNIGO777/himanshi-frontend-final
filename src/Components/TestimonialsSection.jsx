@@ -10,30 +10,35 @@ const testimonials = [
     role: 'Home Buyer',
     text: 'Super easy team to work with. Got me the best deal for my dream home at a fair price, and that too at a good location.',
     handle: 'Rajgarh',
+    image: 'https://images.unsplash.com/photo-1622461828538-467304a2fbae?auto=format&fit=crop&w=200&h=200&q=80',
   },
   {
     name: 'Happy Client',
     role: 'Client',
     text: 'Gave me honest advice about the market from the beginning. Truly, the customer is their priority, not profit. Had a fantastic time with the team.',
     handle: '',
+    image: 'https://images.unsplash.com/photo-1757351122515-21a7b61d682e?auto=format&fit=crop&w=200&h=200&q=80',
   },
   {
     name: 'Suransh Mehra',
     role: 'Buyer',
     text: 'Provided comprehensive site visits every time. Their team understands that property buying can be frustrating, so they are very patient.',
     handle: 'Raisen',
+    image: 'https://images.unsplash.com/photo-1694871420538-b40db58ae5af?auto=format&fit=crop&w=200&h=200&q=80',
   },
   {
     name: 'Mrs Sulekha Jain',
     role: 'Buyer',
     text: 'Honest and reliable team! Can count on them for any property in Bhopal now after my last experience with them.',
     handle: 'Kolar',
+    image: 'https://images.unsplash.com/photo-1677575491741-46c1a8915815?auto=format&fit=crop&w=200&h=200&q=80',
   },
   {
     name: 'Adesh Raina',
     role: 'Agri Business',
     text: 'They made the stressful journey of buying property for my agri business very smooth. Hands down the perfect team of agents!',
     handle: 'Berasia',
+    image: 'https://images.unsplash.com/photo-1565124848909-7bc5de429b49?auto=format&fit=crop&w=200&h=200&q=80',
   },
 ]
 
@@ -106,7 +111,15 @@ export default function TestimonialsSection() {
 
               <div className="mt-6 flex items-center justify-between gap-4">
                 <div className="flex min-w-0 items-center gap-3">
-                  <div className="h-10 w-10 overflow-hidden rounded-full bg-slate-200" aria-hidden="true" />
+                  <div className="h-10 w-10 overflow-hidden rounded-full bg-slate-200">
+                    <img
+                      src={t.image}
+                      alt={t.name}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
                   <div className="text-sm font-extrabold text-slate-900">{t.name}</div>
                   <div className="text-xs font-semibold text-slate-500">{t.handle}</div>
                 </div>
@@ -135,7 +148,7 @@ export default function TestimonialsSection() {
                 type="button"
                 onClick={() => scrollToIndex(i)}
                 aria-label={`Go to slide ${i + 1}`}
-                className={`h-1.5 rounded-full transition ${isActive ? 'w-8 bg-slate-900' : 'w-5 bg-slate-300'}`}
+                className={`h-1.5 rounded-full transition ${isActive ? 'w-8 bg-brand-900' : 'w-5 bg-slate-300'}`}
               />
             )
           })}

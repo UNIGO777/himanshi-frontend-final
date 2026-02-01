@@ -91,7 +91,7 @@ export default function Signup() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-brand-50">
       <Navbar />
       <main className="py-10">
         <Container className="grid items-center">
@@ -100,7 +100,7 @@ export default function Signup() {
           <div className="mt-2 text-sm font-semibold text-slate-600">Sign up to save properties and track activity.</div>
 
           {!!error && (
-            <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
+            <div className="mt-5 rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm font-semibold text-orange-800">
               {error}
             </div>
           )}
@@ -120,7 +120,7 @@ export default function Signup() {
                   onChange={(e) => setName(e.target.value)}
                   type="text"
                   autoComplete="name"
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-slate-900"
+                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
                   placeholder="Your name"
                   required
                 />
@@ -135,7 +135,7 @@ export default function Signup() {
                 type="email"
                 autoComplete="email"
                 disabled={step === 'otp'}
-                className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-slate-900"
+                className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
                 placeholder="you@example.com"
                 required
               />
@@ -150,7 +150,7 @@ export default function Signup() {
                   type="tel"
                   autoComplete="tel"
                   inputMode="tel"
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-slate-900"
+                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
                   placeholder="Enter phone number"
                   required
                 />
@@ -166,7 +166,7 @@ export default function Signup() {
                     onChange={(e) => setPassword(e.target.value)}
                     type={showPassword ? 'text' : 'password'}
                     autoComplete="new-password"
-                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pr-20 text-sm font-semibold text-slate-900 outline-none focus:border-slate-900"
+                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pr-20 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
                     placeholder="Min 6 characters"
                     required
                   />
@@ -188,7 +188,7 @@ export default function Signup() {
                   type="text"
                   inputMode="numeric"
                   autoComplete="one-time-code"
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-slate-900"
+                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none focus:border-brand-900"
                   placeholder="Enter OTP"
                   required
                 />
@@ -198,7 +198,7 @@ export default function Signup() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full rounded-2xl bg-slate-900 px-5 py-3 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-2xl bg-brand-900 px-5 py-3 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-60"
             >
               {step === 'otp' ? 'Verify OTP' : 'Sign up'}
             </button>
@@ -234,7 +234,7 @@ export default function Signup() {
 
           <div className="mt-6 text-center text-sm font-semibold text-slate-600">
             Already have an account?{' '}
-            <Link to="/login" className="font-extrabold text-slate-900">
+            <Link to="/login" className="font-extrabold text-brand-900">
               Login
             </Link>
           </div>

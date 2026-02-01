@@ -7,19 +7,19 @@ const team = [
     name: 'Himanshi',
     role: 'Property Consultant',
     image:
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1677575491741-46c1a8915815?auto=format&fit=crop&w=1200&q=80',
   },
   {
     name: 'Aarav',
     role: 'Sales Specialist',
     image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1694871420538-b40db58ae5af?auto=format&fit=crop&w=1200&q=80',
   },
   {
     name: 'Meera',
     role: 'Customer Success',
     image:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1757351122515-21a7b61d682e?auto=format&fit=crop&w=1200&q=80',
   },
 ]
 
@@ -42,7 +42,7 @@ export default function TeamConnectSection() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link to="/#contact" className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
+            <Link to="/#contact" className="rounded-2xl bg-brand-900 px-5 py-3 text-sm font-semibold text-white">
               Book a Call
             </Link>
             <button

@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
+    assetsInclude: ['**/*.jfif'],
     server: {
       host,
       port,

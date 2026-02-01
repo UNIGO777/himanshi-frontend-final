@@ -119,13 +119,13 @@ export default function QuickSearchSection() {
                 data-slider-card="true"
                 className={`snap-start rounded-3xl border px-6 py-6 text-center transition-colors hover:border-slate-200 hover:shadow-sm ${
                   isActive
-                    ? 'border-slate-900 bg-slate-900 text-white'
+                    ? 'border-brand-900 bg-brand-900 text-white'
                     : 'border-slate-900/10 bg-white text-slate-900 hover:bg-slate-100'
                 } shrink-0 w-[210px] sm:w-[240px] lg:w-[19.3%] lg:min-w-0`}
               >
                 <div
                   className={`mx-auto grid h-14 w-14 place-items-center rounded-3xl ${
-                    isActive ? 'bg-white/10 text-white' : 'bg-slate-900/5 text-slate-800'
+                    isActive ? 'bg-white/10 text-white' : 'bg-brand-900/5 text-slate-800'
                   }`}
                 >
                   <img
