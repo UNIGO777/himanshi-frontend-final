@@ -207,7 +207,7 @@ export default function HeroSection() {
       <div className="absolute inset-x-0 bottom-0 h-56 sm:h-72 lg:h-80">
         <img
           className="h-full w-full object-cover"
-          src='https://images.unsplash.com/photo-1671769194944-47293018a9d5?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          src='https://images.unsplash.com/photo-1647130107052-2e0321c5d89a?q=80&w=2664&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
           alt="Sunrise"
           loading="lazy"
         />

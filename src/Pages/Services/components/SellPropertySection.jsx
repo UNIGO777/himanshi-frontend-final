@@ -52,7 +52,7 @@ export default function SellPropertySection() {
     if (!validate()) return
     const subject = encodeURIComponent('Sell property enquiry')
     const body = encodeURIComponent(buildMessage())
-    window.location.href = `mailto:hello@himanshiproperties.com?subject=${subject}&body=${body}`
+    window.location.href = `mailto:Contact@himanshiproperties.com?subject=${subject}&body=${body}`
     setStatus('Opening email app…')
   }
 

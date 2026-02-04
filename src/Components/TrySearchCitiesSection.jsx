@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import Container from './Container'
+import { SellPropertyModalTrigger } from './SellPropertyModal'
 
 const svgToDataUri = (svg) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
 
@@ -47,13 +48,13 @@ const ICONS_LIGHT = {
 }
 
 const quick = [
-  { label: 'Buy', kind: 'apartment', meta: 'Browse' },
   { label: 'Agriculture', kind: 'agriculture', meta: 'Browse' },
   { label: 'Commercial', kind: 'commercial', meta: 'Browse' },
-  { label: 'Rent', kind: 'villa', meta: 'Browse' },
+  { label: 'Farmhouse', kind: 'farmhouse', meta: 'Browse' },
+  { label: 'Buy', kind: 'apartment', meta: 'Browse' },
+  { label: 'Sell', kind: 'villa', meta: 'Enquire' },
   { label: 'Resale', kind: 'studio', meta: 'Browse' },
   { label: 'Near Me', kind: 'townhouse', meta: 'Browse' },
-  { label: 'Farmhouse', kind: 'farmhouse', meta: 'Browse' },
 ]
 
 const cities = [
@@ -107,6 +108,63 @@ export default function TrySearchCitiesSection() {
     return cardWidth + gap
   }
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) return
+
+    const isMobile = () => (window.matchMedia ? window.matchMedia('(max-width: 639px)').matches : window.innerWidth < 640)
+
+    const pauseUntilRef = { current: 0 }
+    const pause = () => {
+      pauseUntilRef.current = Date.now() + 4500
+    }
+
+    const quickEl = quickTrackRef.current
+    const citiesEl = citiesTrackRef.current
+
+    const addPauseListeners = (el) => {
+      if (!el) return () => {}
+      const opts = { passive: true }
+      el.addEventListener('touchstart', pause, opts)
+      el.addEventListener('pointerdown', pause, opts)
+      el.addEventListener('wheel', pause, opts)
+      return () => {
+        el.removeEventListener('touchstart', pause, opts)
+        el.removeEventListener('pointerdown', pause, opts)
+        el.removeEventListener('wheel', pause, opts)
+      }
+    }
+
+    const removeQuick = addPauseListeners(quickEl)
+    const removeCities = addPauseListeners(citiesEl)
+
+    const intervalId = window.setInterval(() => {
+      if (!isMobile()) return
+      if (Date.now() < pauseUntilRef.current) return
+
+      const scrollOne = (el, step) => {
+        if (!el) return
+        const maxLeft = Math.max(0, el.scrollWidth - el.clientWidth)
+        if (maxLeft <= 0) return
+        const atEnd = el.scrollLeft >= maxLeft - 4
+        if (atEnd) el.scrollTo({ left: 0, behavior: 'smooth' })
+        else el.scrollBy({ left: Math.max(40, step), behavior: 'smooth' })
+      }
+
+      const quickStep = getScrollStep(quickTrackRef, '[data-quick-card="true"]', 260)
+      const citiesStep = getScrollStep(citiesTrackRef, '[data-city-card="true"]', 320)
+      scrollOne(quickTrackRef.current, quickStep)
+      scrollOne(citiesTrackRef.current, citiesStep)
+    }, 3200)
+
+    return () => {
+      window.clearInterval(intervalId)
+      removeQuick()
+      removeCities()
+    }
+  }, [])
+
   const scrollQuick = (direction) => {
     const el = quickTrackRef.current
     if (!el) return
@@ -122,87 +180,99 @@ export default function TrySearchCitiesSection() {
   return (
     <section className="py-6">
       <Container>
-      <div className="flex flex-col gap-10">
-        <div>
-          <div className="flex items-end justify-between gap-6">
+      <SellPropertyModalTrigger>
+        {({ open }) => (
+          <div className="flex flex-col gap-10">
             <div>
-              
-              <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-                Quick filters
-              </h2>
-            </div>
-          </div>
+              <div className="flex items-end justify-between gap-6">
+                <div>
+                  <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+                    Quick filters
+                  </h2>
+                </div>
+              </div>
 
-          <div className="relative mt-5">
-            <button
-              type="button"
-              onClick={() => scrollQuick(-1)}
-              aria-label="Scroll left"
-              className="absolute left-0 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-slate-900/10 bg-white/80 text-slate-800 shadow-sm backdrop-blur transition-colors hover:bg-white sm:grid"
-            >
-              <FiChevronLeft />
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollQuick(1)}
-              aria-label="Scroll right"
-              className="absolute right-0 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 translate-x-1/2 place-items-center rounded-full border border-slate-900/10 bg-white/80 text-slate-800 shadow-sm backdrop-blur transition-colors hover:bg-white sm:grid"
-            >
-              <FiChevronRight />
-            </button>
-            <div ref={quickTrackRef} className="flex snap-x snap-mandatory gap-3 overflow-x-auto overflow-y-hidden scroll-smooth pb-2">
-              {quick.map((item, idx) => {
-                const isActive = idx === activeQuickIndex
-                const iconSvg = isActive ? ICONS_LIGHT[item.kind] : ICONS_DARK[item.kind]
-                return (
-                  <motion.button
-                    key={item.label}
-                    type="button"
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.35 }}
-                    transition={{ duration: 0.35, delay: idx * 0.04 }}
-                    onClick={() => {
-                      setActiveQuickIndex(idx)
-                      const params = new URLSearchParams()
-                      if (item.label === 'Buy') params.set('listingType', 'Sale')
-                      else if (item.label === 'Agriculture') {
-                        params.set('listingType', 'Sale')
-                        params.set('propertyType', 'Land')
-                      } else if (item.label === 'Commercial') params.set('propertyType', 'Commercial')
-                      else if (item.label === 'Rent') params.set('listingType', 'Rent')
-                      else if (item.label === 'Resale') {
-                        params.set('listingType', 'Sale')
-                        params.set('status', 'Available')
-                      } else if (item.label === 'Near Me') {
-                        params.set('city', 'Bhopal')
-                      } else if (item.label === 'Farmhouse') params.set('propertyType', 'Farmhouse')
-                      navigate({ pathname: '/properties/search', search: `?${params.toString()}` })
-                    }}
-                    data-quick-card="true"
-                    className={`snap-start rounded-3xl border px-6 py-6 text-center transition-colors hover:border-slate-200 hover:shadow-sm ${
-                      isActive
-                        ? 'border-brand-900 bg-brand-900 text-white'
-                        : 'border-slate-900/10 bg-white text-slate-900 hover:bg-white/40'
-                    } shrink-0 w-[210px] sm:w-[240px] lg:w-[19.3%] lg:min-w-0`}
-                  >
-                    <div className={`mx-auto grid h-14 w-14 place-items-center rounded-3xl ${isActive ? 'bg-white/10' : 'bg-brand-900/5'}`}>
-                      <img alt="" className="h-8 w-8" src={svgToDataUri(iconSvg)} aria-hidden="true" />
-                    </div>
-                    <div className={`mt-4 text-sm font-extrabold ${isActive ? 'text-white' : 'text-slate-900'}`}>
-                      {item.label}
-                    </div>
-                    <div className={`mt-1 text-xs font-semibold ${isActive ? 'text-white/80' : 'text-slate-500'}`}>
-                      {item.meta}
-                    </div>
-                  </motion.button>
-                )
-              })}
+              <div className="relative mt-5">
+                <button
+                  type="button"
+                  onClick={() => scrollQuick(-1)}
+                  aria-label="Scroll left"
+                  className="absolute left-0 top-1/2 z-10 hidden h-10 w-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-slate-900/10 bg-white/80 text-slate-800 shadow-sm backdrop-blur transition-colors hover:bg-white sm:grid"
+                >
+                  <FiChevronLeft />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollQuick(1)}
+                  aria-label="Scroll right"
+                  className="absolute right-0 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 translate-x-1/2 place-items-center rounded-full border border-slate-900/10 bg-white/80 text-slate-800 shadow-sm backdrop-blur transition-colors hover:bg-white sm:grid"
+                >
+                  <FiChevronRight />
+                </button>
+                <div
+                  ref={quickTrackRef}
+                  className="flex snap-x snap-mandatory gap-3 overflow-x-auto overflow-y-hidden scroll-smooth pb-2"
+                >
+                  {quick.map((item, idx) => {
+                    const isActive = idx === activeQuickIndex
+                    const iconSvg = isActive ? ICONS_LIGHT[item.kind] : ICONS_DARK[item.kind]
+                    return (
+                      <motion.button
+                        key={item.label}
+                        type="button"
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.35 }}
+                        transition={{ duration: 0.35, delay: idx * 0.04 }}
+                        onClick={() => {
+                          setActiveQuickIndex(idx)
+                          if (item.label === 'Sell') {
+                            open()
+                            return
+                          }
+                          const params = new URLSearchParams()
+                          if (item.label === 'Buy') params.set('listingType', 'Sale')
+                          else if (item.label === 'Agriculture') {
+                            params.set('listingType', 'Sale')
+                            params.set('propertyType', 'Land')
+                          } else if (item.label === 'Commercial') params.set('propertyType', 'Commercial')
+                          else if (item.label === 'Rent') params.set('listingType', 'Rent')
+                          else if (item.label === 'Resale') {
+                            params.set('listingType', 'Sale')
+                            params.set('status', 'Available')
+                          } else if (item.label === 'Near Me') {
+                            params.set('city', 'Bhopal')
+                          } else if (item.label === 'Farmhouse') params.set('propertyType', 'Farmhouse')
+                          navigate({ pathname: '/properties/search', search: `?${params.toString()}` })
+                        }}
+                        data-quick-card="true"
+                        className={`snap-start rounded-3xl border px-6 py-6 text-center transition-colors hover:border-slate-200 hover:shadow-sm ${
+                          isActive
+                            ? 'border-brand-900 bg-brand-900 text-white'
+                            : 'border-slate-900/10 bg-white text-slate-900 hover:bg-white/40'
+                        } shrink-0 w-[210px] sm:w-[240px] lg:w-[19.3%] lg:min-w-0`}
+                      >
+                        <div
+                          className={`mx-auto grid h-14 w-14 place-items-center rounded-3xl ${
+                            isActive ? 'bg-white/10' : 'bg-brand-900/5'
+                          }`}
+                        >
+                          <img alt="" className="h-8 w-8" src={svgToDataUri(iconSvg)} aria-hidden="true" />
+                        </div>
+                        <div className={`mt-4 text-sm font-extrabold ${isActive ? 'text-white' : 'text-slate-900'}`}>
+                          {item.label}
+                        </div>
+                        <div className={`mt-1 text-xs font-semibold ${isActive ? 'text-white/80' : 'text-slate-500'}`}>
+                          {item.meta}
+                        </div>
+                      </motion.button>
+                    )
+                  })}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div>
+            <div>
           <div className="flex items-end justify-between gap-6">
             <div>
               
@@ -263,7 +333,9 @@ export default function TrySearchCitiesSection() {
             </div>
           </div>
         </div>
-      </div>
+          </div>
+        )}
+      </SellPropertyModalTrigger>
       </Container>
     </section>
   )

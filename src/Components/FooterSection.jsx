@@ -49,9 +49,9 @@ export default function FooterSection() {
               <Link className="block hover:text-slate-900" to="/wishlist">
                 Wishlist
               </Link>
-              <a className="block hover:text-slate-900" href="mailto:hello@himanshiproperties.com?subject=Privacy%20Policy">
+              <Link className="block hover:text-slate-900" to="/privacy-policy">
                 Privacy Policy
-              </a>
+              </Link>
             </div>
           </div>
 

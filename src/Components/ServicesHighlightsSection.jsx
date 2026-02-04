@@ -19,33 +19,7 @@ export default function ServicesHighlightsSection() {
       </div>
 
       <div className="mt-8 w-full rounded-3xl border border-slate-900/10 bg-white/70 p-4 sm:p-6">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.4 }}
-          className="overflow-hidden rounded-3xl border border-slate-900/10 bg-white/80"
-        >
-          <div className="grid items-center gap-6 p-5 sm:p-6 md:grid-cols-2">
-            <div className="overflow-hidden rounded-3xl bg-brand-900/5">
-              <img
-                className="h-48 w-full object-cover sm:h-56"
-                src="https://images.unsplash.com/photo-1758210784345-96fc36926234?auto=format&fit=crop&w=1400&q=80"
-                alt="Modern residential building in Gurugram, India"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="text-left">
-              <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
-                Property Insurance
-              </div>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                We provide coverage for your property to protect your significant investment.
-              </p>
-            </div>
-          </div>
-        </motion.div>
+        
 
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <motion.div

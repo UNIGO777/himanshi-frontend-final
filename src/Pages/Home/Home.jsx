@@ -14,6 +14,7 @@ import ContactSection from '../../Components/ContactSection'
 import FooterSection from '../../Components/FooterSection'
 import { useEffect, useState } from 'react'
 import { getFeaturedProperties, getProperties } from '../../api/properties'
+import { BuySellEnquiryModalTrigger } from '../../Components/BuySellEnquiryModal'
 
 function upsertMeta({ name, property }, content) {
   if (typeof document === 'undefined') return
@@ -37,6 +38,25 @@ function upsertCanonical(href) {
     document.head.appendChild(el)
   }
   el.setAttribute('href', href)
+}
+
+function EnquiryAutoOpenInner({ open }) {
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      open('buy')
+    }, 3000)
+    return () => window.clearTimeout(timeoutId)
+  }, [open])
+
+  return null
+}
+
+function EnquiryAutoOpen() {
+  return (
+    <BuySellEnquiryModalTrigger>
+      {({ open }) => <EnquiryAutoOpenInner open={open} />}
+    </BuySellEnquiryModalTrigger>
+  )
 }
 
 export default function Home() {
@@ -74,6 +94,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      <EnquiryAutoOpen />
       <Navbar />
       <main>
         <HeroSection />

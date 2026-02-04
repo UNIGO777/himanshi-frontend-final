@@ -17,7 +17,7 @@ export default function WhatsAppFloatingButton({ phoneNumber = DEFAULT_WHATSAPP_
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
-      className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-brand-400 text-white shadow-lg shadow-black/10 transition-colors  focus:outline-none focus:ring-2 hover:scale-[1.1] focus:ring-offset-2 focus:ring-offset-white sm:bottom-6 sm:right-6"
+      className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#36d46b] text-white shadow-lg shadow-black/10 transition-colors  focus:outline-none focus:ring-2 hover:scale-[1.1] focus:ring-offset-2 focus:ring-offset-white sm:bottom-6 sm:right-6"
     >
       <FaWhatsapp className="text-3xl" />
       <span className="sr-only">WhatsApp</span>

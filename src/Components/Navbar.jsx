@@ -1,5 +1,5 @@
 import { FiHeart, FiLogOut, FiMenu, FiUser, FiX } from 'react-icons/fi'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import useWishlist from '../hooks/useWishlist'
 import useAuth from '../hooks/useAuth'
@@ -14,6 +14,12 @@ export default function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isTopBarVisible, setIsTopBarVisible] = useState(true)
+  const [isNavbarSolid, setIsNavbarSolid] = useState(false)
+  const isTopBarVisibleRef = useRef(true)
+  const isNavbarSolidRef = useRef(false)
+  const lastScrollYRef = useRef(0)
+  const tickingRef = useRef(false)
 
   const navItems = [
     { label: 'Home', to: '/' },
@@ -22,8 +28,83 @@ export default function Navbar() {
     { label: 'About', to: '/about' },
   ]
 
+  useEffect(() => {
+    lastScrollYRef.current = typeof window !== 'undefined' ? window.scrollY || 0 : 0
+    isTopBarVisibleRef.current = true
+    isNavbarSolidRef.current = (window.scrollY || 0) > 0
+
+    const updateTopBarVisible = (next) => {
+      if (isTopBarVisibleRef.current === next) return
+      isTopBarVisibleRef.current = next
+      setIsTopBarVisible(next)
+    }
+
+    const updateNavbarSolid = (next) => {
+      if (isNavbarSolidRef.current === next) return
+      isNavbarSolidRef.current = next
+      setIsNavbarSolid(next)
+    }
+
+    const onScroll = () => {
+      if (tickingRef.current) return
+      tickingRef.current = true
+
+      window.requestAnimationFrame(() => {
+        const y = window.scrollY || 0
+        const lastY = lastScrollYRef.current
+        const delta = y - lastY
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight)
+        const progress = maxScroll > 0 ? y / maxScroll : 0
+        const solid = progress >= 0.01 || y >= 8
+        updateNavbarSolid(solid)
+        const nearBottom = y >= Math.max(0, maxScroll - 80)
+        if (nearBottom) {
+          updateTopBarVisible(false)
+          lastScrollYRef.current = y
+          tickingRef.current = false
+          return
+        }
+        const shouldHide = y > 60 && delta > 6
+        const shouldShow = y < 30 || delta < -6
+        if (shouldHide) updateTopBarVisible(false)
+        else if (shouldShow) updateTopBarVisible(true)
+        lastScrollYRef.current = y
+        tickingRef.current = false
+      })
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <header className="sticky top-0 z-50 md:backdrop-blur">
+      <div
+        className={`overflow-hidden bg-brand-900 text-white transition-[max-height,opacity] duration-300 ${
+          isTopBarVisible ? 'max-h-12 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <Container className="flex items-center justify-end gap-3 px-3 py-2 text-[11px] font-semibold sm:px-4 sm:text-xs">
+          <SellPropertyModalTrigger>
+            {({ open }) => (
+              <button
+                type="button"
+                onClick={open}
+                className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[11px] font-extrabold text-brand-900 sm:text-xs"
+              >
+                <span>Post property for</span>
+                <span className="rounded-full bg-brand-900 px-2 py-0.5 text-[10px] font-extrabold text-white sm:text-[11px]">
+                  Free
+                </span>
+              </button>
+            )}
+          </SellPropertyModalTrigger>
+          <a href="tel:+917224048054" className="inline-flex">
+            Call us: +91 72240 48054
+          </a>
+        </Container>
+      </div>
+      <div className={`transition-colors duration-300 ${isNavbarSolid ? 'bg-white/95' : 'bg-transparent'}`}>
       {isMenuOpen && (
         <div
           className="fixed inset-0 z-50 bg-black/40 md:hidden"
@@ -227,6 +308,7 @@ export default function Navbar() {
           </Link>
         </div>
       </Container>
+      </div>
     </header>
   )
 }

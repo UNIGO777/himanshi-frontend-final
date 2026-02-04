@@ -22,7 +22,7 @@ export default function ContactSection() {
     const body = encodeURIComponent(
       `Name: ${cleanName}\nPhone: ${cleanPhone}\nEmail: ${cleanEmail}\n\nMessage:\n${cleanMessage}\n`,
     )
-    window.location.href = `mailto:hello@himanshiproperties.com?subject=${subject}&body=${body}`
+    window.location.href = `mailto:Contact@himanshiproperties.com?subject=${subject}&body=${body}`
     setStatus('Opening email app…')
   }
 
@@ -89,7 +89,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <div className="text-xs text-slate-500">Email</div>
-                <div className="break-words font-semibold">hello@himanshiproperties.com</div>
+                <div className="break-words font-semibold">Contact@himanshiproperties.com</div>
               </div>
             </div>
             <div className="flex items-start gap-3">
