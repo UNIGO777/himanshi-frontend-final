@@ -44,7 +44,7 @@ export default function SellPropertySection() {
   const onWhatsApp = () => {
     if (!validate()) return
     const text = buildMessage()
-    window.open(`https://wa.me/919000000000?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
+    window.open(`https://wa.me/919111111397?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
     setStatus('Opening WhatsApp…')
   }
 

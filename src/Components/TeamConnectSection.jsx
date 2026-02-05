@@ -25,7 +25,7 @@ const team = [
 
 export default function TeamConnectSection() {
   const onWhatsApp = () => {
-    window.open('https://wa.me/919000000000', '_blank', 'noopener,noreferrer')
+    window.open('https://wa.me/919111111397', '_blank', 'noopener,noreferrer')
   }
 
   return (

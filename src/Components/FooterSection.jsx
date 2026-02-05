@@ -62,7 +62,8 @@ export default function FooterSection() {
               <div>Your City, India</div>
               <div>Mon–Sat: 10:00 AM – 7:00 PM</div>
               <div>hello@himanshiproperties.com</div>
-              <div>+91 90000 00000</div>
+              <div>Call: +91 98260 21111</div>
+              <div>WhatsApp: +91 91111 11397</div>
             </div>
           </div>
         </div>

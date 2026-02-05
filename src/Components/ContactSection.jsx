@@ -80,7 +80,17 @@ export default function ContactSection() {
               </div>
               <div>
                 <div className="text-xs text-slate-500">Phone</div>
-                <div className="break-words font-semibold">+91 90000 00000</div>
+                <a href="tel:+919826021111" className="break-words font-semibold">
+                  +91 98260 21111
+                </a>
+                <a
+                  href="https://wa.me/919111111397"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 block text-xs font-semibold text-slate-600"
+                >
+                  WhatsApp: +91 91111 11397
+                </a>
               </div>
             </div>
             <div className="flex items-start gap-3">

@@ -88,8 +88,8 @@ export default function Navbar() {
               </button>
             )}
           </SellPropertyModalTrigger>
-          <a href="tel:+917224048054" className="inline-flex">
-            Call us: +91 72240 48054
+          <a href="tel:+919826021111" className="inline-flex">
+            Call us: +91 98260 21111
           </a>
         </Container>
       </div>

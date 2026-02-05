@@ -56,7 +56,7 @@ const items = [
     label: 'Farmhouse',
     kind: 'farmhouse',
     meta: 'Browse',
-    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=80',
+    image: 'https://i.pinimg.com/1200x/9d/03/d7/9d03d7fee1a18c4947d563c10f12246d.jpg',
   },
   {
     label: 'Studio',

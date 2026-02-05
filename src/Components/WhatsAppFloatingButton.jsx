@@ -1,6 +1,6 @@
 import { FaWhatsapp } from 'react-icons/fa'
 
-const DEFAULT_WHATSAPP_NUMBER = '919000000000'
+const DEFAULT_WHATSAPP_NUMBER = '919111111397'
 
 function normalizePhoneNumber(value) {
   return String(value || '').replace(/[^\d]/g, '')

@@ -52,7 +52,7 @@ const quick = [
     label: 'Agriculture',
     kind: 'agriculture',
     meta: 'Browse',
-    image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1600&q=80',
+    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80',
   },
   {
     label: 'Commercial',
@@ -70,7 +70,7 @@ const quick = [
     label: 'Farmhouse',
     kind: 'farmhouse',
     meta: 'Browse',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80',
+    image: 'https://i.pinimg.com/1200x/9d/03/d7/9d03d7fee1a18c4947d563c10f12246d.jpg',
   },
   {
     label: 'Buy',
