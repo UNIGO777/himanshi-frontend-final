@@ -15,7 +15,7 @@ export default function FooterSection() {
               
             </div>
             <p className="mt-4 text-sm leading-relaxed text-slate-600">
-             Buy, sell, or rent, as we offer you transformative experiences through a strong local network of real estate experts.
+             Buy or sell as we offer you transformative experiences through a strong local network of real estate experts.
             </p>
           </div>
 

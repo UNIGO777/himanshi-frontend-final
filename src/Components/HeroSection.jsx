@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { FiMapPin, FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { getProperties } from '../api/properties'
+import heroImageNew from '../assets/Hero Image new.jpg'
 import Container from './Container'
 
 function slugifySegment(value) {
@@ -91,7 +92,7 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative overflow-hidden min-h-[80vh] md:h-[95vh] bg-brand-50">
+    <section className="relative overflow-hidden min-h-[80vh] md:min-h-[95vh] bg-brand-50">
       <div className="pointer-events-none absolute inset-0">
         <span className="absolute left-[6%] top-[22%] text-2xl font-light text-slate-900/25">
           +
@@ -207,7 +208,7 @@ export default function HeroSection() {
       <div className="absolute inset-x-0 bottom-0 h-56 sm:h-72 lg:h-80">
         <img
           className="h-full w-full object-cover"
-          src='https://images.unsplash.com/photo-1647130107052-2e0321c5d89a?q=80&w=2664&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          src={heroImageNew}
           alt="Sunrise"
           loading="lazy"
         />

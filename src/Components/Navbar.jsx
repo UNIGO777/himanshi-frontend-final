@@ -18,7 +18,6 @@ export default function Navbar() {
   const [isNavbarSolid, setIsNavbarSolid] = useState(false)
   const isTopBarVisibleRef = useRef(true)
   const isNavbarSolidRef = useRef(false)
-  const lastScrollYRef = useRef(0)
   const tickingRef = useRef(false)
 
   const navItems = [
@@ -29,9 +28,13 @@ export default function Navbar() {
   ]
 
   useEffect(() => {
-    lastScrollYRef.current = typeof window !== 'undefined' ? window.scrollY || 0 : 0
-    isTopBarVisibleRef.current = true
-    isNavbarSolidRef.current = (window.scrollY || 0) > 0
+    const initialY = typeof window !== 'undefined' ? window.scrollY || 0 : 0
+    const initialTopBarVisible = initialY <= 24
+    const initialNavbarSolid = initialY >= 8
+    isTopBarVisibleRef.current = initialTopBarVisible
+    isNavbarSolidRef.current = initialNavbarSolid
+    setIsTopBarVisible(initialTopBarVisible)
+    setIsNavbarSolid(initialNavbarSolid)
 
     const updateTopBarVisible = (next) => {
       if (isTopBarVisibleRef.current === next) return
@@ -51,24 +54,10 @@ export default function Navbar() {
 
       window.requestAnimationFrame(() => {
         const y = window.scrollY || 0
-        const lastY = lastScrollYRef.current
-        const delta = y - lastY
-        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight)
-        const progress = maxScroll > 0 ? y / maxScroll : 0
-        const solid = progress >= 0.01 || y >= 8
-        updateNavbarSolid(solid)
-        const nearBottom = y >= Math.max(0, maxScroll - 80)
-        if (nearBottom) {
-          updateTopBarVisible(false)
-          lastScrollYRef.current = y
-          tickingRef.current = false
-          return
-        }
-        const shouldHide = y > 60 && delta > 6
-        const shouldShow = y < 30 || delta < -6
-        if (shouldHide) updateTopBarVisible(false)
-        else if (shouldShow) updateTopBarVisible(true)
-        lastScrollYRef.current = y
+        updateNavbarSolid(y >= 8)
+        const currentTopBarVisible = isTopBarVisibleRef.current
+        const nextTopBarVisible = y <= 24 ? true : y >= 80 ? false : currentTopBarVisible
+        updateTopBarVisible(nextTopBarVisible)
         tickingRef.current = false
       })
     }
@@ -120,7 +109,7 @@ export default function Navbar() {
           >
             <div className="flex items-center justify-between">
               <Link to="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
-                <div className="flex h-14 w-56 shrink-0 items-center justify-start overflow-hidden">
+                <div className="flex h-16 w-64 shrink-0 items-center justify-start overflow-hidden">
                   <img src={logo} alt="Himanshi Properties" className="h-full w-auto object-contain" loading="lazy" />
                 </div>
               </Link>
@@ -217,7 +206,7 @@ export default function Navbar() {
       <Container className="flex items-center justify-start gap-2 px-3 py-3 pr-3 sm:px-4 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
         <div className="flex items-center gap-2 justify-self-start">
           <Link to="/" className="flex items-center">
-            <div className="flex h-12 w-44 shrink-0 items-center justify-start overflow-hidden sm:h-16 sm:w-64">
+            <div className="flex h-14 w-52 shrink-0 items-center justify-start overflow-hidden sm:h-20 sm:w-72">
               <img src={logo} alt="Himanshi Properties" className="h-full w-auto object-contain" loading="lazy" />
             </div>
           </Link>

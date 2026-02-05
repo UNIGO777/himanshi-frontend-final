@@ -99,10 +99,10 @@ export default function Home() {
       <main>
         <HeroSection />
         <TrySearchCitiesSection />
-        <QuickSearchSection />
         <FeaturedPropertiesSection properties={featuredProperties} />
         <TrustedPartnerSection />
         <ServicesHighlightsSection />
+        <QuickSearchSection />
         <ExpertiseSection />
         <DreamPropertyShowcaseSection properties={properties} />
         <TestimonialsSection />

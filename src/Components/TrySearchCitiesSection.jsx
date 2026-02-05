@@ -48,13 +48,60 @@ const ICONS_LIGHT = {
 }
 
 const quick = [
-  { label: 'Agriculture', kind: 'agriculture', meta: 'Browse' },
-  { label: 'Commercial', kind: 'commercial', meta: 'Browse' },
-  { label: 'Farmhouse', kind: 'farmhouse', meta: 'Browse' },
-  { label: 'Buy', kind: 'apartment', meta: 'Browse' },
-  { label: 'Sell', kind: 'villa', meta: 'Enquire' },
-  { label: 'Resale', kind: 'studio', meta: 'Browse' },
-  { label: 'Near Me', kind: 'townhouse', meta: 'Browse' },
+  {
+    label: 'Agriculture',
+    kind: 'agriculture',
+    meta: 'Browse',
+    image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1600&q=80',
+  },
+  {
+    label: 'Commercial',
+    kind: 'commercial',
+    meta: 'Browse',
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80',
+  },
+  {
+    label: 'Rent',
+    kind: 'office',
+    meta: 'Browse',
+    image: 'https://images.unsplash.com/photo-1565402170291-8491f14678db?auto=format&fit=crop&w=1600&q=80',
+  },
+  {
+    label: 'Farmhouse',
+    kind: 'farmhouse',
+    meta: 'Browse',
+    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80',
+  },
+  {
+    label: 'Buy',
+    kind: 'apartment',
+    meta: 'Browse',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80',
+  },
+  {
+    label: 'Residential',
+    kind: 'apartment',
+    meta: 'Browse',
+    image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1600&q=80',
+  },
+  {
+    label: 'Sell',
+    kind: 'villa',
+    meta: 'Enquire',
+    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=80',
+  },
+  {
+    label: 'Resale',
+    kind: 'studio',
+    meta: 'Browse',
+    image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=80',
+  },
+  {
+    label: 'Near Me',
+    kind: 'townhouse',
+    meta: 'Browse',
+    image: 'https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?auto=format&fit=crop&w=1600&q=80',
+  },
 ]
 
 const cities = [
@@ -215,7 +262,7 @@ export default function TrySearchCitiesSection() {
                 >
                   {quick.map((item, idx) => {
                     const isActive = idx === activeQuickIndex
-                    const iconSvg = isActive ? ICONS_LIGHT[item.kind] : ICONS_DARK[item.kind]
+                    const iconSvg = ICONS_LIGHT[item.kind]
                     return (
                       <motion.button
                         key={item.label}
@@ -232,6 +279,7 @@ export default function TrySearchCitiesSection() {
                           }
                           const params = new URLSearchParams()
                           if (item.label === 'Buy') params.set('listingType', 'Sale')
+                          else if (item.label === 'Residential') params.set('propertyType', 'Residential')
                           else if (item.label === 'Agriculture') {
                             params.set('listingType', 'Sale')
                             params.set('propertyType', 'Land')
@@ -246,24 +294,37 @@ export default function TrySearchCitiesSection() {
                           navigate({ pathname: '/properties/search', search: `?${params.toString()}` })
                         }}
                         data-quick-card="true"
-                        className={`snap-start rounded-3xl border px-6 py-6 text-center transition-colors hover:border-slate-200 hover:shadow-sm ${
-                          isActive
-                            ? 'border-brand-900 bg-brand-900 text-white'
-                            : 'border-slate-900/10 bg-white text-slate-900 hover:bg-white/40'
-                        } shrink-0 w-[210px] sm:w-[240px] lg:w-[19.3%] lg:min-w-0`}
+                        className={`snap-start relative shrink-0 w-[210px] overflow-hidden rounded-3xl border px-6 py-6 text-center transition-shadow hover:shadow-sm sm:w-[240px] lg:w-[19.3%] lg:min-w-0 ${
+                          isActive ? 'border-brand-900' : 'border-slate-900/10 hover:border-slate-200'
+                        }`}
                       >
+                        <img
+                          src={item.image}
+                          alt=""
+                          aria-hidden="true"
+                          className="absolute inset-0 h-full w-full object-cover"
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                        />
                         <div
-                          className={`mx-auto grid h-14 w-14 place-items-center rounded-3xl ${
-                            isActive ? 'bg-white/10' : 'bg-brand-900/5'
+                          className={`absolute inset-0 ${
+                            isActive ? 'bg-black/65' : 'bg-black/45'
                           }`}
-                        >
-                          <img alt="" className="h-8 w-8" src={svgToDataUri(iconSvg)} aria-hidden="true" />
-                        </div>
-                        <div className={`mt-4 text-sm font-extrabold ${isActive ? 'text-white' : 'text-slate-900'}`}>
-                          {item.label}
-                        </div>
-                        <div className={`mt-1 text-xs font-semibold ${isActive ? 'text-white/80' : 'text-slate-500'}`}>
-                          {item.meta}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+
+                        <div className="relative">
+                          <div
+                            className={`mx-auto grid h-14 w-14 place-items-center rounded-3xl border border-white/10 ring-1 ring-inset ring-white/45 shadow-[0_10px_30px_rgba(0,0,0,0.22)] backdrop-blur-xl saturate-150 ${
+                              isActive ? 'bg-white/18' : 'bg-white/14'
+                            }`}
+                          >
+                            <img alt="" className="h-8 w-8" src={svgToDataUri(iconSvg)} aria-hidden="true" />
+                          </div>
+                          <div className="mt-4 text-sm font-extrabold text-white">{item.label}</div>
+                          <div className={`mt-1 text-xs font-semibold ${isActive ? 'text-white/90' : 'text-white/80'}`}>
+                            {item.meta}
+                          </div>
                         </div>
                       </motion.button>
                     )
