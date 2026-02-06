@@ -26,13 +26,13 @@ export default function TrustedPartnerSection() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-3 sm:gap-6">
+          <div className="grid grid-cols-3 gap-2 sm:gap-6">
             {stats.map((s) => (
               <div key={s.label} className="text-center">
-                <div className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+                <div className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
                   {s.value}
                 </div>
-                <div className="mt-1 text-[11px] font-semibold text-slate-500">{s.label}</div>
+                <div className="mt-1 text-[10px] font-semibold text-slate-500 sm:text-[11px]">{s.label}</div>
               </div>
             ))}
           </div>

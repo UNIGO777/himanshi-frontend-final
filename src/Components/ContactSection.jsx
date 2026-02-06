@@ -83,6 +83,12 @@ export default function ContactSection() {
                 <a href="tel:+919826021111" className="break-words font-semibold">
                   +91 98260 21111
                 </a>
+                <a href="tel:+918349279710" className="mt-1 block break-words font-semibold">
+                  +91 83492 79710
+                </a>
+                <a href="tel:+917771977139" className="mt-1 block break-words font-semibold">
+                  +91 77719 77139
+                </a>
                 <a
                   href="https://wa.me/919111111397"
                   target="_blank"

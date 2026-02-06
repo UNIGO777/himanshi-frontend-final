@@ -66,6 +66,27 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const TopBarNumbers = ({ className = '' }) => (
+    <div className={`inline-flex shrink-0 items-center gap-2 ${className}`}>
+      <span className="text-white/90">Call:</span>
+      <a href="tel:+919826021111" className="hover:underline">
+        +91 98260 21111
+      </a>
+      <span className="text-white/50">|</span>
+      <a href="tel:+918349279710" className="hover:underline">
+        +91 83492 79710
+      </a>
+      <span className="text-white/50">|</span>
+      <a href="tel:+917771977139" className="hover:underline">
+        +91 77719 77139
+      </a>
+      <span className="text-white/50">|</span>
+      <a href="https://wa.me/919111111397" target="_blank" rel="noopener noreferrer" className="hover:underline">
+        WhatsApp: +91 91111 11397
+      </a>
+    </div>
+  )
+
   return (
     <header className="sticky top-0 z-50 md:backdrop-blur">
       <div
@@ -73,24 +94,16 @@ export default function Navbar() {
           isTopBarVisible ? 'max-h-12 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <Container className="flex items-center justify-end gap-3 px-3 py-2 text-[11px] font-semibold sm:px-4 sm:text-xs">
-          <SellPropertyModalTrigger>
-            {({ open }) => (
-              <button
-                type="button"
-                onClick={open}
-                className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[11px] font-extrabold text-brand-900 sm:text-xs"
-              >
-                <span>Post property for</span>
-                <span className="rounded-full bg-brand-900 px-2 py-0.5 text-[10px] font-extrabold text-white sm:text-[11px]">
-                  Free
-                </span>
-              </button>
-            )}
-          </SellPropertyModalTrigger>
-          <a href="tel:+919826021111" className="inline-flex">
-            Call us: +91 98260 21111
-          </a>
+        <Container className="px-3 py-2 text-[11px] font-semibold sm:px-4 sm:text-xs">
+          <div className="relative overflow-hidden sm:hidden">
+            <div className="flex w-max [animation:navbar-marquee_14s_linear_infinite] motion-reduce:[animation:none]">
+              <TopBarNumbers className="pr-10 whitespace-nowrap" />
+              <TopBarNumbers className="pr-10 whitespace-nowrap" />
+            </div>
+          </div>
+          <div className="hidden items-center justify-end sm:flex">
+            <TopBarNumbers />
+          </div>
         </Container>
       </div>
       <div className={`transition-colors duration-300 ${isNavbarSolid ? 'bg-white/95' : 'bg-transparent'}`}>

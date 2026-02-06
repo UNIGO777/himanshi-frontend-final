@@ -18,3 +18,12 @@
   height: 0;
   display: none;
 }
+
+@keyframes navbar-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

@@ -61,9 +61,24 @@ export default function FooterSection() {
               <div>Himanshi Properties</div>
               <div>Your City, India</div>
               <div>Mon–Sat: 10:00 AM – 7:00 PM</div>
-              <div>hello@himanshiproperties.com</div>
-              <div>Call: +91 98260 21111</div>
-              <div>WhatsApp: +91 91111 11397</div>
+              <div className="break-words">hello@himanshiproperties.com</div>
+              <a className="block hover:text-slate-900" href="tel:+919826021111">
+                Call: +91 98260 21111
+              </a>
+              <a className="block hover:text-slate-900" href="tel:+918349279710">
+                Call: +91 83492 79710
+              </a>
+              <a className="block hover:text-slate-900" href="tel:+917771977139">
+                Call: +91 77719 77139
+              </a>
+              <a
+                className="block hover:text-slate-900"
+                href="https://wa.me/919111111397"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp: +91 91111 11397
+              </a>
             </div>
           </div>
         </div>
